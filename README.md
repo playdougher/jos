@@ -9,12 +9,12 @@
 
 ![](memory.png)
 
-通过gdb内的第一条输出`[f000:fff0] 0xffff0:	ljmp   $0xf000,$0xe05b`知道BIOS是从内存的0xffff0开始执行，ljmp往回跳是因为从0xffff0到0xfffff只有16bytes了，这么小的空间内做不了什么事情，所以往回跳转，扩大空间来执行BIOS。
+通过gdb内的第一条输出`[f000:fff0] 0xffff0:	ljmp   $0xf000,$0xe05b`知道BIOS是从内存的`0xffff0`开始执行，`ljmp`往回跳是因为从`0xffff0`到`0xfffff`只有16bytes了，这么小的空间内做不了什么事情，所以往回跳转，扩大空间来执行BIOS。
 在初始化PCI bus和VGA显示设备和一些其他设备后，寻找可用于启动的硬盘或软盘，读取boot loader并转交以控制权。
 如下语句详细解释了BIOS是如何找硬盘的：
 >if the disk is bootable, the first sector is called the _boot sector_, since this is where the boot loader code resides. When the BIOS finds a bootable floppy or hard disk, it loads the 512-byte boot sector into memory at physical addresses 0x7c00 through 0x7dff, and then uses a jmp instruction to set the CS:IP to 0000:7c00, passing control to the boot loader
 
-找到可启动的硬盘->找到第一个分区（boot sector---大小512-byte）->加载该分区到内存的0x7c00---0x7dff的地址中->跳转到0000:7c00(即0x7c00)，完成控制权的转交
+找到可启动的硬盘->找到第一个分区（boot sector---大小512-byte）->加载该分区到内存的`0x7c00---0x7dff`的地址中->跳转到`0000:7c00`(即0x7c00)，完成控制权的转交
 
 
 
