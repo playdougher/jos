@@ -1,0 +1,3766 @@
+Continuing.
+The target architecture is assumed to be i386
+=> 0xf0100783 <monitor+33>:	movl   $0x4,0xc(%esp)
+
+Breakpoint 1, monitor (tf=0x0) at kern/monitor.c:119
+119	    cprintf("x %d, y %x, z %d\n", x, y, z);
+=> 0xf010078b <monitor+41>:	movl   $0x3,0x8(%esp)
+0xf010078b	119	    cprintf("x %d, y %x, z %d\n", x, y, z);
+=> 0xf0100793 <monitor+49>:	movl   $0x1,0x4(%esp)
+0xf0100793	119	    cprintf("x %d, y %x, z %d\n", x, y, z);
+=> 0xf010079b <monitor+57>:	movl   $0xf0101ade,(%esp)
+0xf010079b	119	    cprintf("x %d, y %x, z %d\n", x, y, z);
+=> 0xf01007a2 <monitor+64>:	call   0xf0100902 <cprintf>
+0xf01007a2	119	    cprintf("x %d, y %x, z %d\n", x, y, z);
+=> 0xf0100902 <cprintf>:	push   %ebp
+cprintf (fmt=0xf0101ade "x %d, y %x, z %d\n") at kern/printf.c:27
+27	{
+=> 0xf0100903 <cprintf+1>:	mov    %esp,%ebp
+0xf0100903	27	{
+=> 0xf0100905 <cprintf+3>:	sub    $0x18,%esp
+0xf0100905	27	{
+=> 0xf0100908 <cprintf+6>:	lea    0xc(%ebp),%eax
+31		va_start(ap, fmt);
+=> 0xf010090b <cprintf+9>:	mov    %eax,0x4(%esp)
+32		cnt = vcprintf(fmt, ap);
+=> 0xf010090f <cprintf+13>:	mov    0x8(%ebp),%eax
+0xf010090f	32		cnt = vcprintf(fmt, ap);
+=> 0xf0100912 <cprintf+16>:	mov    %eax,(%esp)
+0xf0100912	32		cnt = vcprintf(fmt, ap);
+=> 0xf0100915 <cprintf+19>:	call   0xf01008cf <vcprintf>
+0xf0100915	32		cnt = vcprintf(fmt, ap);
+=> 0xf01008cf <vcprintf>:	push   %ebp
+vcprintf (fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f74 "\001") at kern/printf.c:18
+18	{
+=> 0xf01008d0 <vcprintf+1>:	mov    %esp,%ebp
+0xf01008d0	18	{
+=> 0xf01008d2 <vcprintf+3>:	sub    $0x28,%esp
+0xf01008d2	18	{
+=> 0xf01008d5 <vcprintf+6>:	movl   $0x0,-0xc(%ebp)
+19		int cnt = 0;
+=> 0xf01008dc <vcprintf+13>:	mov    0xc(%ebp),%eax
+21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008df <vcprintf+16>:	mov    %eax,0xc(%esp)
+0xf01008df	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008e3 <vcprintf+20>:	mov    0x8(%ebp),%eax
+0xf01008e3	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008e6 <vcprintf+23>:	mov    %eax,0x8(%esp)
+0xf01008e6	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008ea <vcprintf+27>:	lea    -0xc(%ebp),%eax
+0xf01008ea	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008ed <vcprintf+30>:	mov    %eax,0x4(%esp)
+0xf01008ed	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008f1 <vcprintf+34>:	movl   $0xf01008bc,(%esp)
+0xf01008f1	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf01008f8 <vcprintf+41>:	call   0xf0100d4c <vprintfmt>
+0xf01008f8	21		vprintfmt((void*)putch, &cnt, fmt, ap);
+=> 0xf0100d4c <vprintfmt>:	push   %ebp
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f74 "\001") at lib/printfmt.c:86
+86	{
+=> 0xf0100d4d <vprintfmt+1>:	mov    %esp,%ebp
+0xf0100d4d	86	{
+=> 0xf0100d4f <vprintfmt+3>:	push   %edi
+0xf0100d4f	86	{
+=> 0xf0100d50 <vprintfmt+4>:	push   %esi
+0xf0100d50	86	{
+=> 0xf0100d51 <vprintfmt+5>:	push   %ebx
+0xf0100d51	86	{
+=> 0xf0100d52 <vprintfmt+6>:	sub    $0x4c,%esp
+0xf0100d52	86	{
+=> 0xf0100d55 <vprintfmt+9>:	mov    0xc(%ebp),%ebx
+0xf0100d55	86	{
+=> 0xf0100d58 <vprintfmt+12>:	mov    0x10(%ebp),%esi
+0xf0100d58	86	{
+=> 0xf0100d5b <vprintfmt+15>:	jmp    0xf0100d6f <vprintfmt+35>
+0xf0100d5b	86	{
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=120, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=120) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267380001) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=120) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=120, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f74 "\001") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=32) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267380000) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=32) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f74 "\001") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d78 <vprintfmt+44>:	movb   $0x20,-0x28(%ebp)
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d7c <vprintfmt+48>:	movl   $0x0,-0x24(%ebp)
+0xf0100d7c	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d83 <vprintfmt+55>:	mov    $0xffffffff,%edi
+0xf0100d83	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d88 <vprintfmt+60>:	movl   $0xffffffff,-0x1c(%ebp)
+0xf0100d88	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d8f <vprintfmt+67>:	mov    $0x0,%ecx
+0xf0100d8f	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d94 <vprintfmt+72>:	jmp    0xf0100dbc <vprintfmt+112>
+0xf0100d94	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100dbc <vprintfmt+112>:	movzbl (%esi),%eax
+107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dbf <vprintfmt+115>:	lea    0x1(%esi),%edx
+0xf0100dbf	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc2 <vprintfmt+118>:	mov    %edx,-0x20(%ebp)
+0xf0100dc2	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc5 <vprintfmt+121>:	mov    (%esi),%dl
+0xf0100dc5	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc7 <vprintfmt+123>:	sub    $0x23,%edx
+0xf0100dc7	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dca <vprintfmt+126>:	cmp    $0x55,%dl
+0xf0100dca	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dcd <vprintfmt+129>:	ja     0xf010109b <vprintfmt+847>
+0xf0100dcd	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd3 <vprintfmt+135>:	movzbl %dl,%edx
+0xf0100dd3	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd6 <vprintfmt+138>:	jmp    *-0xfefe2b0(,%edx,4)
+0xf0100dd6	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100fa1 <vprintfmt+597>:	mov    %ecx,0x4(%esp)
+194				num = getint(&ap, lflag);
+=> 0xf0100fa5 <vprintfmt+601>:	lea    0x14(%ebp),%eax
+0xf0100fa5	194				num = getint(&ap, lflag);
+=> 0xf0100fa8 <vprintfmt+604>:	mov    %eax,(%esp)
+0xf0100fa8	194				num = getint(&ap, lflag);
+=> 0xf0100fab <vprintfmt+607>:	call   0xf0100cec <getint>
+0xf0100fab	194				num = getint(&ap, lflag);
+=> 0xf0100cec <getint>:	push   %ebp
+getint (ap=0xf0116f2c, lflag=0) at lib/printfmt.c:71
+71	{
+=> 0xf0100ced <getint+1>:	mov    %esp,%ebp
+0xf0100ced	71	{
+=> 0xf0100cef <getint+3>:	mov    0x8(%ebp),%eax
+0xf0100cef	71	{
+=> 0xf0100cf2 <getint+6>:	mov    0xc(%ebp),%edx
+0xf0100cf2	71	{
+=> 0xf0100cf5 <getint+9>:	cmp    $0x1,%edx
+72		if (lflag >= 2)
+=> 0xf0100cf8 <getint+12>:	jle    0xf0100d08 <getint+28>
+0xf0100cf8	72		if (lflag >= 2)
+=> 0xf0100d08 <getint+28>:	test   %edx,%edx
+74		else if (lflag)
+=> 0xf0100d0a <getint+30>:	je     0xf0100d18 <getint+44>
+0xf0100d0a	74		else if (lflag)
+=> 0xf0100d18 <getint+44>:	mov    (%eax),%edx
+77			return va_arg(*ap, int);
+=> 0xf0100d1a <getint+46>:	lea    0x4(%edx),%ecx
+0xf0100d1a	77			return va_arg(*ap, int);
+=> 0xf0100d1d <getint+49>:	mov    %ecx,(%eax)
+0xf0100d1d	77			return va_arg(*ap, int);
+=> 0xf0100d1f <getint+51>:	mov    (%edx),%eax
+0xf0100d1f	77			return va_arg(*ap, int);
+=> 0xf0100d21 <getint+53>:	cltd   
+0xf0100d21	77			return va_arg(*ap, int);
+=> 0xf0100d22 <getint+54>:	pop    %ebp
+78	}
+=> 0xf0100d23 <getint+55>:	ret    
+0xf0100d23	78	}
+=> 0xf0100fb0 <vprintfmt+612>:	mov    %eax,%esi
+0xf0100fb0 in vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:194
+194				num = getint(&ap, lflag);
+=> 0xf0100fb2 <vprintfmt+614>:	mov    %edx,%edi
+0xf0100fb2	194				num = getint(&ap, lflag);
+=> 0xf0100fb4 <vprintfmt+616>:	test   %edx,%edx
+195				if ((long long) num < 0) {
+=> 0xf0100fb6 <vprintfmt+618>:	js     0xf0100fc2 <vprintfmt+630>
+0xf0100fb6	195				if ((long long) num < 0) {
+=> 0xf0100fb8 <vprintfmt+620>:	mov    $0xa,%eax
+199				base = 10;
+=> 0xf0100fbd <vprintfmt+625>:	jmp    0xf010105d <vprintfmt+785>
+0xf0100fbd	199				base = 10;
+=> 0xf010105d <vprintfmt+785>:	movsbl -0x28(%ebp),%edx
+233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101061 <vprintfmt+789>:	mov    %edx,0x10(%esp)
+0xf0101061	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101065 <vprintfmt+793>:	mov    -0x1c(%ebp),%edx
+0xf0101065	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101068 <vprintfmt+796>:	mov    %edx,0xc(%esp)
+0xf0101068	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010106c <vprintfmt+800>:	mov    %eax,0x8(%esp)
+0xf010106c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101070 <vprintfmt+804>:	mov    %esi,(%esp)
+0xf0101070	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101073 <vprintfmt+807>:	mov    %edi,0x4(%esp)
+0xf0101073	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101077 <vprintfmt+811>:	mov    %ebx,%edx
+0xf0101077	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101079 <vprintfmt+813>:	mov    0x8(%ebp),%eax
+0xf0101079	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010107c <vprintfmt+816>:	call   0xf0100bc8 <printnum>
+0xf010107c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0100bc8 <printnum>:	push   %ebp
+printnum (putch=0xf01008cd <putch+17>, putdat=0x0, num=1, base=10, width=-1, padc=32)
+    at lib/printfmt.c:38
+38	{
+=> 0xf0100bc9 <printnum+1>:	mov    %esp,%ebp
+0xf0100bc9	38	{
+=> 0xf0100bcb <printnum+3>:	push   %edi
+0xf0100bcb	38	{
+=> 0xf0100bcc <printnum+4>:	push   %esi
+0xf0100bcc	38	{
+=> 0xf0100bcd <printnum+5>:	push   %ebx
+0xf0100bcd	38	{
+=> 0xf0100bce <printnum+6>:	sub    $0x3c,%esp
+0xf0100bce	38	{
+=> 0xf0100bd1 <printnum+9>:	mov    %eax,-0x1c(%ebp)
+0xf0100bd1	38	{
+=> 0xf0100bd4 <printnum+12>:	mov    %edx,%edi
+0xf0100bd4	38	{
+=> 0xf0100bd6 <printnum+14>:	mov    0x8(%ebp),%eax
+0xf0100bd6	38	{
+=> 0xf0100bd9 <printnum+17>:	mov    %eax,-0x24(%ebp)
+0xf0100bd9	38	{
+=> 0xf0100bdc <printnum+20>:	mov    0xc(%ebp),%eax
+0xf0100bdc	38	{
+=> 0xf0100bdf <printnum+23>:	mov    %eax,-0x20(%ebp)
+0xf0100bdf	38	{
+=> 0xf0100be2 <printnum+26>:	mov    0x14(%ebp),%ebx
+0xf0100be2	38	{
+=> 0xf0100be5 <printnum+29>:	mov    0x18(%ebp),%esi
+0xf0100be5	38	{
+=> 0xf0100be8 <printnum+32>:	test   %eax,%eax
+40		if (num >= base) {
+=> 0xf0100bea <printnum+34>:	jne    0xf0100bf4 <printnum+44>
+0xf0100bea	40		if (num >= base) {
+=> 0xf0100bec <printnum+36>:	mov    -0x24(%ebp),%eax
+0xf0100bec	40		if (num >= base) {
+=> 0xf0100bef <printnum+39>:	cmp    %eax,0x10(%ebp)
+0xf0100bef	40		if (num >= base) {
+=> 0xf0100bf2 <printnum+42>:	ja     0xf0100c4b <printnum+131>
+0xf0100bf2	40		if (num >= base) {
+=> 0xf0100c4b <printnum+131>:	dec    %ebx
+44			while (--width > 0)
+=> 0xf0100c4c <printnum+132>:	test   %ebx,%ebx
+0xf0100c4c	44			while (--width > 0)
+=> 0xf0100c4e <printnum+134>:	jg     0xf0100c41 <printnum+121>
+0xf0100c4e	44			while (--width > 0)
+=> 0xf0100c50 <printnum+136>:	mov    %edi,0x4(%esp)
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c54 <printnum+140>:	mov    0x4(%esp),%edi
+0xf0100c54	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c58 <printnum+144>:	mov    0x10(%ebp),%eax
+0xf0100c58	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5b <printnum+147>:	mov    %eax,0x8(%esp)
+0xf0100c5b	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5f <printnum+151>:	movl   $0x0,0xc(%esp)
+0xf0100c5f	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c67 <printnum+159>:	mov    -0x24(%ebp),%eax
+0xf0100c67	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6a <printnum+162>:	mov    %eax,(%esp)
+0xf0100c6a	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6d <printnum+165>:	mov    -0x20(%ebp),%eax
+0xf0100c6d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c70 <printnum+168>:	mov    %eax,0x4(%esp)
+0xf0100c70	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c74 <printnum+172>:	call   0xf0101688 <__umoddi3>
+0xf0100c74	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0101688 <__umoddi3>:	push   %ebp
+__umoddi3 (u=17298335772276948992, v=21474836512) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101689 <__umoddi3+1>:	push   %edi
+0xf0101689	1123	{
+=> 0xf010168a <__umoddi3+2>:	push   %esi
+0xf010168a	1123	{
+=> 0xf010168b <__umoddi3+3>:	sub    $0x20,%esp
+0xf010168b	1123	{
+=> 0xf010168e <__umoddi3+6>:	mov    0x30(%esp),%eax
+0xf010168e in __umoddi3 (u=10, v=4027587296) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101692 <__umoddi3+10>:	mov    0x38(%esp),%ecx
+0xf0101692	1123	{
+=> 0xf0101696 <__umoddi3+14>:	mov    %eax,0x14(%esp)
+862	  const DWunion nn = {.ll = n};
+=> 0xf010169a <__umoddi3+18>:	mov    0x34(%esp),%esi
+0xf010169a	862	  const DWunion nn = {.ll = n};
+=> 0xf010169e <__umoddi3+22>:	mov    %ecx,0xc(%esp)
+863	  const DWunion dd = {.ll = d};
+=> 0xf01016a2 <__umoddi3+26>:	mov    0x3c(%esp),%ebp
+0xf01016a2	863	  const DWunion dd = {.ll = d};
+=> 0xf01016a6 <__umoddi3+30>:	mov    %eax,%edi
+__umoddi3 (u=<error reading variable: Unknown argument list address for `u'.>, 
+    v=<error reading variable: Unknown argument list address for `v'.>)
+    at ../../../libgcc/../gcc/libgcc2.c:871
+871	  n0 = nn.s.low;
+=> 0xf01016a8 <__umoddi3+32>:	mov    %esi,%edx
+872	  n1 = nn.s.high;
+=> 0xf01016aa <__umoddi3+34>:	test   %ebp,%ebp
+875	  if (d1 == 0)
+=> 0xf01016ac <__umoddi3+36>:	jne    0xf01016c4 <__umoddi3+60>
+0xf01016ac	875	  if (d1 == 0)
+=> 0xf01016ae <__umoddi3+38>:	cmp    %esi,%ecx
+877	      if (d0 > n1)
+=> 0xf01016b0 <__umoddi3+40>:	jbe    0xf010175c <__umoddi3+212>
+0xf01016b0	877	      if (d0 > n1)
+=> 0xf01016b6 <__umoddi3+46>:	div    %ecx
+894		  udiv_qrnnd (q0, n0, n1, n0, d0);
+=> 0xf01016b8 <__umoddi3+48>:	mov    %edx,%eax
+903		  *rp = rr.ll;
+=> 0xf01016ba <__umoddi3+50>:	xor    %edx,%edx
+0xf01016ba	903		  *rp = rr.ll;
+=> 0xf01016bc <__umoddi3+52>:	add    $0x20,%esp
+1129	}
+=> 0xf01016bf <__umoddi3+55>:	pop    %esi
+0xf01016bf	1129	}
+=> 0xf01016c0 <__umoddi3+56>:	pop    %edi
+0xf01016c0	1129	}
+=> 0xf01016c1 <__umoddi3+57>:	pop    %ebp
+0xf01016c1	1129	}
+=> 0xf01016c2 <__umoddi3+58>:	ret    
+0xf01016c2 in __umoddi3 (u=42949672965, v=8322641724)
+    at ../../../libgcc/../gcc/libgcc2.c:1129
+1129	}
+=> 0xf0100c79 <printnum+177>:	mov    %edi,0x4(%esp)
+0xf0100c79 in printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=1, base=10, 
+    width=-1, padc=32) at lib/printfmt.c:49
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c7d <printnum+181>:	movsbl -0xfefe33f(%eax),%eax
+0xf0100c7d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c84 <printnum+188>:	mov    %eax,(%esp)
+0xf0100c84	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c87 <printnum+191>:	call   *-0x1c(%ebp)
+0xf0100c87	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=49, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=49) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=32) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=49) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=49, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100c8a <printnum+194>:	add    $0x3c,%esp
+printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=1, base=10, width=-1, padc=32)
+    at lib/printfmt.c:50
+50	}
+=> 0xf0100c8d <printnum+197>:	pop    %ebx
+0xf0100c8d	50	}
+=> 0xf0100c8e <printnum+198>:	pop    %esi
+0xf0100c8e	50	}
+=> 0xf0100c8f <printnum+199>:	pop    %edi
+0xf0100c8f	50	}
+=> 0xf0100c90 <printnum+200>:	pop    %ebp
+0xf0100c90	50	}
+=> 0xf0100c91 <printnum+201>:	ret    
+0xf0100c91	50	}
+=> 0xf0101081 <vprintfmt+821>:	mov    -0x20(%ebp),%esi
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:234
+234				break;
+=> 0xf0101084 <vprintfmt+824>:	jmp    0xf0100d6f <vprintfmt+35>
+0xf0101084	234				break;
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=44, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=44) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379997) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=44) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=44, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=32) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379996) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=32) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=121, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=121) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379995) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=121) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=121, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=32) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379994) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=32) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f78 "\003") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d78 <vprintfmt+44>:	movb   $0x20,-0x28(%ebp)
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d7c <vprintfmt+48>:	movl   $0x0,-0x24(%ebp)
+0xf0100d7c	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d83 <vprintfmt+55>:	mov    $0xffffffff,%edi
+0xf0100d83	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d88 <vprintfmt+60>:	movl   $0xffffffff,-0x1c(%ebp)
+0xf0100d88	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d8f <vprintfmt+67>:	mov    $0x0,%ecx
+0xf0100d8f	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d94 <vprintfmt+72>:	jmp    0xf0100dbc <vprintfmt+112>
+0xf0100d94	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100dbc <vprintfmt+112>:	movzbl (%esi),%eax
+107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dbf <vprintfmt+115>:	lea    0x1(%esi),%edx
+0xf0100dbf	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc2 <vprintfmt+118>:	mov    %edx,-0x20(%ebp)
+0xf0100dc2	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc5 <vprintfmt+121>:	mov    (%esi),%dl
+0xf0100dc5	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc7 <vprintfmt+123>:	sub    $0x23,%edx
+0xf0100dc7	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dca <vprintfmt+126>:	cmp    $0x55,%dl
+0xf0100dca	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dcd <vprintfmt+129>:	ja     0xf010109b <vprintfmt+847>
+0xf0100dcd	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd3 <vprintfmt+135>:	movzbl %dl,%edx
+0xf0100dd3	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd6 <vprintfmt+138>:	jmp    *-0xfefe2b0(,%edx,4)
+0xf0100dd6	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0101045 <vprintfmt+761>:	mov    %ecx,0x4(%esp)
+230				num = getuint(&ap, lflag);
+=> 0xf0101049 <vprintfmt+765>:	lea    0x14(%ebp),%edx
+0xf0101049	230				num = getuint(&ap, lflag);
+=> 0xf010104c <vprintfmt+768>:	mov    %edx,(%esp)
+0xf010104c	230				num = getuint(&ap, lflag);
+=> 0xf010104f <vprintfmt+771>:	call   0xf0100cac <getuint>
+0xf010104f	230				num = getuint(&ap, lflag);
+=> 0xf0100cac <getuint>:	push   %ebp
+getuint (ap=0xf0116f2c, lflag=0) at lib/printfmt.c:57
+57	{
+=> 0xf0100cad <getuint+1>:	mov    %esp,%ebp
+0xf0100cad	57	{
+=> 0xf0100caf <getuint+3>:	mov    0x8(%ebp),%eax
+0xf0100caf	57	{
+=> 0xf0100cb2 <getuint+6>:	mov    0xc(%ebp),%edx
+0xf0100cb2	57	{
+=> 0xf0100cb5 <getuint+9>:	cmp    $0x1,%edx
+58		if (lflag >= 2)
+=> 0xf0100cb8 <getuint+12>:	jle    0xf0100cc8 <getuint+28>
+0xf0100cb8	58		if (lflag >= 2)
+=> 0xf0100cc8 <getuint+28>:	test   %edx,%edx
+60		else if (lflag)
+=> 0xf0100cca <getuint+30>:	je     0xf0100cdc <getuint+48>
+0xf0100cca	60		else if (lflag)
+=> 0xf0100cdc <getuint+48>:	mov    (%eax),%edx
+63			return va_arg(*ap, unsigned int);
+=> 0xf0100cde <getuint+50>:	lea    0x4(%edx),%ecx
+0xf0100cde	63			return va_arg(*ap, unsigned int);
+=> 0xf0100ce1 <getuint+53>:	mov    %ecx,(%eax)
+0xf0100ce1	63			return va_arg(*ap, unsigned int);
+=> 0xf0100ce3 <getuint+55>:	mov    (%edx),%eax
+0xf0100ce3	63			return va_arg(*ap, unsigned int);
+=> 0xf0100ce5 <getuint+57>:	mov    $0x0,%edx
+0xf0100ce5	63			return va_arg(*ap, unsigned int);
+=> 0xf0100cea <getuint+62>:	pop    %ebp
+64	}
+=> 0xf0100ceb <getuint+63>:	ret    
+0xf0100ceb	64	}
+=> 0xf0101054 <vprintfmt+776>:	mov    %eax,%esi
+0xf0101054 in vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:230
+230				num = getuint(&ap, lflag);
+=> 0xf0101056 <vprintfmt+778>:	mov    %edx,%edi
+0xf0101056	230				num = getuint(&ap, lflag);
+=> 0xf0101058 <vprintfmt+780>:	mov    $0x10,%eax
+231				base = 16;
+=> 0xf010105d <vprintfmt+785>:	movsbl -0x28(%ebp),%edx
+233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101061 <vprintfmt+789>:	mov    %edx,0x10(%esp)
+0xf0101061	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101065 <vprintfmt+793>:	mov    -0x1c(%ebp),%edx
+0xf0101065	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101068 <vprintfmt+796>:	mov    %edx,0xc(%esp)
+0xf0101068	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010106c <vprintfmt+800>:	mov    %eax,0x8(%esp)
+0xf010106c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101070 <vprintfmt+804>:	mov    %esi,(%esp)
+0xf0101070	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101073 <vprintfmt+807>:	mov    %edi,0x4(%esp)
+0xf0101073	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101077 <vprintfmt+811>:	mov    %ebx,%edx
+0xf0101077	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101079 <vprintfmt+813>:	mov    0x8(%ebp),%eax
+0xf0101079	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010107c <vprintfmt+816>:	call   0xf0100bc8 <printnum>
+0xf010107c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0100bc8 <printnum>:	push   %ebp
+printnum (putch=0xf01008cd <putch+17>, putdat=0x0, num=3, base=16, width=-1, padc=32)
+    at lib/printfmt.c:38
+38	{
+=> 0xf0100bc9 <printnum+1>:	mov    %esp,%ebp
+0xf0100bc9	38	{
+=> 0xf0100bcb <printnum+3>:	push   %edi
+0xf0100bcb	38	{
+=> 0xf0100bcc <printnum+4>:	push   %esi
+0xf0100bcc	38	{
+=> 0xf0100bcd <printnum+5>:	push   %ebx
+0xf0100bcd	38	{
+=> 0xf0100bce <printnum+6>:	sub    $0x3c,%esp
+0xf0100bce	38	{
+=> 0xf0100bd1 <printnum+9>:	mov    %eax,-0x1c(%ebp)
+0xf0100bd1	38	{
+=> 0xf0100bd4 <printnum+12>:	mov    %edx,%edi
+0xf0100bd4	38	{
+=> 0xf0100bd6 <printnum+14>:	mov    0x8(%ebp),%eax
+0xf0100bd6	38	{
+=> 0xf0100bd9 <printnum+17>:	mov    %eax,-0x24(%ebp)
+0xf0100bd9	38	{
+=> 0xf0100bdc <printnum+20>:	mov    0xc(%ebp),%eax
+0xf0100bdc	38	{
+=> 0xf0100bdf <printnum+23>:	mov    %eax,-0x20(%ebp)
+0xf0100bdf	38	{
+=> 0xf0100be2 <printnum+26>:	mov    0x14(%ebp),%ebx
+0xf0100be2	38	{
+=> 0xf0100be5 <printnum+29>:	mov    0x18(%ebp),%esi
+0xf0100be5	38	{
+=> 0xf0100be8 <printnum+32>:	test   %eax,%eax
+40		if (num >= base) {
+=> 0xf0100bea <printnum+34>:	jne    0xf0100bf4 <printnum+44>
+0xf0100bea	40		if (num >= base) {
+=> 0xf0100bec <printnum+36>:	mov    -0x24(%ebp),%eax
+0xf0100bec	40		if (num >= base) {
+=> 0xf0100bef <printnum+39>:	cmp    %eax,0x10(%ebp)
+0xf0100bef	40		if (num >= base) {
+=> 0xf0100bf2 <printnum+42>:	ja     0xf0100c4b <printnum+131>
+0xf0100bf2	40		if (num >= base) {
+=> 0xf0100c4b <printnum+131>:	dec    %ebx
+44			while (--width > 0)
+=> 0xf0100c4c <printnum+132>:	test   %ebx,%ebx
+0xf0100c4c	44			while (--width > 0)
+=> 0xf0100c4e <printnum+134>:	jg     0xf0100c41 <printnum+121>
+0xf0100c4e	44			while (--width > 0)
+=> 0xf0100c50 <printnum+136>:	mov    %edi,0x4(%esp)
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c54 <printnum+140>:	mov    0x4(%esp),%edi
+0xf0100c54	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c58 <printnum+144>:	mov    0x10(%ebp),%eax
+0xf0100c58	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5b <printnum+147>:	mov    %eax,0x8(%esp)
+0xf0100c5b	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5f <printnum+151>:	movl   $0x0,0xc(%esp)
+0xf0100c5f	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c67 <printnum+159>:	mov    -0x24(%ebp),%eax
+0xf0100c67	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6a <printnum+162>:	mov    %eax,(%esp)
+0xf0100c6a	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6d <printnum+165>:	mov    -0x20(%ebp),%eax
+0xf0100c6d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c70 <printnum+168>:	mov    %eax,0x4(%esp)
+0xf0100c70	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c74 <printnum+172>:	call   0xf0101688 <__umoddi3>
+0xf0100c74	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0101688 <__umoddi3>:	push   %ebp
+__umoddi3 (u=17298335772276948992, v=21474836512) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101689 <__umoddi3+1>:	push   %edi
+0xf0101689	1123	{
+=> 0xf010168a <__umoddi3+2>:	push   %esi
+0xf010168a	1123	{
+=> 0xf010168b <__umoddi3+3>:	sub    $0x20,%esp
+0xf010168b	1123	{
+=> 0xf010168e <__umoddi3+6>:	mov    0x30(%esp),%eax
+0xf010168e in __umoddi3 (u=16, v=4027587302) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101692 <__umoddi3+10>:	mov    0x38(%esp),%ecx
+0xf0101692	1123	{
+=> 0xf0101696 <__umoddi3+14>:	mov    %eax,0x14(%esp)
+862	  const DWunion nn = {.ll = n};
+=> 0xf010169a <__umoddi3+18>:	mov    0x34(%esp),%esi
+0xf010169a	862	  const DWunion nn = {.ll = n};
+=> 0xf010169e <__umoddi3+22>:	mov    %ecx,0xc(%esp)
+863	  const DWunion dd = {.ll = d};
+=> 0xf01016a2 <__umoddi3+26>:	mov    0x3c(%esp),%ebp
+0xf01016a2	863	  const DWunion dd = {.ll = d};
+=> 0xf01016a6 <__umoddi3+30>:	mov    %eax,%edi
+__umoddi3 (u=<error reading variable: Unknown argument list address for `u'.>, 
+    v=<error reading variable: Unknown argument list address for `v'.>)
+    at ../../../libgcc/../gcc/libgcc2.c:871
+871	  n0 = nn.s.low;
+=> 0xf01016a8 <__umoddi3+32>:	mov    %esi,%edx
+872	  n1 = nn.s.high;
+=> 0xf01016aa <__umoddi3+34>:	test   %ebp,%ebp
+875	  if (d1 == 0)
+=> 0xf01016ac <__umoddi3+36>:	jne    0xf01016c4 <__umoddi3+60>
+0xf01016ac	875	  if (d1 == 0)
+=> 0xf01016ae <__umoddi3+38>:	cmp    %esi,%ecx
+877	      if (d0 > n1)
+=> 0xf01016b0 <__umoddi3+40>:	jbe    0xf010175c <__umoddi3+212>
+0xf01016b0	877	      if (d0 > n1)
+=> 0xf01016b6 <__umoddi3+46>:	div    %ecx
+894		  udiv_qrnnd (q0, n0, n1, n0, d0);
+=> 0xf01016b8 <__umoddi3+48>:	mov    %edx,%eax
+903		  *rp = rr.ll;
+=> 0xf01016ba <__umoddi3+50>:	xor    %edx,%edx
+0xf01016ba	903		  *rp = rr.ll;
+=> 0xf01016bc <__umoddi3+52>:	add    $0x20,%esp
+1129	}
+=> 0xf01016bf <__umoddi3+55>:	pop    %esi
+0xf01016bf	1129	}
+=> 0xf01016c0 <__umoddi3+56>:	pop    %edi
+0xf01016c0	1129	}
+=> 0xf01016c1 <__umoddi3+57>:	pop    %ebp
+0xf01016c1	1129	}
+=> 0xf01016c2 <__umoddi3+58>:	ret    
+0xf01016c2 in __umoddi3 (u=42949672965, v=16912576316)
+    at ../../../libgcc/../gcc/libgcc2.c:1129
+1129	}
+=> 0xf0100c79 <printnum+177>:	mov    %edi,0x4(%esp)
+0xf0100c79 in printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=3, base=16, 
+    width=-1, padc=32) at lib/printfmt.c:49
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c7d <printnum+181>:	movsbl -0xfefe33f(%eax),%eax
+0xf0100c7d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c84 <printnum+188>:	mov    %eax,(%esp)
+0xf0100c84	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c87 <printnum+191>:	call   *-0x1c(%ebp)
+0xf0100c87	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=51, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=51) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=32) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=51) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=51, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100c8a <printnum+194>:	add    $0x3c,%esp
+printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=3, base=16, width=-1, padc=32)
+    at lib/printfmt.c:50
+50	}
+=> 0xf0100c8d <printnum+197>:	pop    %ebx
+0xf0100c8d	50	}
+=> 0xf0100c8e <printnum+198>:	pop    %esi
+0xf0100c8e	50	}
+=> 0xf0100c8f <printnum+199>:	pop    %edi
+0xf0100c8f	50	}
+=> 0xf0100c90 <printnum+200>:	pop    %ebp
+0xf0100c90	50	}
+=> 0xf0100c91 <printnum+201>:	ret    
+0xf0100c91	50	}
+=> 0xf0101081 <vprintfmt+821>:	mov    -0x20(%ebp),%esi
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:234
+234				break;
+=> 0xf0101084 <vprintfmt+824>:	jmp    0xf0100d6f <vprintfmt+35>
+0xf0101084	234				break;
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=44, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=44) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379991) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=44) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=44, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=32) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379990) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=32) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=122, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=122) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379989) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=122) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=122, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=32) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379988) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=32) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=32, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f7c "\004") at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d78 <vprintfmt+44>:	movb   $0x20,-0x28(%ebp)
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d7c <vprintfmt+48>:	movl   $0x0,-0x24(%ebp)
+0xf0100d7c	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d83 <vprintfmt+55>:	mov    $0xffffffff,%edi
+0xf0100d83	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d88 <vprintfmt+60>:	movl   $0xffffffff,-0x1c(%ebp)
+0xf0100d88	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d8f <vprintfmt+67>:	mov    $0x0,%ecx
+0xf0100d8f	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d94 <vprintfmt+72>:	jmp    0xf0100dbc <vprintfmt+112>
+0xf0100d94	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100dbc <vprintfmt+112>:	movzbl (%esi),%eax
+107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dbf <vprintfmt+115>:	lea    0x1(%esi),%edx
+0xf0100dbf	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc2 <vprintfmt+118>:	mov    %edx,-0x20(%ebp)
+0xf0100dc2	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc5 <vprintfmt+121>:	mov    (%esi),%dl
+0xf0100dc5	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dc7 <vprintfmt+123>:	sub    $0x23,%edx
+0xf0100dc7	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dca <vprintfmt+126>:	cmp    $0x55,%dl
+0xf0100dca	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dcd <vprintfmt+129>:	ja     0xf010109b <vprintfmt+847>
+0xf0100dcd	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd3 <vprintfmt+135>:	movzbl %dl,%edx
+0xf0100dd3	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100dd6 <vprintfmt+138>:	jmp    *-0xfefe2b0(,%edx,4)
+0xf0100dd6	107			switch (ch = *(unsigned char *) fmt++) {
+=> 0xf0100fa1 <vprintfmt+597>:	mov    %ecx,0x4(%esp)
+194				num = getint(&ap, lflag);
+=> 0xf0100fa5 <vprintfmt+601>:	lea    0x14(%ebp),%eax
+0xf0100fa5	194				num = getint(&ap, lflag);
+=> 0xf0100fa8 <vprintfmt+604>:	mov    %eax,(%esp)
+0xf0100fa8	194				num = getint(&ap, lflag);
+=> 0xf0100fab <vprintfmt+607>:	call   0xf0100cec <getint>
+0xf0100fab	194				num = getint(&ap, lflag);
+=> 0xf0100cec <getint>:	push   %ebp
+getint (ap=0xf0116f2c, lflag=0) at lib/printfmt.c:71
+71	{
+=> 0xf0100ced <getint+1>:	mov    %esp,%ebp
+0xf0100ced	71	{
+=> 0xf0100cef <getint+3>:	mov    0x8(%ebp),%eax
+0xf0100cef	71	{
+=> 0xf0100cf2 <getint+6>:	mov    0xc(%ebp),%edx
+0xf0100cf2	71	{
+=> 0xf0100cf5 <getint+9>:	cmp    $0x1,%edx
+72		if (lflag >= 2)
+=> 0xf0100cf8 <getint+12>:	jle    0xf0100d08 <getint+28>
+0xf0100cf8	72		if (lflag >= 2)
+=> 0xf0100d08 <getint+28>:	test   %edx,%edx
+74		else if (lflag)
+=> 0xf0100d0a <getint+30>:	je     0xf0100d18 <getint+44>
+0xf0100d0a	74		else if (lflag)
+=> 0xf0100d18 <getint+44>:	mov    (%eax),%edx
+77			return va_arg(*ap, int);
+=> 0xf0100d1a <getint+46>:	lea    0x4(%edx),%ecx
+0xf0100d1a	77			return va_arg(*ap, int);
+=> 0xf0100d1d <getint+49>:	mov    %ecx,(%eax)
+0xf0100d1d	77			return va_arg(*ap, int);
+=> 0xf0100d1f <getint+51>:	mov    (%edx),%eax
+0xf0100d1f	77			return va_arg(*ap, int);
+=> 0xf0100d21 <getint+53>:	cltd   
+0xf0100d21	77			return va_arg(*ap, int);
+=> 0xf0100d22 <getint+54>:	pop    %ebp
+78	}
+=> 0xf0100d23 <getint+55>:	ret    
+0xf0100d23	78	}
+=> 0xf0100fb0 <vprintfmt+612>:	mov    %eax,%esi
+0xf0100fb0 in vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", 
+    ap=0xf0116f80 "\334\027\020\360\244o\021\360\270o", <incomplete sequence \360>)
+    at lib/printfmt.c:194
+194				num = getint(&ap, lflag);
+=> 0xf0100fb2 <vprintfmt+614>:	mov    %edx,%edi
+0xf0100fb2	194				num = getint(&ap, lflag);
+=> 0xf0100fb4 <vprintfmt+616>:	test   %edx,%edx
+195				if ((long long) num < 0) {
+=> 0xf0100fb6 <vprintfmt+618>:	js     0xf0100fc2 <vprintfmt+630>
+0xf0100fb6	195				if ((long long) num < 0) {
+=> 0xf0100fb8 <vprintfmt+620>:	mov    $0xa,%eax
+199				base = 10;
+=> 0xf0100fbd <vprintfmt+625>:	jmp    0xf010105d <vprintfmt+785>
+0xf0100fbd	199				base = 10;
+=> 0xf010105d <vprintfmt+785>:	movsbl -0x28(%ebp),%edx
+233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101061 <vprintfmt+789>:	mov    %edx,0x10(%esp)
+0xf0101061	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101065 <vprintfmt+793>:	mov    -0x1c(%ebp),%edx
+0xf0101065	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101068 <vprintfmt+796>:	mov    %edx,0xc(%esp)
+0xf0101068	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010106c <vprintfmt+800>:	mov    %eax,0x8(%esp)
+0xf010106c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101070 <vprintfmt+804>:	mov    %esi,(%esp)
+0xf0101070	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101073 <vprintfmt+807>:	mov    %edi,0x4(%esp)
+0xf0101073	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101077 <vprintfmt+811>:	mov    %ebx,%edx
+0xf0101077	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0101079 <vprintfmt+813>:	mov    0x8(%ebp),%eax
+0xf0101079	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf010107c <vprintfmt+816>:	call   0xf0100bc8 <printnum>
+0xf010107c	233				printnum(putch, putdat, num, base, width, padc);
+=> 0xf0100bc8 <printnum>:	push   %ebp
+printnum (putch=0xf01008cd <putch+17>, putdat=0x0, num=4, base=10, width=-1, padc=32)
+    at lib/printfmt.c:38
+38	{
+=> 0xf0100bc9 <printnum+1>:	mov    %esp,%ebp
+0xf0100bc9	38	{
+=> 0xf0100bcb <printnum+3>:	push   %edi
+0xf0100bcb	38	{
+=> 0xf0100bcc <printnum+4>:	push   %esi
+0xf0100bcc	38	{
+=> 0xf0100bcd <printnum+5>:	push   %ebx
+0xf0100bcd	38	{
+=> 0xf0100bce <printnum+6>:	sub    $0x3c,%esp
+0xf0100bce	38	{
+=> 0xf0100bd1 <printnum+9>:	mov    %eax,-0x1c(%ebp)
+0xf0100bd1	38	{
+=> 0xf0100bd4 <printnum+12>:	mov    %edx,%edi
+0xf0100bd4	38	{
+=> 0xf0100bd6 <printnum+14>:	mov    0x8(%ebp),%eax
+0xf0100bd6	38	{
+=> 0xf0100bd9 <printnum+17>:	mov    %eax,-0x24(%ebp)
+0xf0100bd9	38	{
+=> 0xf0100bdc <printnum+20>:	mov    0xc(%ebp),%eax
+0xf0100bdc	38	{
+=> 0xf0100bdf <printnum+23>:	mov    %eax,-0x20(%ebp)
+0xf0100bdf	38	{
+=> 0xf0100be2 <printnum+26>:	mov    0x14(%ebp),%ebx
+0xf0100be2	38	{
+=> 0xf0100be5 <printnum+29>:	mov    0x18(%ebp),%esi
+0xf0100be5	38	{
+=> 0xf0100be8 <printnum+32>:	test   %eax,%eax
+40		if (num >= base) {
+=> 0xf0100bea <printnum+34>:	jne    0xf0100bf4 <printnum+44>
+0xf0100bea	40		if (num >= base) {
+=> 0xf0100bec <printnum+36>:	mov    -0x24(%ebp),%eax
+0xf0100bec	40		if (num >= base) {
+=> 0xf0100bef <printnum+39>:	cmp    %eax,0x10(%ebp)
+0xf0100bef	40		if (num >= base) {
+=> 0xf0100bf2 <printnum+42>:	ja     0xf0100c4b <printnum+131>
+0xf0100bf2	40		if (num >= base) {
+=> 0xf0100c4b <printnum+131>:	dec    %ebx
+44			while (--width > 0)
+=> 0xf0100c4c <printnum+132>:	test   %ebx,%ebx
+0xf0100c4c	44			while (--width > 0)
+=> 0xf0100c4e <printnum+134>:	jg     0xf0100c41 <printnum+121>
+0xf0100c4e	44			while (--width > 0)
+=> 0xf0100c50 <printnum+136>:	mov    %edi,0x4(%esp)
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c54 <printnum+140>:	mov    0x4(%esp),%edi
+0xf0100c54	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c58 <printnum+144>:	mov    0x10(%ebp),%eax
+0xf0100c58	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5b <printnum+147>:	mov    %eax,0x8(%esp)
+0xf0100c5b	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c5f <printnum+151>:	movl   $0x0,0xc(%esp)
+0xf0100c5f	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c67 <printnum+159>:	mov    -0x24(%ebp),%eax
+0xf0100c67	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6a <printnum+162>:	mov    %eax,(%esp)
+0xf0100c6a	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c6d <printnum+165>:	mov    -0x20(%ebp),%eax
+0xf0100c6d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c70 <printnum+168>:	mov    %eax,0x4(%esp)
+0xf0100c70	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c74 <printnum+172>:	call   0xf0101688 <__umoddi3>
+0xf0100c74	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0101688 <__umoddi3>:	push   %ebp
+__umoddi3 (u=17298335772276948992, v=21474836512) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101689 <__umoddi3+1>:	push   %edi
+0xf0101689	1123	{
+=> 0xf010168a <__umoddi3+2>:	push   %esi
+0xf010168a	1123	{
+=> 0xf010168b <__umoddi3+3>:	sub    $0x20,%esp
+0xf010168b	1123	{
+=> 0xf010168e <__umoddi3+6>:	mov    0x30(%esp),%eax
+0xf010168e in __umoddi3 (u=10, v=4027587308) at ../../../libgcc/../gcc/libgcc2.c:1123
+1123	{
+=> 0xf0101692 <__umoddi3+10>:	mov    0x38(%esp),%ecx
+0xf0101692	1123	{
+=> 0xf0101696 <__umoddi3+14>:	mov    %eax,0x14(%esp)
+862	  const DWunion nn = {.ll = n};
+=> 0xf010169a <__umoddi3+18>:	mov    0x34(%esp),%esi
+0xf010169a	862	  const DWunion nn = {.ll = n};
+=> 0xf010169e <__umoddi3+22>:	mov    %ecx,0xc(%esp)
+863	  const DWunion dd = {.ll = d};
+=> 0xf01016a2 <__umoddi3+26>:	mov    0x3c(%esp),%ebp
+0xf01016a2	863	  const DWunion dd = {.ll = d};
+=> 0xf01016a6 <__umoddi3+30>:	mov    %eax,%edi
+__umoddi3 (u=<error reading variable: Unknown argument list address for `u'.>, 
+    v=<error reading variable: Unknown argument list address for `v'.>)
+    at ../../../libgcc/../gcc/libgcc2.c:871
+871	  n0 = nn.s.low;
+=> 0xf01016a8 <__umoddi3+32>:	mov    %esi,%edx
+872	  n1 = nn.s.high;
+=> 0xf01016aa <__umoddi3+34>:	test   %ebp,%ebp
+875	  if (d1 == 0)
+=> 0xf01016ac <__umoddi3+36>:	jne    0xf01016c4 <__umoddi3+60>
+0xf01016ac	875	  if (d1 == 0)
+=> 0xf01016ae <__umoddi3+38>:	cmp    %esi,%ecx
+877	      if (d0 > n1)
+=> 0xf01016b0 <__umoddi3+40>:	jbe    0xf010175c <__umoddi3+212>
+0xf01016b0	877	      if (d0 > n1)
+=> 0xf01016b6 <__umoddi3+46>:	div    %ecx
+894		  udiv_qrnnd (q0, n0, n1, n0, d0);
+=> 0xf01016b8 <__umoddi3+48>:	mov    %edx,%eax
+903		  *rp = rr.ll;
+=> 0xf01016ba <__umoddi3+50>:	xor    %edx,%edx
+0xf01016ba	903		  *rp = rr.ll;
+=> 0xf01016bc <__umoddi3+52>:	add    $0x20,%esp
+1129	}
+=> 0xf01016bf <__umoddi3+55>:	pop    %esi
+0xf01016bf	1129	}
+=> 0xf01016c0 <__umoddi3+56>:	pop    %edi
+0xf01016c0	1129	}
+=> 0xf01016c1 <__umoddi3+57>:	pop    %ebp
+0xf01016c1	1129	}
+=> 0xf01016c2 <__umoddi3+58>:	ret    
+0xf01016c2 in __umoddi3 (u=42949672965, v=21207543612)
+    at ../../../libgcc/../gcc/libgcc2.c:1129
+1129	}
+=> 0xf0100c79 <printnum+177>:	mov    %edi,0x4(%esp)
+0xf0100c79 in printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=4, base=10, 
+    width=-1, padc=32) at lib/printfmt.c:49
+49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c7d <printnum+181>:	movsbl -0xfefe33f(%eax),%eax
+0xf0100c7d	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c84 <printnum+188>:	mov    %eax,(%esp)
+0xf0100c84	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf0100c87 <printnum+191>:	call   *-0x1c(%ebp)
+0xf0100c87	49		putch("0123456789abcdef"[num % base], putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=52, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=52) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=32) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf0100295 <cons_putc+142>:	cmp    $0xd,%eax
+0xf0100295	169		switch (c & 0xff) {
+=> 0xf0100298 <cons_putc+145>:	jne    0xf010032c <cons_putc+293>
+0xf0100298	169		switch (c & 0xff) {
+=> 0xf010032c <cons_putc+293>:	mov    0xf0119534,%ax
+190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100332 <cons_putc+299>:	movzwl %ax,%ecx
+0xf0100332	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100335 <cons_putc+302>:	mov    0xf0119530,%edx
+0xf0100335	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033b <cons_putc+308>:	mov    %si,(%edx,%ecx,2)
+0xf010033b	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf010033f <cons_putc+312>:	inc    %eax
+0xf010033f	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100340 <cons_putc+313>:	mov    %ax,0xf0119534
+0xf0100340	190			crt_buf[crt_pos++] = c;		/* write the character */
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=52) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=52, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100c8a <printnum+194>:	add    $0x3c,%esp
+printnum (putch=0xf01008bc <putch>, putdat=0xf0116f3c, num=4, base=10, width=-1, padc=32)
+    at lib/printfmt.c:50
+50	}
+=> 0xf0100c8d <printnum+197>:	pop    %ebx
+0xf0100c8d	50	}
+=> 0xf0100c8e <printnum+198>:	pop    %esi
+0xf0100c8e	50	}
+=> 0xf0100c8f <printnum+199>:	pop    %edi
+0xf0100c8f	50	}
+=> 0xf0100c90 <printnum+200>:	pop    %ebp
+0xf0100c90	50	}
+=> 0xf0100c91 <printnum+201>:	ret    
+0xf0100c91	50	}
+=> 0xf0101081 <vprintfmt+821>:	mov    -0x20(%ebp),%esi
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", 
+    ap=0xf0116f80 "\334\027\020\360\244o\021\360\270o", <incomplete sequence \360>)
+    at lib/printfmt.c:234
+234				break;
+=> 0xf0101084 <vprintfmt+824>:	jmp    0xf0100d6f <vprintfmt+35>
+0xf0101084	234				break;
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf0100d65 <vprintfmt+25>:	mov    %ebx,0x4(%esp)
+97				putch(ch, putdat);
+=> 0xf0100d69 <vprintfmt+29>:	mov    %eax,(%esp)
+0xf0100d69	97				putch(ch, putdat);
+=> 0xf0100d6c <vprintfmt+32>:	call   *0x8(%ebp)
+0xf0100d6c	97				putch(ch, putdat);
+=> 0xf01008bc <putch>:	push   %ebp
+putch (ch=10, cnt=0xf0116f3c) at kern/printf.c:11
+11	{
+=> 0xf01008bd <putch+1>:	mov    %esp,%ebp
+0xf01008bd	11	{
+=> 0xf01008bf <putch+3>:	sub    $0x18,%esp
+0xf01008bf	11	{
+=> 0xf01008c2 <putch+6>:	mov    0x8(%ebp),%eax
+12		cputchar(ch);
+=> 0xf01008c5 <putch+9>:	mov    %eax,(%esp)
+0xf01008c5	12		cputchar(ch);
+=> 0xf01008c8 <putch+12>:	call   0xf010061c <cputchar>
+0xf01008c8	12		cputchar(ch);
+=> 0xf010061c <cputchar>:	push   %ebp
+cputchar (c=10) at kern/console.c:457
+457	{
+=> 0xf010061d <cputchar+1>:	mov    %esp,%ebp
+0xf010061d	457	{
+=> 0xf010061f <cputchar+3>:	sub    $0x8,%esp
+0xf010061f	457	{
+=> 0xf0100622 <cputchar+6>:	mov    0x8(%ebp),%eax
+458		cons_putc(c);
+=> 0xf0100625 <cputchar+9>:	call   0xf0100207 <cons_putc>
+0xf0100625	458		cons_putc(c);
+=> 0xf0100207 <cons_putc>:	push   %ebp
+cons_putc (c=-267379985) at kern/console.c:434
+434	{
+=> 0xf0100208 <cons_putc+1>:	mov    %esp,%ebp
+0xf0100208	434	{
+=> 0xf010020a <cons_putc+3>:	push   %edi
+0xf010020a	434	{
+=> 0xf010020b <cons_putc+4>:	push   %esi
+0xf010020b	434	{
+=> 0xf010020c <cons_putc+5>:	push   %ebx
+0xf010020c	434	{
+=> 0xf010020d <cons_putc+6>:	sub    $0x2c,%esp
+0xf010020d	434	{
+=> 0xf0100210 <cons_putc+9>:	mov    %eax,%esi
+0xf0100210	434	{
+=> 0xf0100212 <cons_putc+11>:	mov    $0x3201,%ebx
+434	{
+=> 0xf0100217 <cons_putc+16>:	mov    $0x3fd,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010021c <cons_putc+21>:	jmp    0xf0100223 <cons_putc+28>
+0xf010021c	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100223 <cons_putc+28>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100225 <cons_putc+30>:	in     (%dx),%al
+0xf0100225	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100226 <cons_putc+31>:	test   $0x20,%al
+70		for (i = 0;
+=> 0xf0100228 <cons_putc+33>:	jne    0xf010022d <cons_putc+38>
+0xf0100228	70		for (i = 0;
+=> 0xf010022d <cons_putc+38>:	mov    %esi,%edx
+75		outb(COM1 + COM_TX, c);
+=> 0xf010022f <cons_putc+40>:	mov    %esi,%eax
+0xf010022f	75		outb(COM1 + COM_TX, c);
+=> 0xf0100231 <cons_putc+42>:	mov    %dl,-0x19(%ebp)
+0xf0100231	75		outb(COM1 + COM_TX, c);
+=> 0xf0100234 <cons_putc+45>:	mov    $0x3f8,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100239 <cons_putc+50>:	out    %al,(%dx)
+0xf0100239	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023a <cons_putc+51>:	mov    $0x3201,%ebx
+0xf010023a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010023f <cons_putc+56>:	mov    $0x379,%edi
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf0100244 <cons_putc+61>:	jmp    0xf010024b <cons_putc+68>
+0xf0100244	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024b <cons_putc+68>:	mov    %edi,%edx
+16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024d <cons_putc+70>:	in     (%dx),%al
+0xf010024d	16		asm volatile("inb %w1,%0" : "=a" (data) : "d" (port));
+=> 0xf010024e <cons_putc+71>:	test   %al,%al
+116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100250 <cons_putc+73>:	js     0xf0100255 <cons_putc+78>
+0xf0100250	116		for (i = 0; !(inb(0x378+1) & 0x80) && i < 12800; i++)
+=> 0xf0100255 <cons_putc+78>:	mov    $0x378,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025a <cons_putc+83>:	mov    -0x19(%ebp),%al
+0xf010025a	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025d <cons_putc+86>:	out    %al,(%dx)
+0xf010025d	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010025e <cons_putc+87>:	mov    $0x7a,%dl
+0xf010025e	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100260 <cons_putc+89>:	mov    $0xd,%al
+0xf0100260	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100262 <cons_putc+91>:	out    %al,(%dx)
+0xf0100262	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100263 <cons_putc+92>:	mov    $0x8,%al
+0xf0100263	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100265 <cons_putc+94>:	out    %al,(%dx)
+0xf0100265	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100266 <cons_putc+95>:	test   $0xffffff00,%esi
+166		if (!(c & ~0xFF))
+=> 0xf010026c <cons_putc+101>:	jne    0xf0100274 <cons_putc+109>
+0xf010026c	166		if (!(c & ~0xFF))
+=> 0xf010026e <cons_putc+103>:	or     $0x700,%esi
+167			c |= 0x0700;
+=> 0xf0100274 <cons_putc+109>:	mov    %esi,%eax
+169		switch (c & 0xff) {
+=> 0xf0100276 <cons_putc+111>:	and    $0xff,%eax
+0xf0100276	169		switch (c & 0xff) {
+=> 0xf010027b <cons_putc+116>:	cmp    $0x9,%eax
+0xf010027b	169		switch (c & 0xff) {
+=> 0xf010027e <cons_putc+119>:	je     0xf01002f8 <cons_putc+241>
+0xf010027e	169		switch (c & 0xff) {
+=> 0xf0100280 <cons_putc+121>:	cmp    $0x9,%eax
+0xf0100280	169		switch (c & 0xff) {
+=> 0xf0100283 <cons_putc+124>:	jg     0xf0100290 <cons_putc+137>
+0xf0100283	169		switch (c & 0xff) {
+=> 0xf0100290 <cons_putc+137>:	cmp    $0xa,%eax
+0xf0100290	169		switch (c & 0xff) {
+=> 0xf0100293 <cons_putc+140>:	je     0xf01002ce <cons_putc+199>
+0xf0100293	169		switch (c & 0xff) {
+=> 0xf01002ce <cons_putc+199>:	addw   $0x50,0xf0119534
+177			crt_pos += CRT_COLS;
+=> 0xf01002d6 <cons_putc+207>:	mov    0xf0119534,%cx
+180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002dd <cons_putc+214>:	mov    $0x50,%ebx
+0xf01002dd	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002e2 <cons_putc+219>:	mov    %ecx,%eax
+0xf01002e2	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002e4 <cons_putc+221>:	mov    $0x0,%edx
+0xf01002e4	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002e9 <cons_putc+226>:	div    %bx
+0xf01002e9	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002ec <cons_putc+229>:	sub    %dx,%cx
+0xf01002ec	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002ef <cons_putc+232>:	mov    %cx,0xf0119534
+0xf01002ef	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf01002f6 <cons_putc+239>:	jmp    0xf0100346 <cons_putc+319>
+0xf01002f6	180			crt_pos -= (crt_pos % CRT_COLS);
+=> 0xf0100346 <cons_putc+319>:	cmpw   $0x7cf,0xf0119534
+195		if (crt_pos >= CRT_SIZE) {
+=> 0xf010034f <cons_putc+328>:	jbe    0xf0100391 <cons_putc+394>
+0xf010034f	195		if (crt_pos >= CRT_SIZE) {
+=> 0xf0100391 <cons_putc+394>:	mov    0xf011952c,%ecx
+205		outb(addr_6845, 14);
+=> 0xf0100397 <cons_putc+400>:	mov    $0xe,%al
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf0100399 <cons_putc+402>:	mov    %ecx,%edx
+0xf0100399	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039b <cons_putc+404>:	out    %al,(%dx)
+0xf010039b	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf010039c <cons_putc+405>:	mov    0xf0119534,%si
+206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a3 <cons_putc+412>:	lea    0x1(%ecx),%ebx
+0xf01003a3	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a6 <cons_putc+415>:	mov    %esi,%eax
+0xf01003a6	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003a8 <cons_putc+417>:	shr    $0x8,%ax
+0xf01003a8	206		outb(addr_6845 + 1, crt_pos >> 8);
+=> 0xf01003ac <cons_putc+421>:	mov    %ebx,%edx
+66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003ae <cons_putc+423>:	out    %al,(%dx)
+0xf01003ae	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003af <cons_putc+424>:	mov    $0xf,%al
+0xf01003af	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b1 <cons_putc+426>:	mov    %ecx,%edx
+0xf01003b1	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b3 <cons_putc+428>:	out    %al,(%dx)
+0xf01003b3	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b4 <cons_putc+429>:	mov    %esi,%eax
+0xf01003b4	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b6 <cons_putc+431>:	mov    %ebx,%edx
+0xf01003b6	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b8 <cons_putc+433>:	out    %al,(%dx)
+0xf01003b8	66		asm volatile("outb %0,%w1" : : "a" (data), "d" (port));
+=> 0xf01003b9 <cons_putc+434>:	add    $0x2c,%esp
+438	}
+=> 0xf01003bc <cons_putc+437>:	pop    %ebx
+0xf01003bc	438	}
+=> 0xf01003bd <cons_putc+438>:	pop    %esi
+0xf01003bd	438	}
+=> 0xf01003be <cons_putc+439>:	pop    %edi
+0xf01003be	438	}
+=> 0xf01003bf <cons_putc+440>:	pop    %ebp
+0xf01003bf	438	}
+=> 0xf01003c0 <cons_putc+441>:	ret    
+0xf01003c0	438	}
+=> 0xf010062a <cputchar+14>:	leave  
+cputchar (c=10) at kern/console.c:459
+459	}
+=> 0xf010062b <cputchar+15>:	ret    
+0xf010062b	459	}
+=> 0xf01008cd <putch+17>:	leave  
+putch (ch=10, cnt=0xf0116f3c) at kern/printf.c:14
+14	}
+=> 0xf01008ce <putch+18>:	ret    
+0xf01008ce	14	}
+=> 0xf0100d6f <vprintfmt+35>:	movzbl (%esi),%eax
+vprintfmt (putch=0xf01008bc <putch>, putdat=0xf0116f3c, 
+    fmt=0xf0101ade "x %d, y %x, z %d\n", 
+    ap=0xf0116f80 "\334\027\020\360\244o\021\360\270o", <incomplete sequence \360>)
+    at lib/printfmt.c:94
+94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d72 <vprintfmt+38>:	inc    %esi
+0xf0100d72	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d73 <vprintfmt+39>:	cmp    $0x25,%eax
+0xf0100d73	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d76 <vprintfmt+42>:	jne    0xf0100d5d <vprintfmt+17>
+0xf0100d76	94			while ((ch = *(unsigned char *) fmt++) != '%') {
+=> 0xf0100d5d <vprintfmt+17>:	test   %eax,%eax
+95				if (ch == '\0')
+=> 0xf0100d5f <vprintfmt+19>:	je     0xf01010b7 <vprintfmt+875>
+0xf0100d5f	95				if (ch == '\0')
+=> 0xf01010b7 <vprintfmt+875>:	add    $0x4c,%esp
+249	}
+=> 0xf01010ba <vprintfmt+878>:	pop    %ebx
+0xf01010ba	249	}
+=> 0xf01010bb <vprintfmt+879>:	pop    %esi
+0xf01010bb	249	}
+=> 0xf01010bc <vprintfmt+880>:	pop    %edi
+0xf01010bc	249	}
+=> 0xf01010bd <vprintfmt+881>:	pop    %ebp
+0xf01010bd	249	}
+=> 0xf01010be <vprintfmt+882>:	ret    
+0xf01010be	249	}
+=> 0xf01008fd <vcprintf+46>:	mov    -0xc(%ebp),%eax
+vcprintf (fmt=0xf0101ade "x %d, y %x, z %d\n", ap=0xf0116f74 "\001") at kern/printf.c:23
+23	}
+=> 0xf0100900 <vcprintf+49>:	leave  
+0xf0100900	23	}
+=> 0xf0100901 <vcprintf+50>:	ret    
+0xf0100901	23	}
+=> 0xf010091a <cprintf+24>:	leave  
+cprintf (fmt=0xf0101ade "x %d, y %x, z %d\n") at kern/printf.c:36
+36	}
+=> 0xf010091b <cprintf+25>:	ret    
+0xf010091b	36	}

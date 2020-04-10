@@ -1,0 +1,38 @@
+*** Now run 'make gdb'.
+***
+6828 decimal is 15254 octal!
+entering test_backtrace 5
+entering test_backtrace 4
+entering test_backtrace 3
+entering test_backtrace 2
+entering test_backtrace 1
+entering test_backtrace 0
+ebp f0117f38 eip f0100087 args 00000000 00000000 00000000 00000000 f0100988
+	     kern/init.c:0: test_backtrace+71
+ebp f0117f58 eip f0100069 args 00000000 00000001 f0117f78 00000000 f0100988
+	     kern/init.c:0: test_backtrace+41
+ebp f0117f78 eip f0100069 args 00000001 00000002 f0117f98 00000000 f0100988
+	     kern/init.c:0: test_backtrace+41
+ebp f0117f98 eip f0100069 args 00000002 00000003 f0117fb8 00000000 f0100988
+	     kern/init.c:0: test_backtrace+41
+ebp f0117fb8 eip f0100069 args 00000003 00000004 00000000 00000000 00000000
+	     kern/init.c:0: test_backtrace+41
+ebp f0117fd8 eip f0100069 args 00000004 00000005 00000000 00010074 00010074
+	     kern/init.c:0: test_backtrace+41
+ebp f0117ff8 eip f01000ea args 00000005 00001aac 00000640 00000000 00000000
+	     kern/init.c:0: i386_init+77
+ebp 0 eip f010003e args 00119021 00000000 00000000 00000000 00000000
+	     {standard input}:0: <unknown>+0
+leaving test_backtrace 0
+leaving test_backtrace 1
+leaving test_backtrace 2
+leaving test_backtrace 3
+leaving test_backtrace 4
+leaving test_backtrace 5
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+x 1, y 3, z 4
+He110 World
+x=3 y=-267288644
+0xf0116fbc:-267292740
+qemu: terminating on signal 15 from pid 24373
