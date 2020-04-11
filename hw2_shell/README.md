@@ -1,5 +1,22 @@
 # Homework: shell
 该作业的任务是让我们实现shell的几个特性，以熟悉Unix系统调用接口。
+## 目录
+
+<!-- vim-markdown-toc GFM -->
+
+* [涉及知识点](#涉及知识点)
+    * [文件描述符](#文件描述符)
+    * [execv函数](#execv函数)
+    * [open函数](#open函数)
+    * [dup函数](#dup函数)
+* [execcmd---'　' 的实现](#execcmd----的实现)
+* [redircmd---'<' or '>'的实现](#redircmd----or-的实现)
+* [pipeline---' | '的实现](#pipeline-----的实现)
+* [遇到的问题](#遇到的问题)
+* [未解决的问题](#未解决的问题)
+
+<!-- vim-markdown-toc -->
+
 ## 涉及知识点
 ### 文件描述符
 >A ﬁle descriptor is a small integer representing a kernel-managed object that a process may read from or write to
