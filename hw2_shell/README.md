@@ -162,4 +162,3 @@ struct pipecmd {
 ## 未解决的问题
 1. main函数里的wait(&r)中的r为什么没初始化就能用？
 
-*[fd]: 文件描述符 file descriptor
