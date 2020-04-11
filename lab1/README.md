@@ -7,7 +7,7 @@
 
 如下图所示，0x000A0000 (640KB)-0x00100000 (1MB)都是给硬件用的，Basic Input/Output System (BIOS)位于0x000F0000 (960KB)-0x00100000 (1MB)
 
-![](resource/memory.png)
+![memory](resource/memory.png)
 
 通过gdb内的第一条输出`[f000:fff0] 0xffff0:	ljmp   $0xf000,$0xe05b`知道BIOS是从内存的`0xffff0`开始执行，`ljmp`往回跳是因为从`0xffff0`到`0xfffff`只有16bytes了，这么小的空间内做不了什么事情，所以往回跳转，扩大空间来执行BIOS。
 在初始化PCI bus和VGA显示设备和一些其他设备后，寻找可用于启动的硬盘或软盘，读取boot loader并转交以控制权。
