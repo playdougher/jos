@@ -3,28 +3,28 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Part 1: PC Bootstrap](#part-1-pc-bootstrap)
-    * [Exercise 1.](#exercise-1)
-    * [Exercise 2.](#exercise-2)
+        * [Exercise 1.](#exercise-1)
+        * [Exercise 2.](#exercise-2)
 * [Part 2: The Boot Loader](#part-2-the-boot-loader)
     * [Loading the Kernel](#loading-the-kernel)
-    * [Exercise 3.](#exercise-3)
-    * [Exercise 5](#exercise-5)
-    * [Exercise 6](#exercise-6)
-    * [Exercise 7](#exercise-7)
-    * [Exercise 8](#exercise-8)
+        * [Exercise 3.](#exercise-3)
+        * [Exercise 5](#exercise-5)
+        * [Exercise 6](#exercise-6)
+        * [Exercise 7](#exercise-7)
+        * [Exercise 8](#exercise-8)
     * [The Stack](#the-stack)
-    * [Exercise 9](#exercise-9)
-    * [Exercise 10.](#exercise-10)
-    * [Exercise 12](#exercise-12)
-    * [一些疑问](#一些疑问)
+        * [Exercise 9](#exercise-9)
+        * [Exercise 10.](#exercise-10)
+        * [Exercise 12](#exercise-12)
+* [一些疑问](#一些疑问)
 
 <!-- vim-markdown-toc -->
 ## Part 1: PC Bootstrap
 
-### Exercise 1. 
+#### Exercise 1. 
 >Q:Familiarize yourself with the assembly language materials available on  [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html). You don't have to read them now, but you'll almost certainly want to refer to some of this material when reading and writing x86 assembly.
 
-### Exercise 2.
+#### Exercise 2.
 >Use GDB's si (Step Instruction) command to trace into the ROM BIOS for a few more instructions, and try to guess what it might be doing. You might want to look at [Phil Storrs I/O Ports Description](http://web.archive.org/web/20040404164813/members.iweb.net.au/~pstorr/pcbook/book2/book2.htm), as well as other materials on the [6.828 reference materials page](https://pdos.csail.mit.edu/6.828/2018/reference.html). No need to figure out all the details - just the general idea of what the BIOS is doing first.
 
 如下图所示，0x000A0000 (640KB)-0x00100000 (1MB)都是给硬件用的，Basic Input/Output System (BIOS)位于0x000F0000 (960KB)-0x00100000 (1MB)
@@ -45,7 +45,7 @@
 ### Loading the Kernel
 	
 
-### Exercise 3.
+#### Exercise 3.
 >Q: At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?
 
 该语句`55   ljmp    $PROT_MODE_CSEG, $protcseg`实现从16位模式到32位模式的切换。位于文件`lab/boot/boot.S`:
@@ -126,7 +126,7 @@ boot loader 读取`ELF header`中的长度，通过for循环读取。
 
 ![](elf.png)
 
-### Exercise 5
+#### Exercise 5
 >Trace through the first few instructions of the boot loader again and identify the first instruction that would "break" or otherwise do the wrong thing if you were to get the boot loader's link address wrong. Then change the link address in boot/Makefrag to something wrong, run make clean, recompile the lab with make, and trace into the boot loader again to see what happens. Don't forget to change the link address back and make clean again afterward!
 修改`lab/boot/Makefrag`中` 28     $(V)$(LD) $(LDFLAGS) -N -e start -Ttext 0x7e00 -o $@.out $^`的链接地址选项`Ttext`，原来是`0x7c00`，现修改为`0x7e00`。因为BIOS将boot loader加载到了内存的`0x7c00`,所以我们依旧在`0x7c00`设置断点。
 ```as
@@ -153,7 +153,7 @@ Continuing.
 [   0:7c2d] => 0x7c2d:  ljmp   $0x8,$0x7e32
 0x00007c2d in ?? ()
 ```
-### Exercise 6
+#### Exercise 6
 >Q: Examine the 8 words of memory at 0x00100000 at the point the BIOS enters the boot loader
 
 值都为0
@@ -187,7 +187,7 @@ Continuing.
    0x10001b:    and    %al,%bl
 ```
 
-### Exercise 7
+#### Exercise 7
 
 >Use QEMU and GDB to trace into the JOS kernel and stop at the `movl %eax, %cr0`. Examine memory at 0x00100000 and at 0xf0100000. Now, single step over that instruction using the stepi GDB command. Again, examine memory at 0x00100000 and at 0xf0100000. Make sure you understand what just happened.
 
@@ -211,7 +211,7 @@ Continuing.
 0xf0100000 <_start+4026531828>: 0x1badb002      0x00000000      0xe4524ffe      0x7205c766
 0xf0100010 <entry+4>:   0x34000004      0x2000b812      0x220f0011      0xc0200fd8
 ```
-### Exercise 8
+#### Exercise 8
 > Q:We have omitted a small fragment of code - the code necessary to print octal numbers using patterns of the form "%o". Find and fill in this code fragment.
 
 在文件`lib/printfmt.c`中，仿照无符号整型修改。运行`make qemu`可看到八进制结果:
@@ -465,7 +465,7 @@ low     +------+
 ```
 
 ### The Stack
-### Exercise 9
+#### Exercise 9
 >Q: 9.1 Determine where the kernel initializes its stack, and exactly where in memory its stack is located. 
 
 boot loader通过`/boot/main.c`文件`((void (*)(void)) (ELFHDR->e_entry))()`函数进入内核，在`obj/boot.asm`查看对应函数的反汇编地址，设置断点为`b *0x7d63`，一直往下`si`就能看到结果，`kern/entry.S`的`74`和`77`行对`%ebp`和`%esp`进行了初始化，`%esp`初始值为`0xf0117000`
@@ -503,7 +503,7 @@ relocated () at kern/entry.S:77
 32K=2^15^ =2^3^ (2^4^)^3^ = 8 * (16)^3^
 0xf0117000 - 32 K = 0xf010f000
 
-### Exercise 10.  
+#### Exercise 10.  
 >Q: To become familiar with the C calling conventions on the x86, find the address of the  `test_backtrace`  function in  obj/kern/kernel.asm, set a breakpoint there, and examine what happens each time it gets called after the kernel starts. How many 32-bit words does each recursive nesting level of  `test_backtrace`  push on the stack, and what are those words?
 
 每次调用`test_backtrace`函数使用的栈大小为：4+4+4+20=32byte = 8 * (32-bit word)。如下所示：
@@ -563,9 +563,10 @@ leaving test_backtrace 5
 
 因为检测参数个数是编译器的工作，开发者若想知道参数个数，需要自己设定变量来指定参数个数。
 
-### Exercise 12
+#### Exercise 12
+结构复杂，后面再看
 
-### 一些疑问
+## 一些疑问
 Q: 3.2中：
 `cprintf()`中的参数`ap`是`va_list *`类型，该类型在`inc/stdarg.h`定义，是`__builtin_va_list`的别名，但是`__builtin_va_list`找不到是哪里定义的
 
