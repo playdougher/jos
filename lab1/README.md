@@ -1,8 +1,8 @@
-## Part 1: PC Bootstrap
+# Lab 1: Booting a PC
 ## menu
-
 <!-- vim-markdown-toc GFM -->
 
+* [Part 1: PC Bootstrap](#part-1-pc-bootstrap)
     * [Exercise 1.](#exercise-1)
     * [Exercise 2.](#exercise-2)
 * [Part 2: The Boot Loader](#part-2-the-boot-loader)
@@ -19,6 +19,7 @@
     * [一些疑问](#一些疑问)
 
 <!-- vim-markdown-toc -->
+## Part 1: PC Bootstrap
 
 ### Exercise 1. 
 >Q:Familiarize yourself with the assembly language materials available on  [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html). You don't have to read them now, but you'll almost certainly want to refer to some of this material when reading and writing x86 assembly.
