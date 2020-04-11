@@ -1,4 +1,25 @@
 ## Part 1: PC Bootstrap
+## menu
+
+<!-- vim-markdown-toc GFM -->
+
+    * [Exercise 1.](#exercise-1)
+    * [Exercise 2.](#exercise-2)
+* [Part 2: The Boot Loader](#part-2-the-boot-loader)
+    * [Loading the Kernel](#loading-the-kernel)
+    * [Exercise 3.](#exercise-3)
+    * [Exercise 5](#exercise-5)
+    * [Exercise 6](#exercise-6)
+    * [Exercise 7](#exercise-7)
+    * [Exercise 8](#exercise-8)
+    * [The Stack](#the-stack)
+    * [Exercise 9](#exercise-9)
+    * [Exercise 10.](#exercise-10)
+    * [Exercise 12](#exercise-12)
+    * [一些疑问](#一些疑问)
+
+<!-- vim-markdown-toc -->
+
 ### Exercise 1. 
 >Q:Familiarize yourself with the assembly language materials available on  [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html). You don't have to read them now, but you'll almost certainly want to refer to some of this material when reading and writing x86 assembly.
 
