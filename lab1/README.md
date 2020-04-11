@@ -3,8 +3,8 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Part 1: PC Bootstrap](#part-1-pc-bootstrap)
-        * [Exercise 1.](#exercise-1)
-        * [Exercise 2.](#exercise-2)
+    * [Exercise 1.](#exercise-1)
+    * [Exercise 2.](#exercise-2)
 * [Part 2: The Boot Loader](#part-2-the-boot-loader)
     * [Loading the Kernel](#loading-the-kernel)
         * [Exercise 3.](#exercise-3)
@@ -21,10 +21,10 @@
 <!-- vim-markdown-toc -->
 ## Part 1: PC Bootstrap
 
-#### Exercise 1. 
+### Exercise 1. 
 >Q:Familiarize yourself with the assembly language materials available on  [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html). You don't have to read them now, but you'll almost certainly want to refer to some of this material when reading and writing x86 assembly.
 
-#### Exercise 2.
+### Exercise 2.
 >Use GDB's si (Step Instruction) command to trace into the ROM BIOS for a few more instructions, and try to guess what it might be doing. You might want to look at [Phil Storrs I/O Ports Description](http://web.archive.org/web/20040404164813/members.iweb.net.au/~pstorr/pcbook/book2/book2.htm), as well as other materials on the [6.828 reference materials page](https://pdos.csail.mit.edu/6.828/2018/reference.html). No need to figure out all the details - just the general idea of what the BIOS is doing first.
 
 如下图所示，0x000A0000 (640KB)-0x00100000 (1MB)都是给硬件用的，Basic Input/Output System (BIOS)位于0x000F0000 (960KB)-0x00100000 (1MB)
