@@ -240,7 +240,7 @@ gettoken(char **ps, char *es, char **q, char **eq)
   int ret;
   
   s = *ps;
-  while(s < es && strchr(whitespace, *s))
+  while(s < es && strchr(whitespace, *s)) //strchr作用是返回*s在whitespace里出现的第一个位置
     s++;
   if(q)
     *q = s;
