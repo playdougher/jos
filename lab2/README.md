@@ -156,8 +156,7 @@ page_free(struct PageInfo *pp) {
 
 分段机制例子：
 ![](./assets/x86_memory_segmentation.png)
-
-![[link](https://en.wikipedia.org/wiki/X86_memory_segmentation)](./assets/x86_memory_segmentation.png)
+[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation)
 ```c
            Selector  +--------------+         +-----------+
           ---------->|              |         |           |
@@ -169,6 +168,7 @@ Software             |              |-------->|           |---------->  RAM
             Virtual                   Linear                Physical
 ```
 分页机制：
+
 ![](./assets/two-level_page_table.png)
 
 本实验中把`boot/boot.S`内的全局描述表(GDT)中的分段机制关闭了，即把`seleclor`设置为0，`offset`限制在`0xffffffff`内。所以现在virtual address和linear address的值是一样的。
@@ -187,6 +187,7 @@ Software             |              |-------->|           |---------->  RAM
 f0100025:   0f 22 c0                mov    %eax,%cr0
 ```
 可以看到，最终kernel开始位于虚拟地址的`0xf0100000`处，而实际物理地址在`0x100000`
+
 **虚拟地址：**
 ```as
 (gdb) x/8x 0x100000                                                                       
@@ -240,11 +241,14 @@ JOS内核有时也需要算出一些数据结构虚拟地址对应的物理地�
 现在，我们要写程序来管理`页表`：插入和删除线性地址和物理地址之间的映射，以及在需要的时候创建`页表页`(page table pages)，即一页的页表。
 
 **1. 概念**
+
 该实验用的内存管理机制是`二级页表`，通过linear address可以访问具体页面的数据。
 
 页目录（第一级页表）：一个页目录有一页(4KB)大小。
 页目录项：格式与页表项相同,格式如下
+
 ![](./assets/page_table_entry.png)
+
 页表（第二级页表）：同样一个页表4KB大小。
 页表项：与页目录项格式相同。
 线性地址：因关闭分段机制，线性地址即虚拟地址相同，格式如下：
@@ -439,12 +443,18 @@ boot_map_region(kern_pgdir, KERNBASE, -KERNBASE, 0, PTE_W | PTE_P);
 >Q: 5.  How much space overhead is there for managing memory, if we actually had the maximum amount of physical memory? How is this overhead broken down?
 
 **线性地址翻译过程**：pgdir->pgtable->page。其中页表项(uint32_t)都为4B大小，一个页面大小为4K，指向一个page需要一个PageInfo(8B)。
+
 **计算**：
 page个数：maximum size / 页面大小 = 2G/4KB = 512K个 
+
 page大小：512K*sizeof(PageInfo)=512K*8B=4M
+
 pgtable大小：page个数 * sizeof(entry) =  512K * 4B = 2M
+
 pgtable 个数：pgtable大小 / 页面大小 = 2M/4K = 512B 个
+
 pgdir大小 = pgtable个数 * sizeof(PageInfo) = 512B * 8B = 4K
+
 总大小为page大小+pgtable大小+pgdir大小 = 4M + 2M +4K = 6M+4K
 
 >Q: 6.  Revisit the page table setup in  kern/entry.S  and  kern/entrypgdir.c. Immediately after we turn on paging, EIP is still a low number (a little over 1MB). At what point do we transition to running at an EIP above KERNBASE? What makes it possible for us to continue executing at a low EIP between when we enable paging and when we begin running at an EIP above KERNBASE? Why is this transition necessary?
