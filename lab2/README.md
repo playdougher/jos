@@ -88,7 +88,7 @@ struct PageInfo是用于表示一个物理页的结构。通过kern/pmap.h里的
 
 **page_init :**
 
-![](./assets/physical_memory)
+![](./assets/physical_memory.png)
 
 ```c
 void
