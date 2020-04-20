@@ -165,8 +165,9 @@ Software             |              |-------->|           |---------->  RAM
                      +--------------+         +-----------+
             Virtual                   Linear                Physical
 ```
-**分段机制:**
-例子：[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation)  
+**分段机制:**  
+例子：segmented address ：06EFh:1234h -> linear address 06EF0h + 1234h = 08124h.  
+[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation#Real_mode)  
 ![](./assets/x86_memory_segmentation.png)
 
 **分页机制：**
