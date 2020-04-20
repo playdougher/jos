@@ -155,9 +155,6 @@ page_free(struct PageInfo *pp) {
 1. 分段机制转成线性地址
 2. 线性地址通过分页机制转成物理地址
 
-分段机制例子：
-![](./assets/x86_memory_segmentation.png)
-[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation)
 ```c
            Selector  +--------------+         +-----------+
           ---------->|              |         |           |
@@ -168,7 +165,11 @@ Software             |              |-------->|           |---------->  RAM
                      +--------------+         +-----------+
             Virtual                   Linear                Physical
 ```
-分页机制：
+**分段机制:**
+例子：[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation)  
+![](./assets/x86_memory_segmentation.png)
+
+**分页机制：**
 
 ![](./assets/x86_page_table_hardware.png)
 
