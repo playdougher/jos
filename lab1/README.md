@@ -125,10 +125,11 @@ boot loader 读取`ELF header`中的长度，通过for循环读取。
 ```
 
 ![](../resource/elf.png)
-![](../resource/elf_header.png=60*50)
+<img src="../resource/elf_header.png" width="600"/>
 
 #### Exercise 5
 >Trace through the first few instructions of the boot loader again and identify the first instruction that would "break" or otherwise do the wrong thing if you were to get the boot loader's link address wrong. Then change the link address in boot/Makefrag to something wrong, run make clean, recompile the lab with make, and trace into the boot loader again to see what happens. Don't forget to change the link address back and make clean again afterward!
+
 修改`lab/boot/Makefrag`中` 28     $(V)$(LD) $(LDFLAGS) -N -e start -Ttext 0x7e00 -o $@.out $^`的链接地址选项`Ttext`，原来是`0x7c00`，现修改为`0x7e00`。因为BIOS将boot loader加载到了内存的`0x7c00`,所以我们依旧在`0x7c00`设置断点。
 ```as
 (gdb) b *0x7c00
