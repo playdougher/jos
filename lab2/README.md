@@ -590,18 +590,15 @@ page2kva(struct PageInfo *pp)
  *    0 ------------>  +------------------------------+                 --+
 ```
 # 问题
-1. //num_alloc：在extended memory区域已经被占用的页的个数
+1.//num_alloc：在extended memory区域已经被占用的页的个数
      int num_alloc = ((uint32_t)boot_alloc(0) - KERNBASE) / PGSIZE;
-上面没有明白，为什么num_alloc是减掉KERNBASE，不应该是减到io hole的地方吗？
+上面没有明白，为什么num_alloc是减掉KERNBASE，不应该是减到io hole的地方吗？  
 答：这里计算的是虚拟地址相减，之前我看成了物理内存的布局。
-2. 为什么exercise 4里的pgdir_walk函数中的*pde = PADDR(pte) | PTE_P | PTE_W | PTE_U可以直接操作物理内存，在保护模式下不是所有指针都是虚拟地址吗？
-
+2. 为什么exercise 4里的pgdir_walk函数中的*pde = PADDR(pte) | PTE_P | PTE_W | PTE_U可以直接操作物理内存，在保护模式下不是所有指针都是虚拟地址吗？  
 答：这里并没有操作物理内存，只是把物理地址设置了一些权限存到页目录项里而已
-3. 为什么PADDR(pte)，KADDR(PTE_ADDR(*pde))？
-
+3. 为什么PADDR(pte)，KADDR(PTE_ADDR(*pde))？  
 答：因为PADDR参数是void*，KADDR参数是pysaddr_t。并且取qde时需要清空其权限位。
-4. 为什么PTE_ADDR清空pde低十二位
-
+4. 为什么PTE_ADDR清空pde低十二位  
 答：因为pde和pte的结构是一样的，pde清空权限位，获取页表物理地址。
 5. 为什么`pp = page_alloc(ALLOC_ZERO);//创建一个页表`  是ALLOC_ZERO  ，不是1？
 
