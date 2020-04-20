@@ -593,7 +593,6 @@ page2kva(struct PageInfo *pp)
 1. //num_alloc：在extended memory区域已经被占用的页的个数
      int num_alloc = ((uint32_t)boot_alloc(0) - KERNBASE) / PGSIZE;
 上面没有明白，为什么num_alloc是减掉KERNBASE，不应该是减到io hole的地方吗？
-
 答：这里计算的是虚拟地址相减，之前我看成了物理内存的布局。
 2. 为什么exercise 4里的pgdir_walk函数中的*pde = PADDR(pte) | PTE_P | PTE_W | PTE_U可以直接操作物理内存，在保护模式下不是所有指针都是虚拟地址吗？
 
