@@ -1,0 +1,36 @@
+*** Now run 'make gdb'.
+***
+6828 decimal is 15254 octal!
+Physical memory: 131072K available, base = 640K, extended = 130432K
+i386_detect_memory():
+npages:32768, npages_basemem = 160
+boot_alloc():
+boot_alloc memory at f0120000
+Next free memory at f0121000
+boot_alloc():
+boot_alloc memory at f0121000
+Next free memory at f0161000
+mem_init():
+kern_pgdir: f0120000
+pages: f0121000
+page_free_list: 0
+boot_alloc():
+boot_alloc memory at f0161000
+Next free memory at f0161000
+pageinfo size: 8
+npages_basemem = 160, num_iohol = 96,num_extalloc=353
+boot_alloc():
+boot_alloc memory at f0161000
+Next free memory at f0161000
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+check_page() succeeded!
+check_kern_pgdir() succeeded!
+boot_alloc():
+boot_alloc memory at f0161000
+Next free memory at f0161000
+check_page_free_list() succeeded!
+check_page_installed_pgdir() succeeded!
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+qemu: terminating on signal 15 from pid 21868
