@@ -1,6 +1,32 @@
 
+<!-- vim-markdown-toc GFM -->
 
+* [Lab 2: Memory Management](#lab-2-memory-management)
+    * [Part 1: Physical Page Management](#part-1-physical-page-management)
+        * [Exercise 1.](#exercise-1)
+            * [1. 函数介绍](#1-函数介绍)
+            * [2. 函数实现](#2-函数实现)
+    * [Part 2: Virtual Memory](#part-2-virtual-memory)
+        * [Virtual, Linear, and Physical Addresses](#virtual-linear-and-physical-addresses)
+        * [Exercise 3.](#exercise-3)
+        * [Reference counting](#reference-counting)
+        * [Page Table Management](#page-table-management)
+        * [Exercise 4.](#exercise-4)
+            * [1. 函数介绍](#1-函数介绍-1)
+            * [2. 实现中涉及的函数：](#2-实现中涉及的函数)
+            * [3. 函数实现](#3-函数实现)
+    * [Part 3: Kernel Address Space](#part-3-kernel-address-space)
+        * [Permissions and Fault Isolation](#permissions-and-fault-isolation)
+        * [Initializing the Kernel Address Space](#initializing-the-kernel-address-space)
+        * [Exercise 5.](#exercise-5)
+* [附录](#附录)
+    * [函数关系](#函数关系)
+    * [函数定义](#函数定义)
+    * [虚拟内存映射](#虚拟内存映射)
+* [问题](#问题)
+* [犯错](#犯错)
 
+<!-- vim-markdown-toc -->
 # Lab 2: Memory Management
 **完成情况：**
 ![](./assets/result.png)
