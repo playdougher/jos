@@ -29,6 +29,7 @@
 <!-- vim-markdown-toc -->
 # Lab 2: Memory Management
 **完成情况：**
+
 ![](./assets/result.png)
 ## Part 1: Physical Page Management
 ### Exercise 1.  
