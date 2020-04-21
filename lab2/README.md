@@ -176,6 +176,11 @@ Software             |              |-------->|           |---------->  RAM
 
 本实验中把`boot/boot.S`内的全局描述表(GDT)中的分段机制关闭了，即把`seleclor`设置为0，`offset`限制在`0xffffffff`内。所以现在virtual address和linear address的值是一样的。
 回顾lab 1的part 3. 我们引入了一个简单的页表，使得内核运行于链接地址：`0xf0100000`，而实际上它被装载于BIOS上面，即物理地址的`0x00100000`。
+
+**JOS虚拟内存映像  
+![](./assets/jos_layout.png)
+
+
 ### Exercise 3. 
 > Q: 在GDB中只能访问QEMU内存的虚拟地址。而在QEMU中，使用`xp`命令可以查看物理地址。要进入命令模式，在QEMU中按`Ctrl-a c`。现在在QEMU中使用`xp`命令，在GDB中使用x命令，看看内核的虚拟地址和物理地址有没有对应。
 
