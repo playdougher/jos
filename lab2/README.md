@@ -88,7 +88,7 @@ struct PageInfo是用于表示一个物理页的结构。通过kern/pmap.h里的
 
 **page_init :**
 
-![](./assets/physical_memory.png)
+![](./assets/physical_memory2.png)
 
 ```c
 void
@@ -155,9 +155,6 @@ page_free(struct PageInfo *pp) {
 1. 分段机制转成线性地址
 2. 线性地址通过分页机制转成物理地址
 
-分段机制例子：
-![](./assets/x86_memory_segmentation.png)
-[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation)
 ```c
            Selector  +--------------+         +-----------+
           ---------->|              |         |           |
@@ -168,9 +165,14 @@ Software             |              |-------->|           |---------->  RAM
                      +--------------+         +-----------+
             Virtual                   Linear                Physical
 ```
-分页机制：
+**分段机制:**  
+例子：segmented address ：06EFh:1234h -> linear address 06EF0h + 1234h = 08124h.  
+[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation#Real_mode)  
+![](./assets/x86_memory_segmentation.png)
 
-![](./assets/two-level_page_table.png)
+**分页机制：**
+
+![](./assets/x86_page_table_hardware.png)
 
 本实验中把`boot/boot.S`内的全局描述表(GDT)中的分段机制关闭了，即把`seleclor`设置为0，`offset`限制在`0xffffffff`内。所以现在virtual address和linear address的值是一样的。
 回顾lab 1的part 3. 我们引入了一个简单的页表，使得内核运行于链接地址：`0xf0100000`，而实际上它被装载于BIOS上面，即物理地址的`0x00100000`。
