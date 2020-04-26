@@ -30,6 +30,7 @@
 **完成情况：**
 
 ![](./assets/result.png)
+
 ## Part 1: Physical Page Management
 ### Exercise 1.  
 >In the file  kern/pmap.c, you must implement code for the following functions (probably in the order given).
@@ -48,6 +49,7 @@
 5. void `page_free`(struct PageInfo *pp)： 将物理页`pp`重新链接回`page_free_list`链表
 
 #### 2. 函数实现
+
 **boot_alloc:**
 ```c
 static void *
@@ -166,8 +168,7 @@ Software             |              |-------->|           |---------->  RAM
 ```
 **分段机制:**  
 例子：segmented address ：06EFh:1234h -> linear address 06EF0h + 1234h = 08124h.  
-[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation#Real_mode)  
-![](./assets/x86_memory_segmentation.png)
+[wiki link](https://en.wikipedia.org/wiki/X86_memory_segmentation#Real_mode)  ![](./assets/x86_memory_segmentation.png)
 
 **分页机制：**
 
@@ -555,9 +556,3 @@ pde_t *pde = NULL;
 pde = &pgdir[pdx]; //表示pde指向pgdir[pdx]所在的页目录项
 ```
 我写成了`*pde = pgdir[pdx];` 表示修改pde所指向的值为pgdir[pdx]，而且pde值NULL，所以出错。
-
-
-
-                                          
-                                
-                                                
