@@ -473,7 +473,8 @@ pgdir大小 = pgtable个数 * sizeof(PageInfo) = 512B * 8B = 4K
 
 ### 小总结
 
-meminit:
+内存初始化做了那些事情：  
+meminit:  
 1. 检测有多少内存能用
 2. 建一个页目录表并初始化
 3. 初始化物理页的空间
