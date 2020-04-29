@@ -535,7 +535,7 @@ page2kva(struct PageInfo *pp)
     return KADDR(page2pa(pp));
 }
 ```
-# 虚拟内存与物理内存的对应关系
+## 虚拟内存与物理内存的对应关系
 
 不是很清楚，大致画了下。  
 ![](assets/map_relationship.png)  
