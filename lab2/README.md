@@ -19,6 +19,7 @@
         * [Permissions and Fault Isolation](#permissions-and-fault-isolation)
         * [Initializing the Kernel Address Space](#initializing-the-kernel-address-space)
         * [Exercise 5.](#exercise-5)
+        * [小总结](#小总结)
 * [附录](#附录)
     * [函数关系](#函数关系)
     * [函数定义](#函数定义)
@@ -470,6 +471,17 @@ pgdir大小 = pgtable个数 * sizeof(PageInfo) = 512B * 8B = 4K
 
 `jmp *%eax`后，跳转到高地址执行。能继续执行是因为`entry_pgdir`也将虚拟地址[0, 4M) 映射到物理地址[0,4M),因此能继续往下运行。后面`kern_pgdir`加载后，虚拟地址低4M不再作为内核空间，因此需要跳转。
 
+### 小总结
+
+meminit:
+1. 检测有多少内存能用
+2. 建一个页目录表并初始化
+3. 初始化物理页的空间
+4. 初始化物理页
+5. 建立虚拟页和物理页间的映射关系
+    1. 映射用户页表
+    2. 映射内核栈
+    3. 映射内核空间
 
 # 附录
 ## 函数关系
