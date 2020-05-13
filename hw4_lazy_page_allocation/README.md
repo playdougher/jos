@@ -4,8 +4,8 @@
 
 ## Part One: Eliminate allocation from sbrk()
 
-第一个任务是删除sbrk(n)系统调用中的页分配语句. 该函数位于sysproc.c中的sys_sbrk(). sbrk(n)系统调用会为进程增加n字节的内存空间, 然后返回新分配空间的起始地址.  
-现在要修改sys_sbrk(), 增加进程的空间大小(myproc()->sz), 返回原先的大小. 但是我们不马上分配内存, 所以要把growproc()注释掉  
+第一个任务是删除sbrk(n)系统调用中的页分配语句. 该函数位于`sysproc.c`中的`sys_sbrk()`. sbrk(n)系统调用会为进程增加n字节的内存空间, 然后返回新分配空间的起始地址.  
+现在要修改`sys_sbrk()`, 增加进程的空间大小(`myproc()->sz`), 返回原先的大小. 但是我们不马上分配内存, 所以要把`growproc()`注释掉  
 
 ```c
 int
@@ -26,8 +26,8 @@ sys_sbrk(void)
 ```
 
 修改后再运行内核, 会发现提示错误. 因为并没有为程序分配空间.  
-下面的输出语句位于trap.c文件中, 识别到了该页面错误(trap 14, or T_PGFLT)  
-`addr 0x4004`表明在虚拟地址0x4004处引起了该页面错误
+下面的输出语句位于`trap.c`文件中, 识别到了该页面错误(trap 14, or T_PGFLT)  
+`addr 0x4004`表明在虚拟地址`0x4004`处引起了该页面错误
 
 ```c
 $ echo "sdaf"                                                     
@@ -40,29 +40,29 @@ pid 4 sh: trap 14 err 6 on cpu 0 eip 0x1010 addr 0x4004--kill proc
 代码应该写在`cprintf("pid %d %s: trap %d err %d on cpu %d ..."`前面.  
 > Hint: look at the cprintf arguments to see how to find the virtual address that caused the page fault.  
 
-主要看输出语句中输出0x4004地址的变量  
+主要看输出语句中输出`0x4004`地址的变量  
 
 ![](img.png)
 
 > Hint: steal code from allocuvm() in vm.c, which is what sbrk() calls (via growproc()).  
 
-借鉴vm.c中的allocuvm()函数的代码, 就是刚才注释的growproc()用到的函数, 仿照着给出现错误的地方分配内存.  
+借鉴`vm.c`中的`allocuvm()`函数的代码, 就是刚才注释的`growproc()`用到的函数, 仿照着给出现错误的地方分配内存.  
 
 > Hint: use PGROUNDDOWN(va) to round the faulting virtual address down to a page boundary.  
 > Hint: break or return in order to avoid the cprintf and the myproc()->killed = 1.  
 
-分配完后记得break, 否则会往后执行, 继续输出前面的错误提示.  
+分配完后记得`break`, 否则会往后执行, 继续输出前面的错误提示.  
 
 > Hint: you'll need to call mappages(). In order to do this you'll need to delete the static in the declaration of mappages() in vm.c, and you'll need to declare mappages() in trap.c. Add this declaration to trap.c before any call to mappages():
 
-因为xv6中的mappages()定义为static, 只能在它所在的文件用, 我们要用该函数, 要把static去掉, 然后在用的地方声明该函数, 就能使用了.  
+因为xv6中的`mappages()`定义为`static`, 只能在它所在的文件用, 我们要用该函数, 要把`static`去掉, 然后在用的地方声明该函数, 就能使用了.  
 
 **vm.c**
 ![](img2.png)
 
 > Hint: you can check whether a fault is a page fault by checking if tf->trapno is equal to T_PGFLT in trap().  
 
-因为那个错误判断是在switch 中的default里面, 我们可以给该错误新建一个case, 在T_PGFLT的时候执行.  
+因为那个错误判断是在`switch` 中的`default`里面, 我们可以给该错误新建一个`case`, 在`T_PGFLT`的时候执行.  
 
 ### 具体实现
 **trap.c**:  
