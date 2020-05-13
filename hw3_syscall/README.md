@@ -1,3 +1,11 @@
+<!-- vim-markdown-toc GFM -->
+
+* [Homework: xv6 system calls](#homework-xv6-system-calls)
+    * [Part One: System call tracing](#part-one-system-call-tracing)
+    * [Part Two: Date system call](#part-two-date-system-call)
+        * [实现细节](#实现细节)
+
+<!-- vim-markdown-toc -->
 # Homework: xv6 system calls
 
 ## Part One: System call tracing
