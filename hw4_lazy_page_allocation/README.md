@@ -1,3 +1,11 @@
+<!-- vim-markdown-toc GFM -->
+
+* [Homework:xv6 lazy page allocation](#homeworkxv6-lazy-page-allocation)
+    * [Part One: Eliminate allocation from sbrk()](#part-one-eliminate-allocation-from-sbrk)
+    * [Part Two: Lazy allocation](#part-two-lazy-allocation)
+        * [具体实现](#具体实现)
+
+<!-- vim-markdown-toc -->
 # Homework:xv6 lazy page allocation
 
 操作系统可以与页表硬件进行的许多技巧之一是堆内存的延迟分配, Xv6的应用程序使用sbrk()系统调用向内核请求堆内存. 在内核中, 提供了一个sbrk()函数来分配物理内存, 以及将其映射到进程的虚拟地址空间. 有许多程序只分配了内存, 但是从来没使用过. 比如实现大型稀疏数组, 复杂的内核会延迟内存页的分配，直到应用程序尝试使用该页
