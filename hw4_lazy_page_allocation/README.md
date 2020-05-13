@@ -50,7 +50,7 @@ pid 4 sh: trap 14 err 6 on cpu 0 eip 0x1010 addr 0x4004--kill proc
 
 主要看输出语句中输出`0x4004`地址的变量  
 
-![](img.png)
+![](assets/img.png)
 
 > Hint: steal code from allocuvm() in vm.c, which is what sbrk() calls (via growproc()).  
 
@@ -66,7 +66,7 @@ pid 4 sh: trap 14 err 6 on cpu 0 eip 0x1010 addr 0x4004--kill proc
 因为xv6中的`mappages()`定义为`static`, 只能在它所在的文件用, 我们要用该函数, 要把`static`去掉, 然后在用的地方声明该函数, 就能使用了.  
 
 **vm.c**
-![](img2.png)
+![](assets/img2.png)
 
 > Hint: you can check whether a fault is a page fault by checking if tf->trapno is equal to T_PGFLT in trap().  
 
