@@ -10,14 +10,14 @@
 
 ## Part One: System call tracing
 
->Q: 修改xv6内核，输出每个系统调用的返回值，若成功，能看到类似的输出：
->...
->fork -> 2
->exec -> 0
->open -> 3
->close -> 0
->$write -> 1
-> write -> 1
+>Q: 修改xv6内核，输出每个系统调用的返回值，若成功，能看到类似的输出:  
+>...  
+>fork -> 2  
+>exec -> 0  
+>open -> 3  
+>close -> 0  
+>$write -> 1  
+> write -> 1  
 
 在syscall.c文件中，
 ```c
