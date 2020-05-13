@@ -131,18 +131,30 @@ syscall(void)
 
 2.  对照涉及的文件, 实现```date()```的系统调用:  
 	*  `syscall.c:105:extern int sys_uptime(void);`  //添加系统调用的外部声明  
+	
 	![](assets/image1.png)
+	
 	* `syscall.c:121:[SYS_uptime]  sys_uptime,`  
+	
 	![](assets/image2.png)
+	
 	* `syscall.h:15:#define SYS_uptime 14`  //添加系统调用对应的整数  
+	
 	![](assets/image3.png)
+	
 	* `sysproc.c:83:sys_uptime(void) `  //系统调用具体实现  
 	其中的 `int argptr(int n, char **pp, int size)`用于获取第n个字大小的系统调用参数，作为指向大小为`size`字节的内存块的指针。检查指针是否位于进程地址空间中  
+	
 	![](assets/image4.png)
-	* ```user.h:25:int uptime(void);```  //用户态的函数定义  
+	
+	* ```user.h:25:int uptime(void);```  //用户态的函数定义 
+	
 	![](assets/image5.png)
+	
 	* ```usys.S:31:SYSCALL(uptime)```  //用户态的函数实现  
+	
 	![](assets/image6.png)
+	
 
 3. 编写date.c, 文件名加入到Makefile
 ```c
