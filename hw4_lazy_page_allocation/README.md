@@ -50,7 +50,7 @@ pid 4 sh: trap 14 err 6 on cpu 0 eip 0x1010 addr 0x4004--kill proc
 
 主要看输出语句中输出`0x4004`地址的变量  
 
-![](assets/img.png)
+![](assets/img1.png)
 
 > Hint: steal code from allocuvm() in vm.c, which is what sbrk() calls (via growproc()).  
 
