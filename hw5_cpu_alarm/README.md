@@ -25,10 +25,12 @@ user.h 用户态函数定义
 user.S 用户态函数实现
 ```
 
+
 1. 添加的代码如下. 其中`user.h`中的函数定义需要注意,不要忘记写参数:  
 
 ![](assets/img3.png)
 ![](assets/img4.png)
+
 
 2. > Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
 
@@ -36,9 +38,11 @@ user.S 用户态函数实现
 
 ![](assets/img5.png)
 
+
 3. > Hint: here's a sys_alarm() for free: 
 
 把sys_alarm()的实现写入syscall.c
+
 
 4. > Hint: Every tick, the hardware clock forces an interrupt, which is handled in trap() by case T_IRQ0 + IRQ_TIMER; you should add some code here.
 
