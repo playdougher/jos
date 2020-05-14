@@ -28,8 +28,7 @@ user.S 用户态函数实现
 
 1. 添加的代码如下. 其中`user.h`中的函数定义需要注意,不要忘记写参数:  
 
-![](assets/img3.png)
-![](assets/img4.png)
+![](assets/img8.png)
 
 2. 添加alarmtest.c文件
 ```c
