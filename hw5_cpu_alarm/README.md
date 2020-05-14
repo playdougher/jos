@@ -2,7 +2,7 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Homework: xv6 CPU alarm](#homework-xv6-cpu-alarm)
-    * [疑问:](#疑问)
+    * [疑问](#疑问)
 
 <!-- vim-markdown-toc -->
 
@@ -25,22 +25,22 @@ user.h 用户态函数定义
 user.S 用户态函数实现
 ```
 
-添加的代码如下. 其中`user.h`中的函数定义需要注意,不要忘记写参数:  
+1. 添加的代码如下. 其中`user.h`中的函数定义需要注意,不要忘记写参数:  
 
 ![](assets/img3.png)
 ![](assets/img4.png)
 
-> Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
+2. > Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
 
 在`proc.h`的`strucct proc`中加入alarm interval 和 handler pointer. 为了计算距离上次调用函数经过了多少ticks, 还要加一个`int tickcount`.
 
 ![](assets/img5.png)
 
-> Hint: here's a sys_alarm() for free: 
+3. > Hint: here's a sys_alarm() for free: 
 
 把sys_alarm()的实现写入syscall.c
 
-> Hint: Every tick, the hardware clock forces an interrupt, which is handled in trap() by case T_IRQ0 + IRQ_TIMER; you should add some code here.
+4. > Hint: Every tick, the hardware clock forces an interrupt, which is handled in trap() by case T_IRQ0 + IRQ_TIMER; you should add some code here.
 
 在`trap.c`的 `case T_IRQ0 + IRQ_TIMER`条件中加入如下代码:  
 先每次计数加一, 到达指定tick数后执行函数.  
@@ -49,8 +49,10 @@ user.S 用户态函数实现
 ![](assets/img6.png)
 
 **实验结果:**  
+
 若只有一两个alarm, 可以把alarmtest.c里的循环范围x5  
+
 ![](assets/img2.png)
 
-## 疑问:
+## 疑问
 trap.c 中的*(uint *)tf->esp = tf->eip;为什么要转换. 不都是uint型吗
