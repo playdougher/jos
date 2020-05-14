@@ -2,7 +2,7 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Homework: xv6 CPU alarm](#homework-xv6-cpu-alarm)
-    * [疑问](#疑问)
+	* [疑问](#疑问)
 
 <!-- vim-markdown-toc -->
 
@@ -31,20 +31,51 @@ user.S 用户态函数实现
 ![](assets/img3.png)
 ![](assets/img4.png)
 
+2. 添加alarmtest.c文件
+```c
+#include "types.h"
+#include "stat.h"
+#include "user.h"
 
-2. > Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
+void periodic();
+
+int
+main(int argc, char *argv[])
+{
+  int i;
+  printf(1, "alarmtest starting\n");
+  alarm(10, periodic);
+  for(i = 0; i < 25*500000; i++){
+    if((i % 250000) == 0)
+      write(2, ".", 1);
+  }
+  exit();
+}
+
+void
+periodic()
+{
+  printf(1, "alarm!\n");
+}
+```
+
+3. Makefile中加入源文件名
+
+![](assets/img7)
+
+4. > Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
 
 在`proc.h`的`strucct proc`中加入alarm interval 和 handler pointer. 为了计算距离上次调用函数经过了多少ticks, 还要加一个`int tickcount`.
 
 ![](assets/img5.png)
 
 
-3. > Hint: here's a sys_alarm() for free: 
+5. > Hint: here's a sys_alarm() for free: 
 
 把sys_alarm()的实现写入syscall.c
 
 
-4. > Hint: Every tick, the hardware clock forces an interrupt, which is handled in trap() by case T_IRQ0 + IRQ_TIMER; you should add some code here.
+6. > Hint: Every tick, the hardware clock forces an interrupt, which is handled in trap() by case T_IRQ0 + IRQ_TIMER; you should add some code here.
 
 在`trap.c`的 `case T_IRQ0 + IRQ_TIMER`条件中加入如下代码:  
 先每次计数加一, 到达指定tick数后执行函数.  
