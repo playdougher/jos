@@ -2,7 +2,7 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Homework: xv6 CPU alarm](#homework-xv6-cpu-alarm)
-	* [疑问](#疑问)
+    * [疑问](#疑问)
 
 <!-- vim-markdown-toc -->
 
@@ -61,7 +61,7 @@ periodic()
 
 3. Makefile中加入源文件名
 
-![](assets/img7)
+![](assets/img7.png)
 
 4. > Hint: Your sys_alarm() should store the alarm interval and the pointer to the handler function in new fields in the proc structure; see proc.h.
 
