@@ -89,4 +89,5 @@ periodic()
 ![](assets/img2.png)
 
 ## 疑问
-trap.c 中的*(uint *)tf->esp = tf->eip;为什么要转换. 不都是uint型吗
+1. trap.c 中的*(uint *)tf->esp = tf->eip;为什么要转换. 不都是uint型吗
+2. myproc()->tickscount什么时候初始化的
