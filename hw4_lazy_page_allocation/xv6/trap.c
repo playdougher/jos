@@ -95,18 +95,16 @@ trap(struct trapframe *tf)
 	  for(; a < newsz; a += PGSIZE){
 		mem = kalloc();
 		if(mem == 0){
-          flag = 1;
 		  cprintf("kalloc() out of memory\n");
+          return;
 		}
 		memset(mem, 0, PGSIZE);
 		if(mappages(myproc()->pgdir, (char*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
-          flag = 1;
 		  cprintf("mappages() out of memory (2)\n");
-          break;
+          return;
         }
 	  }
       //分配内存正常, 跳出. 否则进入default
-      if(!flag) break;
   }
 
   //PAGEBREAK: 13
