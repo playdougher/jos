@@ -2,20 +2,20 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Lab 3: User Environments](#lab-3-user-environments)
-	* [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
-		* [Environment State](#environment-state)
-		* [Allocating the Environments Array](#allocating-the-environments-array)
-			* [Exercise 1](#exercise-1)
-		* [Creating and Running Environments](#creating-and-running-environments)
-			* [Exercise 2.](#exercise-2)
-		* [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
-			* [Exercise 3.](#exercise-3)
-		* [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
-		* [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
+    * [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
+        * [Environment State](#environment-state)
+        * [Allocating the Environments Array](#allocating-the-environments-array)
+            * [Exercise 1](#exercise-1)
+        * [Creating and Running Environments](#creating-and-running-environments)
+            * [Exercise 2.](#exercise-2)
+        * [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
+            * [Exercise 3.](#exercise-3)
+        * [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
+        * [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
 
 <!-- vim-markdown-toc -->
 
-#Lab 3: User Environments
+# Lab 3: User Environments
 
 ## Part A: User Environments and Exception Handling
 
