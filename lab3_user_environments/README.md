@@ -115,8 +115,8 @@ env_init(void)
 设置e->env_pgdir, 初始化页目录, 该页目录有两部分组成, `内核部分`和`用户部分`. 内核部分直接复制kern_pgdir, 用户部分设为0. 实现方法和lab2类似, 用到了mem_init和pgdir_walk中的一些代码.
 
 Virtual Memory Map:  
-![](img2.png) 
-![](img6.png)
+![](assets/img2.png) 
+![](assets/img6.png)
 
 ```c
     // LAB 3: Your code here.
@@ -177,7 +177,6 @@ region_alloc(struct Env *e, void *va, size_t len)
 }
 ```
 
-static void
 4. load_icode(struct Env *e, uint8_t *binary)
 
 设置用户进程的初始程序二进制、堆栈和处理器标志。
@@ -240,7 +239,6 @@ static void
     region_alloc(e, USTACKTOP - PGSIZE, PGSIZE);
 ```
 
-void
 5. env_create(uint8_t *binary, enum EnvType type)
 
 用env_alloc分配一个新环境，用load_icode加载命名的elf二进制文件，并设置它的env_type。这个函数只在内核初始化期间调用，然后运行第一个用户态环境。新环境的父ID被设置为0。
@@ -260,7 +258,6 @@ env_create(uint8_t *binary, enum EnvType type)
     env->env_type = type;
 }
 ```
-void
 6. env_run(struct Env *e)
 
 上下文环境由curenv切换到`e`。 若这是第一次运行env_run， 当前环境curenv为NULL
@@ -455,7 +452,7 @@ x86处理器可在内部生成的所有同步异常使用的中断向量在`0到
 	* void trap(struct Trapframe *tf)
 
 
-1. 实现trapentry.S
+1. 实现trapentry.S  
 文件内有两个宏定义TRAPHANDLER和TRAPHANDLER_NOEC，传入函数名和中断向量后，先压入中断向量，然后执行_alltraps，压入旧的段寄存器ds和es，然后将ds和es设置为GD_KD，然后将esp压入，将这个新建立的Trapframe传入trap()处理。 题目要求通过divzero, softint, and badsegment几个文件的测试，对应如下几个中断异常。
 
 ```as
@@ -507,9 +504,9 @@ _alltraps中的pushal就是将通用寄存器全部压栈，对比Trapframe中�
 
 #### Questions
 
-1. 为每个异常/中断设置单独的处理程序功能的目的是什么？
+1. 为每个异常/中断设置单独的处理程序功能的目的是什么？  
 答： 因为不同中断异常要处理的方式不同。比如有的异常直接报错，有的中断执行完处理程序还要回到原先的地方继续执行，所以要不同的处理程序来支持多种处理方式。
-2. 是否需要做任何事情来使user/softint程序正常运行？ grade脚本期望它会产生一般性保护错误（trap13），但是softint的代码显示为int $ 14。 为什么要产生中断向量13？ 如果内核实际上允许softint的int $ 14指令调用内核的页面错误处理程序（即中断向量14），会发生什么？
+2. 是否需要做任何事情来使user/softint程序正常运行？ grade脚本期望它会产生一般性保护错误（trap13），但是softint的代码显示为int $ 14。 为什么要产生中断向量13？ 如果内核实际上允许softint的int $ 14指令调用内核的页面错误处理程序（即中断向量14），会发生什么？  
 答：因为当前处在用户态，而int为系统指令，会引发Genelral Protection Exception，即trap 13
 
 
