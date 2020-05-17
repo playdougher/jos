@@ -12,6 +12,11 @@
             * [Exercise 3.](#exercise-3)
         * [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
         * [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
+        * [An Example](#an-example)
+        * [Nested Exceptions and Interrupts](#nested-exceptions-and-interrupts)
+        * [Setting Up the IDT](#setting-up-the-idt)
+            * [Exercise 4.](#exercise-4)
+            * [Questions](#questions)
 
 <!-- vim-markdown-toc -->
 
@@ -65,7 +70,6 @@ struct Env {
 ![](assets/img1.png)
 
 ### Creating and Running Environments
-
 #### Exercise 2.
 
 在kern/env.c中, 完成如下函数：
@@ -82,7 +86,7 @@ load_icode()：
 env_create()：  
 使用env_alloc分配一个环境，并调用load_icode将ELF二进制文件加载到其中。  
 env_run()：  
-在用户模式中运行该环境。
+在用户态中运行该环境。
 
 1. env_init(void):
 
@@ -112,8 +116,7 @@ env_init(void)
 
 Virtual Memory Map:  
 ![](img2.png) 
-
-C:\Users\Administrator\Desktop2\1\lab3\env_setup_vm.ngm
+![](img6.png)
 
 ```c
     // LAB 3: Your code here.
@@ -178,7 +181,7 @@ static void
 4. load_icode(struct Env *e, uint8_t *binary)
 
 设置用户进程的初始程序二进制、堆栈和处理器标志。
-这个函数只在内核初始化期间调用，然后运行第一个用户模式环境。
+这个函数只在内核初始化期间调用，然后运行第一个用户态环境。
 
 这个函数将ELF二进制映像中的所有可加载段加载到环境的用户内存中，从ELF程序头中指定的适当虚拟地址开始。同时，它为那些在程序头中被标记为映射，但实际上不存在于ELF文件中的段（即程序的bss部分）置为0。
 
@@ -240,7 +243,7 @@ static void
 void
 5. env_create(uint8_t *binary, enum EnvType type)
 
-用env_alloc分配一个新环境，用load_icode加载命名的elf二进制文件，并设置它的env_type。这个函数只在内核初始化期间调用，然后运行第一个用户模式环境。新环境的父ID被设置为0。
+用env_alloc分配一个新环境，用load_icode加载命名的elf二进制文件，并设置它的env_type。这个函数只在内核初始化期间调用，然后运行第一个用户态环境。新环境的父ID被设置为0。
 
 ```c
 void
@@ -311,8 +314,8 @@ env_run(struct Env *e)
 
 完成之后，在QEMU下运行。正常来说，系统会用户空间并执行hello二进制代码，直到它跑到系统中断`int`。这时会出现问题，因为JOS没有设置硬件来允许从用户空间到内核的转换。当CPU发现它没有建立这个系统调用中断处理,会生成一个异常,发现它无法处理,生成一个`double fault`异常,发现还是无法处理,最后抛出“triple fault”。通常，会看到CPU重置和重新启动。但这里用了6.828补丁的QEMU，只会看到一个寄存器信息和一个“triple fault”消息。
 
-这个问题后面会解决，现在先检查有没有正常进入用户模式  
-在env_pop_tf设置断点，这个函数是进入用户模式前执行的最后一个函数。若正常，会像下面这样：  
+这个问题后面会解决，现在先检查有没有正常进入用户态  
+在env_pop_tf设置断点，这个函数是进入用户态前执行的最后一个函数。若正常，会像下面这样：  
 
 ![](assets/img3.png)  
 
@@ -323,31 +326,190 @@ Now use b *0x... to set a breakpoint at the `int $0x30` in `sys_cputs()` in hell
 
 ### Handling Interrupts and Exceptions
 
-一旦执行到`int $0x30`，需要系统调用，程序就卡住了，因为目前只能进入用户模式，但出不来。现在需要实现一些基本的异常和系统调用句柄，以便让内核从用户模式中接管cpu的控制权。首先要彻底熟悉x86中断和异常机制
+一旦执行到`int $0x30`，需要系统调用，程序就卡住了，因为目前只能进入用户态，但出不来。现在需要实现一些基本的异常和系统调用句柄，以便让内核从用户态中接管cpu的控制权。首先要彻底熟悉x86中断和异常机制
 
 #### Exercise 3.
-
 读手册第九章.Exceptions and Interrupts
 
 中断和异常之间的区别是：中断用于处理处理器外部的异步事件，而异常处理处理器本身在执行指令过程中检测到的条件。
 
 ### Basics of Protected Control Transfer
 
-exception 和 interrupts都是“受保护的控制权转移”，会让处理器从用户态转到内核态(CPL=0)。
+`exception` 和 `interrupts`都是“受保护的控制权转移”，会让处理器从用户态转到内核态(`CPL=0`)。
 interrupts是由异步事件引起的，比如外部IO活动的消息通知。
 exception是由当前代码同步引起的，比如除以0或访问无效内存
 
 处理器的中断异常机制能确保当前运行的代码在出现中断异常的时候，内核能进入指定的控制条件中。在x86中，有两种机制确保控制权的安全转移：  
 1. **The Interrupt Descriptor Table** (中断描述符表)。
-x86提供了256个不同的中断向量， 也就是0-255的数字，代表不同的异常情况。CPU用这些中断向量作为IDT(Interrupt Descriptor Table)的索引，这个IDT只能内核访问，和GDT很像。找到后，CPU就加载该IDT项：  
+x86提供了256个不同的中断向量， 也就是0-255的数字，代表不同的异常情况。CPU用这些中断向量作为`IDT`(Interrupt Descriptor Table)的索引，这个IDT只能内核访问，和GDT很像。找到后，CPU就加载该IDT项：  
 * 其中一个值加载到`EIP`寄存器，指向指定用于处理此类异常的内核代码。
 * 另一个值加载到`CS`寄存器，在位0-1中包括运行异常处理程序的特权级别。 (在JOS中，所有异常都在内核模式下处理，权限级别为0。)
 2. **The Task State Segment.**  (任务状态段)
-处理器处理的时候需要保存旧的处理器状态，如`EIP`和`CS`值，以便恢复现场。但是旧处理器状态的这个保存区域必须依次受到保护，以防受到非特权用户模式代码的影响。否则，恶意代码会损害内核。  
-因此在处理中断异常的时候，处理器会切换到内核当中的一个栈中，这个栈的结构叫做_task state segment_ (TSS)。处理器会把SS, ESP, EFLAGS, CS, EIP, 和一个error code放进来。 然后从interrupt descriptor中加载CS 和 EIP，最后设置ESP和SS来建立新的栈。  
-JOS中只用TSS来实现从用户到内核态的转换。由于JOS中的“内核模式”在x86上的特权级别为0，因此处理器在进入内核模式时使用TSS的ESP0和SS0字段来定义内核堆栈。 其他TSS字段JOS不作使用。
+处理器处理的时候需要保存旧的处理器状态，如`EIP`和`CS`值，以便恢复现场。但是旧处理器状态的这个保存区域必须依次受到保护，以防受到非特权用户态代码的影响。否则，恶意代码会损害内核。  
+因此在处理中断异常的时候，处理器会切换到内核当中的一个栈中，这个栈的结构叫做_task state segment_ (TSS)。处理器会把`SS, ESP, EFLAGS, CS, EIP`, 和一个`error code`放进来。 然后从interrupt descriptor中加载`CS` 和 `EIP`，最后设置`ESP`和`SS`来建立新的栈。  
+JOS中只用TSS来实现从用户到内核态的转换。由于JOS中的“内核模式”在x86上的特权级别为0，因此处理器在进入内核模式时使用TSS的`ESP0`和`SS0`字段来定义内核堆栈。 其他TSS字段JOS不作使用。
 
 ### Types of Exceptions and Interrupts
 
+x86处理器可在内部生成的所有同步异常使用的中断向量在`0到31`之间，对应IDT中的0-31项。比如，页错误由中断向量为14的异常抛出。值大于31的中断向量仅由`软件中断`使用，这些中断可以由`int`指令生成，也可以由`异步硬件中断`生成。  
+
+在本节中，我们将扩展JOS以处理x86内部生成的向量0-31异常。下一节，将使JOS处理软件中断向量48（0x30），JOS将用其作系统调用的中断向量。
+
+### An Example
+
+比如处理器在用户态碰到一个除0异常。
+1. 处理器切换到由TSS的`SS0`和`ESP0`字段定义的堆栈，该堆栈在JOS中将分别保存值GD_KD和KSTACKTOP。
+2. 处理器将异常参数从地址KSTACKTOP开始推入内核堆栈：
+```c
+                     +--------------------+ KSTACKTOP             
+                     | 0x00000 | old SS   |     " - 4
+                     |      old ESP       |     " - 8
+                     |     old EFLAGS     |     " - 12
+                     | 0x00000 | old CS   |     " - 16
+                     |      old EIP       |     " - 20 <---- ESP 
+                     +--------------------+
+```  
+3. 因为处理的是除法错误，对应x86上的中断向量0，所以处理器读取IDT条目0并将`CS：EIP`设置为指向该条目描述的处理函数。
+4. 执行新的处理函数
+
+某些x86异常，在上面5个words的基础上多了一个`error cdoe`，比如页错误异常，对应数字14。在从用户态到内核态的时候，栈内状态如下：  
+
+```c
+                     +--------------------+ KSTACKTOP             
+                     | 0x00000 | old SS   |     " - 4
+                     |      old ESP       |     " - 8
+                     |     old EFLAGS     |     " - 12
+                     | 0x00000 | old CS   |     " - 16
+                     |      old EIP       |     " - 20
+                     |     error code     |     " - 24 <---- ESP
+                     +--------------------+
+```
+
+### Nested Exceptions and Interrupts
+
+但是，只有在从`用户态进入内核`时，x86处理器才会在将旧的寄存器状态推送到堆栈之前以及通过IDT调用适当的异常处理程序之前 自动切换堆栈。  
+若处理器已经在内核态，处理器会发出嵌套异常，因为它不需要切换栈，也就不会保存旧的SS或ESP寄存器。对于不需要保存error code的异常类型，内核堆栈在异常处理程序时如下所示：  
+```c
+                     +--------------------+ <---- old ESP
+                     |     old EFLAGS     |     " - 4
+                     | 0x00000 | old CS   |     " - 8
+                     |      old EIP       |     " - 12
+                     +--------------------+
+```
+
+对于需要保存error code的异常类型，处理器在上面的基础上在`EIP`下方再加一个error code
+
+对于处理器的嵌套异常功能有一个重要的点：如果处理器在内核态接受异常，但由于堆栈空间不足等原因无法将其旧状态推入内核堆栈，那么处理器就无法执行任何恢复操作，它只能重置自己。但是，内核的设计应该避免这种情况的发生。
+
+### Setting Up the IDT
+
+现在，要设置IDT以处理中断向量0-31（处理器异常）。  
+注意： 0-31范围内的一些异常由Intel定义为保留。因为处理器永远不会生成那些中断向量，所以不用去定义相关处理程序
+
+接下来要实现的总体控制流程如下所示：
+```c
+      IDT                   trapentry.S         trap.c
+   
++----------------+                        
+|   &handler1    |---------> handler1:          trap (struct Trapframe *tf)
+|                |             // do stuff      {
+|                |             call trap          // handle the exception/interrupt
+|                |             // ...           }
++----------------+
+|   &handler2    |--------> handler2:
+|                |            // do stuff
+|                |            call trap
+|                |            // ...
++----------------+
+       .
+       .
+       .
++----------------+
+|   &handlerX    |--------> handlerX:
+|                |             // do stuff
+|                |             call trap
+|                |             // ...
++----------------+
+```
+
+中断处理的大体过程：  
+* 出现中断异常
+* 转到内核堆栈
+* 处理器保存当前环境到该栈中
+*  处理器根据中断向量读取IDT中对应项，设置CS:EIP指向对应处理程序。
+* 处理程序解决中断异常
+* 恢复原来环境，继续正常运行。
+
+每个异常在trapentry.S中都有对应的处理程序；trap_init()应该初始化IDT，IDT中的每项对应着处理程序的函数地址；每个处理程序要构建一个`struct Trapframe`(inc/trap.h中)，并压入栈中，esp指向该Trapframe，然后调用trap()(在trap.c中)；trap()处理异常，或 把异常交给指定处理函数。
+#### Exercise 4.  
+
+涉及文件：
+* trapentry.S
+	* `#define TRAPHANDLER(name, num)`
+		* build a `Trapframe`
+		* `pushl %esp`
+		* `call trap`
+* kern/trap.c:
+	* void trap_init(void)
+		* `#define SETGATE(gate, istrap, sel, off, dpl) `
+	* void trap(struct Trapframe *tf)
+
+
+1. 实现trapentry.S
+文件内有两个宏定义TRAPHANDLER和TRAPHANDLER_NOEC，传入函数名和中断向量后，先压入中断向量，然后执行_alltraps，压入旧的段寄存器ds和es，然后将ds和es设置为GD_KD，然后将esp压入，将这个新建立的Trapframe传入trap()处理。 题目要求通过divzero, softint, and badsegment几个文件的测试，对应如下几个中断异常。
+
+```as
+/*
+ * Lab 3: Your code here for generating entry points for the different traps.
+ */
+TRAPHANDLER_NOEC(divide_handler, T_DIVIDE);
+TRAPHANDLER(gpflt_handler, T_GPFLT);
+TRAPHANDLER(pgflt_handler, T_PGFLT);
+```
+
+执行trapentry.S后内核栈的情况：
+```c
++---------+----------+ KSTACKTOP
+| 0x00000 + old SS   |     " + 4
+|      old ESP       |     " | 8
+|     old EFLAGS     |     " | 12
+| 0x00000 + old CS   |     " | 16
+|      old EIP       |     " | 20
+|--------------------|       | <---上面保存旧环境
+|     error code     |     " | 24
+|      trap_num      |     " | 28
+|        DS          |     " | 32
+|        ES          |     " | 36
+|       regs         |     " | 40  <---+ ESP
++--------------------+    
+```
+
+_alltraps中的pushal就是将通用寄存器全部压栈，对比Trapframe中的PushRegs结构可以看到是一一对应的，但是反过来的。因为反着压栈，读取时才为正确顺序。
+![](assets/img5.png)
+
+2. 实现trap.c
+	1. 实现void trap_init(void)
+		* 先定义处理中断的函数(为什么不用实现？？)，然后用SETGATE初始化IDT。
+			* #define SETGATE(gate, istrap, sel, off, dpl)  是用来初始化idt数组的宏定义，一个gate discriptor表示idt数组中的某项。 所以参数:  
+			gate: 为idt[i]，i为中断向量的值，如idt[T_DIVIDE]
+			istrap: 若为exception(trap) gate，值1；若为interrupt gate，填0.
+			sel: Code segment selector段选择符.
+			off: Offset in code segment，段偏移量，
+			dpl: Descriptor Privilege Level 描述符特权级别，值为0，表 内核态运行
+	```c
+	    void divide_handler();
+	    void gpflt_handler();
+	    void pgflt_handler();
+	    SETGATE(idt[T_DIVIDE], 1, GD_KT, divide_handler, 0);
+	    SETGATE(idt[T_GPFLT], 1, GD_KT, gpflt_handler, 0);
+	    SETGATE(idt[T_PGFLT], 1, GD_KT, pgflt_handler, 0);
+	```
+
+#### Questions
+
+1. 为每个异常/中断设置单独的处理程序功能的目的是什么？
+答： 因为不同中断异常要处理的方式不同。比如有的异常直接报错，有的中断执行完处理程序还要回到原先的地方继续执行，所以要不同的处理程序来支持多种处理方式。
+2. 是否需要做任何事情来使user/softint程序正常运行？ grade脚本期望它会产生一般性保护错误（trap13），但是softint的代码显示为int $ 14。 为什么要产生中断向量13？ 如果内核实际上允许softint的int $ 14指令调用内核的页面错误处理程序（即中断向量14），会发生什么？
+答：因为当前处在用户态，而int为系统指令，会引发Genelral Protection Exception，即trap 13
 
 
