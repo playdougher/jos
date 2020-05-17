@@ -74,18 +74,18 @@ struct Env {
 在kern/env.c中, 完成如下函数：  
 env_init()，env_setup_vm()，region_alloc()，load_icode()，env_create()，env_run()
 作用如下：   
-env_init()：  
-* 初始化envs数组中的所有Env结构体，并将它们添加到env_free_list中。并且调用env_init_percpu，它用不同的段为特权级别0(内核)和特权级别3(用户)配置分段硬件。  
-env_setup_vm()：  
-* 为新环境分配一个页面目录，并初始化新环境地址空间的内核部分。  
-region_alloc()：  
-* 为环境分配和映射物理内存。  
-load_icode()： 
-* 需要解析一个ELF二进制映像，就像boot loader程序一样，并将其内容加载到新环境的用户地址空间中。  
-env_create()：  
-* 使用env_alloc分配一个环境，并调用load_icode将ELF二进制文件加载到其中。  
-env_run()：  
-* 在用户态中运行该环境。
+* env_init()：  
+初始化envs数组中的所有Env结构体，并将它们添加到env_free_list中。并且调用env_init_percpu，它用不同的段为特权级别0(内核)和特权级别3(用户)配置分段硬件。  
+* env_setup_vm()：  
+为新环境分配一个页面目录，并初始化新环境地址空间的内核部分。  
+* region_alloc()：  
+为环境分配和映射物理内存。  
+* load_icode()： 
+需要解析一个ELF二进制映像，就像boot loader程序一样，并将其内容加载到新环境的用户地址空间中。  
+* env_create()：  
+使用env_alloc分配一个环境，并调用load_icode将ELF二进制文件加载到其中。  
+* env_run()：  
+在用户态中运行该环境。
 
 1. env_init(void):
 
