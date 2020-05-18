@@ -2,21 +2,33 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Lab 3: User Environments](#lab-3-user-environments)
-    * [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
-        * [Environment State](#environment-state)
-        * [Allocating the Environments Array](#allocating-the-environments-array)
-            * [Exercise 1](#exercise-1)
-        * [Creating and Running Environments](#creating-and-running-environments)
-            * [Exercise 2.](#exercise-2)
-        * [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
-            * [Exercise 3.](#exercise-3)
-        * [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
-        * [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
-        * [An Example](#an-example)
-        * [Nested Exceptions and Interrupts](#nested-exceptions-and-interrupts)
-        * [Setting Up the IDT](#setting-up-the-idt)
-            * [Exercise 4.](#exercise-4)
-            * [Questions](#questions)
+	* [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
+		* [Environment State](#environment-state)
+		* [Allocating the Environments Array](#allocating-the-environments-array)
+			* [Exercise 1](#exercise-1)
+		* [Creating and Running Environments](#creating-and-running-environments)
+			* [Exercise 2.](#exercise-2)
+		* [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
+			* [Exercise 3.](#exercise-3)
+		* [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
+		* [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
+		* [An Example](#an-example)
+		* [Nested Exceptions and Interrupts](#nested-exceptions-and-interrupts)
+		* [Setting Up the IDT](#setting-up-the-idt)
+			* [Exercise 4.](#exercise-4)
+			* [Questions](#questions)
+	* [Part B: Page Faults, Breakpoints Exceptions, and System Calls](#part-b-page-faults-breakpoints-exceptions-and-system-calls)
+		* [Handling Page Faults](#handling-page-faults)
+			* [Exercise 5.](#exercise-5)
+		* [The Breakpoint Exception](#the-breakpoint-exception)
+			* [Exercise 6.](#exercise-6)
+			* [Questions](#questions-1)
+		* [System calls](#system-calls)
+			* [Exercise 7.](#exercise-7)
+		* [User-mode startup](#user-mode-startup)
+			* [Exercise 8.](#exercise-8)
+		* [Page faults and memory protection](#page-faults-and-memory-protection)
+			* [Exercise 9/10.](#exercise-910)
 
 <!-- vim-markdown-toc -->
 
@@ -508,4 +520,261 @@ _alltraps中的pushal就是将通用寄存器全部压栈，对比Trapframe中�
 2. 是否需要做任何事情来使user/softint程序正常运行？ grade脚本期望它会产生一般性保护错误（trap13），但是softint的代码显示为int $ 14。 为什么要产生中断向量13？ 如果内核实际上允许softint的int $ 14指令调用内核的页面错误处理程序（即中断向量14），会发生什么？  
 答：因为当前处在用户态，而int为系统指令，会引发Genelral Protection Exception，即trap 13
 
+## Part B: Page Faults, Breakpoints Exceptions, and System Calls
 
+### Handling Page Faults
+
+page fault exception(interrupt vector 14 `T_PGFLT`)是一个很重要的异常，发生异常时，异常所在的线性地址会被存储到`CR2`寄存器。
+
+#### Exercise 5.
+修改trap_dispatch()让它能够用page_fault_handler()处理page fault exceptions。
+我们只需根据trap类型执行对应函数：
+```c
+    if(tf->tf_trapno == T_PGFLT){
+        return page_fault_handler(tf);
+    }
+```
+
+### The Breakpoint Exception
+
+Breakpoint exception(interrupt vector 14 `T_PGFLT`)可以让调试器设置断点，通过把一些语句代替为一个字节的int3中断语句。
+
+#### Exercise 6. 
+
+修改trap_dispatch()让该异常调用kernel monitor。
+```c
+    if(tf->tf_trapno == T_BRKPT){
+        return monitor(tf);
+    }
+```
+trapentry.S中加入breakpoint entry point:  
+
+```c
+TRAPHANDLER_NOEC(brkpt_handler, T_BRKPT);
+```
+trap.c 中的trap_init()加入定义和填补idt项：
+
+```c
+    void brkpt_handler();
+    SETGATE(idt[T_BRKPT], 1, GD_KT, brkpt_handler, 3);
+```
+
+注意，上面的图SETGATE中的dpl若写成0，make grade无法通过。原因在下面
+
+#### Questions
+
+3. breakpoint测试用例将生成breakpoint exception或general protection fault，具体取决于您如何初始化IDT中的断点条目(即从trap_init调用SETGATE)，为什么？为了使breakpoint exception按上述规定工作，您需要如何对其进行设置？什么不正确的设置将导致该异常触发general protection fault？  
+若 SETGATE中的dpl设为3， 即特权级别为用户级，执行的时候会抛出breakpoint exception。若设为0，而程序从用户态调用，因为级别不够，就会抛出general protection fault。  
+4. 您认为这些机制的意义何在，特别user/softint测试程序所做的事情？  
+意义在于权限管理，什么权限就该干他权限内的事。
+
+### System calls
+
+用户进程通过调用系统调用来让内核做一些自己权限外的事情。
+
+JOS内核中，使用 `int $x030`来引发processor interrupt，常数T_SYSCALL(48, 0x30)已经帮我们写好了，现在要额设置中断对应的描述符。注意：interrupt 0x30不是由硬件产生的，所以我们写的代码不会和硬件有冲突。
+
+执行系统调用是，程序先把call number和参数放到寄存器，系统从寄存器中取值并执行。这样一来，内核就不用再去保存用户环境的堆栈或指令流了。系统调用号存在`%eax`，参数（最多五个）存在`%edx`, `%ecx`, `%ebx`, `%edi`, 和`%esi`。执行完后内核把返回值放在`%eax`。
+
+#### Exercise 7.
+
+修改kern/trapentry.S，kern/trap.c's `trap_init()` ，`trap_dispatch()`。trap_dispatch()中使用`syscall()` (defined in kern/syscall.c)来处理中断， 最后需要修改kern/syscall.c中的syscall()。确保理解lib/syscall.c中的内联汇编程序。
+
+1. kern/trapentry.S
+	添加entry point
+	```c
+	TRAPHANDLER_NOEC(syscall_handler, T_SYSCALL);
+	```
+2. kern/trap.c
+	1. trap_init()
+		添加syscall处理程序的定义和IDT项
+	```c
+	    void syscall_handler();
+	    SETGATE(idt[T_SYSCALL], 0, GD_KT, syscall_handler, 3);
+	```
+
+	2. trap_dispatch()
+			添加处理程序
+	```c
+	    if(tf->tf_trapno == T_SYSCALL){
+	        tf->tf_regs.reg_eax = syscall(tf->tf_trapno,
+	                tf->tf_regs.reg_edx,
+	                tf->tf_regs.reg_ecx,
+	                tf->tf_regs.reg_ebx,
+	                tf->tf_regs.reg_edi,
+	                tf->tf_regs.reg_esi);
+	    }
+	```
+3. kern/syscall.c
+		根据lib/syscall.c中定义的函数和inc/syscall.h中定义的枚举变量实现该文件。
+	```c
+	int32_t
+	syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
+	{
+	    // Call the function corresponding to the 'syscallno' parameter.
+	    // Return any appropriate return value.
+	    // LAB 3: Your code here.
+
+	    switch(syscallno){
+	    case SYS_cputs:
+	        sys_cputs((const char *)a1, (size_t)a2);
+	        return 0;
+	    case SYS_cgetc:
+	        return sys_cgetc();
+	    case SYS_getenvid:
+	        return sys_getenvid();
+	    case SYS_env_destroy:
+	        return sys_env_destroy((envid_t)a1);
+	    default:
+	        return -E_INVAL;
+	    }
+
+	    panic("syscall not implemented");
+
+	}
+	```
+结果： bsstest：OK
+
+### User-mode startup
+
+一个用户进程从lib/entry.S文件开始运行，它配置了一些全局符号'envs', 'pages', 'uvpt', and 'uvpd'后执行libmain()(在lib/libmain.c中)。我们要在libmain()中初始化全局指针thisenv以指向envs[]数组中的当前环境。  
+
+libmain()随后执行umain，在user/hello.c这个程序中，umain试图访问this->env_id，这就是前面运行hello程序时提示page fault的原因。但在我们正确初始化thisenv后，就不会提示该错误。
+
+#### Exercise 8.
+
+若修改正确，会输出"hello,world"，下一行"i am environmtn 00001000"，然后user/hello通过调用sys_env_destroy()(see lib/libmain.c and lib/exit.c)来退出环境。因为JOS内核只支持一个用户程序在内核中运行，所以在退出程序的时候，会提示destroy the only environment。
+
+在文件中修改thisenv完成该练习
+lib/libmain.c:
+```c
+    thisenv = &envs[ENVX(sys_getenvid())];
+```
+
+其中ENVX(在inc/env.h中)用于根据环境id获取环境索引。
+```c
+	 An environment ID 'envid_t' has three parts:
+
+ +1+---------------21-----------------+--------10--------+
+ |0|          Uniqueifier             |   Environment    |
+ | |                                  |      Index       |
+ +------------------------------------+------------------+
+                                       \--- ENVX(eid) --/
+```
+
+结果 hellotest：OK
+
+### Page faults and memory protection
+
+内存保护确保程序的bug不会破坏把程序或者操作系统。
+
+操作系统通常依靠硬件支持来实现内存保护，操作系统使硬件知道哪些虚拟地址有效，哪些无效。当程序尝试访问无效地址或没有权限的地址时，处理器会在导致错误的指令处停止程序，然后使用有关尝试操作的信息捕获内核。如果故障是可修复的，则内核可以对其进行修复，并让程序继续运行。 如果故障无法修复，则程序将无法继续。
+
+对于能修复的错误，比如一个自动扩展的堆栈，在许多系统中，内核最初会分配一个堆栈页面，然后，如果某个程序无法访问堆栈中未分配的页面，内核将自动分配这些页面并让程序继续。这样，内核仅分配程序需要的堆栈内存，但是程序可以在其拥有任意大堆栈的错觉下工作。
+
+系统调用给内存保护带来了一个有趣的问题。 大多数系统调用接口允许用户程序传递指向内核的指针。 这些指针指向要读取或写入的用户缓冲区。 然后，内核在执行系统调用时取消引用这些指针。 这有两个问题：  
+1. 内核中的页面错误可能比用户程序中的页面错误严重得多。 如果内核在操作自己的数据结构时出现分页错误，这是一个内核错误，错误处理程序应该使内核(从而导致整个系统)产生panic。 但是，当内核解引用用户程序给它的指针时，它需要一种方法来记住这些解引用导致的任何页面错误实际上是代表用户程序的。
+2. 内核通常比用户程序具有更多的内存权限。 用户程序可能会传递一个指向系统调用的指针，该指针指向内核可以读取或写入但程序不能读取的内存。 内核必须小心这种操作，不要被恶意程序引导去解引用这样的指针，因为这可能会泄露私有信息或破坏内核的完整性。
+
+出于这两个原因，内核在处理用户程序提供的指针时必须非常小心
+
+接下来要使用一种机制来解决这两个问题，该机制仔细检查从用户空间传递到内核的所有指针。当程序向内核传递指针时，内核将检查地址是否在地址空间的用户部分，以及页表是否允许内存操作。  
+因此，内核不会因为取消引用用户提供的指针而出现页面错误。 如果内核确实出现分页错误，它应该会死机并终止。
+
+#### Exercise 9/10.
+
+修改 kern / trap.c ，若在内核模式中发生页面错误，执行panic。
+Hint：要确定是在用户模式下还是内核模式下发生故障，检查`tf_cs`的低位。
+
+```c
+void
+page_fault_handler(struct Trapframe *tf):
+	...
+    // LAB 3: Your code here.
+    if((tf->tf_cs & 3) == 0){
+        panic("kernel-mode page fault at %e",  fault_va);
+	...
+```
+
+查看kern/pmap.c 中的user_mem_assert，实现user_mem_check
+```c
+int
+user_mem_check(struct Env *env, const void *va, size_t len, int perm)
+{
+    // LAB 3: Your code here.
+
+    uint32_t beg = (uint32_t)ROUNDDOWN(va, PGSIZE);
+    uint32_t end = (uint32_t)ROUNDUP(va+len, PGSIZE);
+    for(uint32_t i = beg; i < end; i+=PGSIZE){
+        pte_t *pte = pgdir_walk(env->env_pgdir, (void *)i, 0);
+        if(i >= ULIM || !(*pte & (perm | PTE_P))){
+            user_mem_check_addr = i < (uintptr_t)va ? (uintptr_t)va : (uintptr_t)i;
+            return -E_FAULT;
+        }
+    }
+
+    return 0;
+}
+```
+
+修改kern/syscall.c检查系统调用的参数。
+```c
+static void
+sys_cputs(const char *s, size_t len)
+{
+    // Check that the user has permission to read memory [s, s+len).
+    // Destroy the environment if not.
+
+    // LAB 3: Your code here.
+    // 0表示不额外判断页面权限，默认为perm | PTE_U | PTE_P
+    user_mem_assert(curenv, s, len, 0);
+
+    // Print the string supplied by the user.
+    cprintf("%.*s", len, s);
+}
+```
+
+启动内核，运行user/buggyhello, 即make run-buggyhello-nox，这时环境应该被销毁，内核不发出panic，终端应看到如下输出：  
+```c
+[00001000] user_mem_check assertion failure for va 00000001
+[00001000] free env 00001000
+Destroyed the only environment - nothing more to do!
+```
+
+最后，修改kern/kdebug.c中的debuginfo_eip，用user_mem_check检查usd，stabs和stabstr。若运行make run-breakpoint-nox，应该可以在显示器中输入`backtrace`，并在内核因页面错误而崩溃之前，查看lib/libmain.c中的backtrace traverse。是什么引起该page fault？你不用解决它，但是要理解为什么发生。  
+答：
+
+```c
+       if(user_mem_check(curenv, (const void *)usd, sizeof(struct UserStabData), PTE_U)<0){
+           return -1;
+       }
+       ...
+       ...
+       ...
+       if(user_mem_check(curenv, (const void *)stabs, stab_end - stabs, PTE_U)<0){
+           return -1;
+       }
+       if(user_mem_check(curenv, (const void *)usd->stabstr, stabstr_end - stabstr, PTE_U)<0){
+           return-1;
+       }
+```
+
+```as
+K> backtrace
+ebp efffff80 eip f01008b4 args 00000001 efffff28 f0225000 00000000 f01e3a40
+             kern/monitor.c:0: monitor+260
+ebp efffffb0 eip f0103b23 args f0225000 efffffbc 00000000 00000000 00000000
+             kern/trap.c:0: trap+180
+ebp eebfdfd0 eip f0103bfc args efffffbc 00000000 00000000 eebfdfd0 efffffdc
+             kern/syscall.c:0: syscall+0
+ebp eebfdff0 eip 80007b args 00000000 00000000 00000000 00000000 00000000
+             lib/libmain.c:0: libmain+63
+Incoming TRAP frame at 0xeffffe7c
+kernel panic at kern/trap.c:276: kernel-mode page fault at error 289415160
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+```
+
+
+最后结果：
+![](assets/img7.png)
