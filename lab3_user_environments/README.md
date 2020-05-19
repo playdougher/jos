@@ -28,7 +28,6 @@
 		* [User-mode startup](#user-mode-startup)
 			* [Exercise 8.](#exercise-8)
 		* [Page faults and memory protection](#page-faults-and-memory-protection)
-			* [Exercise 9/10.](#exercise-910)
 
 <!-- vim-markdown-toc -->
 
@@ -681,15 +680,15 @@ lib/libmain.c:
 接下来要使用一种机制来解决这两个问题，该机制仔细检查从用户空间传递到内核的所有指针。当程序向内核传递指针时，内核将检查地址是否在地址空间的用户部分，以及页表是否允许内存操作。  
 因此，内核不会因为取消引用用户提供的指针而出现页面错误。 如果内核确实出现分页错误，它应该会死机并终止。
 
-#### Exercise 9/10.
+se 9/10.
 
-修改 kern / trap.c ，若在内核模式中发生页面错误，执行panic。
-Hint：要确定是在用户模式下还是内核模式下发生故障，检查`tf_cs`的低位。
+修改 kern / trap.c ，若在内核模式中发生页面错误，执行panic；若在用户模式发生页错误，env_destroy当前环境。
 
 ```c
 void
 page_fault_handler(struct Trapframe *tf):
 	...
+	// Handle kernel-mode page faults.
     // LAB 3: Your code here.
     if((tf->tf_cs & 3) == 0){
         panic("kernel-mode page fault at %e",  fault_va);
@@ -697,6 +696,11 @@ page_fault_handler(struct Trapframe *tf):
 ```
 
 查看kern/pmap.c 中的user_mem_assert，实现user_mem_check
+
+用户程序在满足以下两个情况时可以访问一个虚拟地址：
+	(1)地址低于ULIM，并且
+	(2)页表允许用户访问。
+
 ```c
 int
 user_mem_check(struct Env *env, const void *va, size_t len, int perm)
@@ -707,7 +711,7 @@ user_mem_check(struct Env *env, const void *va, size_t len, int perm)
     uint32_t end = (uint32_t)ROUNDUP(va+len, PGSIZE);
     for(uint32_t i = beg; i < end; i+=PGSIZE){
         pte_t *pte = pgdir_walk(env->env_pgdir, (void *)i, 0);
-        if(i >= ULIM || !(*pte & (perm | PTE_P))){
+        if(i >= ULIM || !pte || !(*pte & (perm | PTE_P))){
             user_mem_check_addr = i < (uintptr_t)va ? (uintptr_t)va : (uintptr_t)i;
             return -E_FAULT;
         }
@@ -717,7 +721,8 @@ user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 }
 ```
 
-修改kern/syscall.c检查系统调用的参数。
+修改kern/syscall.c检查系统调用的函数，就是让我们实现未完成的sys_cputs()。  
+只需简单判断s是否能被用户访问。  
 ```c
 static void
 sys_cputs(const char *s, size_t len)
@@ -734,16 +739,14 @@ sys_cputs(const char *s, size_t len)
 }
 ```
 
-启动内核，运行user/buggyhello, 即make run-buggyhello-nox，这时环境应该被销毁，内核不发出panic，终端应看到如下输出：  
+启动内核，运行user/buggyhello, 即make run-buggyhello-nox，这时环境应该被销毁，因为属于用户态错误的情况，终端应看到如下输出：  
 ```c
 [00001000] user_mem_check assertion failure for va 00000001
 [00001000] free env 00001000
 Destroyed the only environment - nothing more to do!
 ```
 
-最后，修改kern/kdebug.c中的debuginfo_eip，用user_mem_check检查usd，stabs和stabstr。若运行make run-breakpoint-nox，应该可以在显示器中输入`backtrace`，并在内核因页面错误而崩溃之前，查看lib/libmain.c中的backtrace traverse。是什么引起该page fault？你不用解决它，但是要理解为什么发生。  
-答：
-
+最后，修改kern/kdebug.c中的debuginfo_eip，用user_mem_check检查usd，stabs和stabstr。若运行make run-breakpoint-nox，应该可以在显示器中输入`backtrace`，并在内核因页面错误而发出panic之前，查看lib/libmain.c中的backtrace traverse。是什么引起该内核page fault？你不用解决它，但是要理解为什么发生。
 ```c
        if(user_mem_check(curenv, (const void *)usd, sizeof(struct UserStabData), PTE_U)<0){
            return -1;
@@ -754,11 +757,12 @@ Destroyed the only environment - nothing more to do!
        if(user_mem_check(curenv, (const void *)stabs, stab_end - stabs, PTE_U)<0){
            return -1;
        }
-       if(user_mem_check(curenv, (const void *)usd->stabstr, stabstr_end - stabstr, PTE_U)<0){
+       if(user_mem_check(curenv, (const void *)stabstr, stabstr_end - stabstr, PTE_U)<0){
            return-1;
        }
 ```
 
+因为用户栈内保存了调用的函数路径，不断访问的话可能会超出栈的界限。而目执行backtrace处于内核态，现在又访问不到栈外的内容，就发出kernel panic
 ```as
 K> backtrace
 ebp efffff80 eip f01008b4 args 00000001 efffff28 f0225000 00000000 f01e3a40
@@ -774,7 +778,6 @@ kernel panic at kern/trap.c:276: kernel-mode page fault at error 289415160
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
 ```
-
 
 最后结果：
 ![](assets/img7.png)
