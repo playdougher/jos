@@ -105,21 +105,22 @@ env_init()，env_setup_vm()，region_alloc()，load_icode()，env_create()，env
 将`envs`数组设为free, env_id置为0, 并插入`env_free_list`.  
 确保env_free_list中的顺序和envs数组中的顺序是一样的.  这里我们用头插法
 ```c
-void
-env_init(void)
-{
-    // Set up envs array
-    // LAB 3: Your code here.
-
-    for(int i = NENV-1; i >= 0; i--){
-        envs[i].env_id = 0;
+void                                     
+env_init(void)                           
+{                                        
+    // Set up envs array                 
+    // LAB 3: Your code here.            
+                                         
+    for(int i = NENV-1; i >= 0; i--){    
+		envs[i].env_status = ENV_FREE;
+        envs[i].env_id = 0;              
         envs[i].env_link = env_free_list;
-        env_free_list = &envs[i];
-    }
-
+        env_free_list = &envs[i];        
+    }                                    
+                                         
     // Per-CPU part of the initialization
-    env_init_percpu();
-}
+    env_init_percpu();                   
+}                                        
 ```
 
 2. env_setup_vm(struct Env *e)
@@ -131,27 +132,27 @@ Virtual Memory Map:
 ![](assets/img6.png)
 
 ```c
-    // LAB 3: Your code here.
-    // 页面转虚拟地址
-    e->env_pgdir = (pde_t *)page2kva(p);
-    //increment env_pgdir's pp_ref for env_free to work correctly
-    p->pp_ref++;
-
-    // use kern_pgdir as a template
-    //memcpy(env_pgdir, kern_pgdir, PGSIZE);
-
-    //map the pgdir entries below UTOP
-    for(i = 0; i < PDX(UTOP); i++){
-        e->env_pgdir[i] = 0;
-    }
-    //map entries above UTOP
-    for(; i < NENV; i++){
-        e->env_pgdir[i] = kern_pgdir[i];
-    }
-
-    //UVPT对应的页目录项指向该env_pgdir页目录表
-    //Permissions: kernel R, User R
+    e->env_pgdir = (pde_t *)page2kva(p);                          
+    //increment env_pgdir's pp_ref for env_free to work correctly 
+    p->pp_ref++;                                                  
+                                                                  
+    // use kern_pgdir as a template                               
+    //memcpy(env_pgdir, kern_pgdir, PGSIZE);                      
+                                                                  
+    //map the pgdir entries below UTOP                            
+    for(i = 0; i < PDX(UTOP); i++){                               
+        e->env_pgdir[i] = 0;                                      
+    }                                                             
+    //map entries above UTOP                                      
+    for(; i < NENV; i++){                                         
+        e->env_pgdir[i] = kern_pgdir[i];                          
+    }                                                             
+                                                                  
+    //UVPT对应的页目录项指向该env_pgdir页目录表                   
+    //Permissions: kernel R, User R                               
     e->env_pgdir[PDX(UVPT)] = PADDR(e->env_pgdir) | PTE_P | PTE_U;
+                                                                  
+    return 0;                                                     
 ```
 
 3. region_alloc(struct Env *e, void *va, size_t len)
@@ -160,33 +161,33 @@ Virtual Memory Map:
 
 先分配页面, 然后用page_insert插入到页目录中.
 ```c
-static void
-region_alloc(struct Env *e, void *va, size_t len)
-{
-    // LAB 3: Your code here.
-    // (But only if you need it for load_icode.)
-    //
+static void                                                         
+region_alloc(struct Env *e, void *va, size_t len)                   
+{                                                                   
+    // LAB 3: Your code here.                                       
+    // (But only if you need it for load_icode.)                    
+    //                                                              
     // Hint: It is easier to use region_alloc if the caller can pass
-    //   'va' and 'len' values that are not page-aligned.
-    //   You should round va down, and round (va + len) up.
-    //   (Watch out for corner-cases!)
-
-    void * beg = ROUNDDOWN(va, PGSIZE);
-    void * end = ROUNDUP(va+len, PGSIZE);
-
-    struct PageInfo *pp = NULL;
-    for(void * i = beg; i < end; i+= PGSIZE){
-        pp = page_alloc(ALLOC_ZERO);
-        if(pp == NULL){
-            panic("region_alloc() failed.");
-        }
-
-        int ret = page_insert(e->env_pgdir, pp, i, PTE_W | PTE_U);
-        if(ret < 0){
-            panic("region_alloc() failed: %e", ret);
-        }
-    }
-}
+    //   'va' and 'len' values that are not page-aligned.           
+    //   You should round va down, and round (va + len) up.         
+    //   (Watch out for corner-cases!)                              
+                                                                    
+    void * beg = ROUNDDOWN(va, PGSIZE);                             
+    void * end = ROUNDUP(va+len, PGSIZE);                           
+                                                                    
+    struct PageInfo *pp = NULL;                                     
+    for(void * i = beg; i < end; i+= PGSIZE){                       
+        pp = page_alloc(ALLOC_ZERO);                                
+        if(pp == NULL){                                             
+            panic("region_alloc() failed.");                        
+        }                                                           
+                                                                    
+        int ret = page_insert(e->env_pgdir, pp, i, PTE_W | PTE_U);  
+        if(ret < 0){                                                
+            panic("region_alloc() failed: %e", ret);                
+        }                                                           
+    }                                                               
+}                                                                   
 ```
 
 4. load_icode(struct Env *e, uint8_t *binary)
@@ -196,64 +197,51 @@ region_alloc(struct Env *e, void *va, size_t len)
 
 这个函数将ELF二进制映像中的所有可加载段加载到环境的用户内存中，从ELF程序头中指定的适当虚拟地址开始。同时，它为那些在程序头中被标记为映射，但实际上不存在于ELF文件中的段（即程序的bss部分）置为0。
 
-该函数和boot loader很像， 但是bootloader 是从硬盘中读取代码。可以从boot/main.c中参考代码
+该函数和boot loader很像， 但是bootloader 是从硬盘中读取代码。可以从boot/main.c中参考代码。注意，加载程序前记得加载地址空间为用户页表
 
 最后，这个函数为程序的初始堆栈映射一个页面。
 
 ```c
-    struct Elf *ELFHDR = (struct Elf *)binary;
-    struct Proghdr *ph, *eph;
-
-    // is this a valid ELF?
-    if (ELFHDR->e_magic != ELF_MAGIC)
-        panic("Not a valid ELF");
-
-    // load each program segment (ignores ph flags)
-    ph = (struct Proghdr *) ((uint8_t *) ELFHDR + ELFHDR->e_phoff);
-    eph = ph + ELFHDR->e_phnum;
-
-    // ??5. Use lcr3() to switch to its address space.
-    lcr3(PADDR(e->env_pgdir));
-
-    for (; ph < eph; ph++){
-        // p_pa is the load address of this segment (as well
-        // as the physical address)
-        if(ph->p_type == ELF_PROG_LOAD){
-            region_alloc(e, (void *)ph->p_va, ph->p_memsz);
-
-            // Any remaining memory bytes should be cleared to zero.
-            memset((void *)ph->p_va, 0, ph->p_memsz);
-            // The ELF header should have ph->p_filesz <= ph->p_memsz.
+    // LAB 3: Your code here.                                           
+    struct Elf *ELFHDR = (struct Elf *)binary;                          
+    struct Proghdr *ph, *eph;                                           
+                                                                        
+    // is this a valid ELF?                                             
+    if (ELFHDR->e_magic != ELF_MAGIC)                                   
+        panic("Not a valid ELF");                                       
+                                                                        
+    // load each program segment (ignores ph flags)                     
+    ph = (struct Proghdr *) ((uint8_t *) ELFHDR + ELFHDR->e_phoff);     
+    eph = ph + ELFHDR->e_phnum;                                         
+                                                                        
+    // ??5. Use lcr3() to switch to its address space.                  
+    lcr3(PADDR(e->env_pgdir));                                          
+                                                                        
+    for (; ph < eph; ph++){                                             
+        if(ph->p_type == ELF_PROG_LOAD){                                
+            region_alloc(e, (void *)ph->p_va, ph->p_memsz);             
+                                                                        
+            // Any remaining memory bytes should be cleared to zero.    
+            memset((void *)ph->p_va, 0, ph->p_memsz);                   
+            // The ELF header should have ph->p_filesz <= ph->p_memsz.  
             memcpy((void *)ph->p_va, binary+ph->p_offset, ph->p_filesz);
-        }
-    }
-
-    // call the entry point from the ELF header
-    e->env_tf.tf_eip = ELFHDR->e_entry;
-    lcr3(PADDR(kern_pgdir));
-
-    // Now map one page for the program's initial stack
-    // at virtual address USTACKTOP - PGSIZE.
-
-    // LAB 3: Your code here.
-    region_alloc(e, (void *)USTACKTOP - PGSIZE, PGSIZE);
-            // The ELF header should have ph->p_filesz <= ph->p_memsz.
-            memcpy(ph->p_va, binary+ph->p_offset, ph->p_filesz);
-
-    // call the entry point from the ELF header
-    e->env_tf->tf->eip = ELFHDR->e_entry;
-    lcr3(PADDR(kern_pgdir));
-
-    // Now map one page for the program's initial stack
-    // at virtual address USTACKTOP - PGSIZE.
-
-    // LAB 3: Your code here.
-    region_alloc(e, USTACKTOP - PGSIZE, PGSIZE);
+        }                                                               
+    }                                                                   
+                                                                        
+    // call the entry point from the ELF header                         
+    e->env_tf.tf_eip = ELFHDR->e_entry;                                 
+    lcr3(PADDR(kern_pgdir));                                            
+                                                                        
+    // Now map one page for the program's initial stack                 
+    // at virtual address USTACKTOP - PGSIZE.                           
+                                                                        
+    // LAB 3: Your code here.                                           
+    region_alloc(e, (void *)USTACKTOP - PGSIZE, PGSIZE);                
 ```
 
 5. env_create(uint8_t *binary, enum EnvType type)
 
-用env_alloc分配一个新环境，用load_icode加载命名的elf二进制文件，并设置它的env_type。这个函数只在内核初始化期间调用，然后运行第一个用户态环境。新环境的父ID被设置为0。
+用env_alloc分配一个新环境，用load_icode加载命名的elf二进制文件，并设置它的env_type。这个函数只在**内核初始化**期间调用，然后运行第一个用户态环境。新环境的父ID被设置为0。
 
 ```c
 void
@@ -348,15 +336,15 @@ Now use b *0x... to set a breakpoint at the `int $0x30` in `sys_cputs()` in hell
 interrupts是由异步事件引起的，比如外部IO活动的消息通知。
 exception是由当前代码同步引起的，比如除以0或访问无效内存
 
-处理器的中断异常机制能确保当前运行的代码在出现中断异常的时候，内核能进入指定的控制条件中。在x86中，有两种机制确保控制权的安全转移：  
+处理器的中断异常机制能确保当前运行的代码在出现中断异常的时候，内核能进入指定的控制条件中。在x86中，有两种机制共同协作确保控制权的安全转移：  
 1. **The Interrupt Descriptor Table** (中断描述符表)。
 x86提供了256个不同的中断向量， 也就是0-255的数字，代表不同的异常情况。CPU用这些中断向量作为`IDT`(Interrupt Descriptor Table)的索引，这个IDT只能内核访问，和GDT很像。找到后，CPU就加载该IDT项：  
 * 其中一个值加载到`EIP`寄存器，指向指定用于处理此类异常的内核代码。
 * 另一个值加载到`CS`寄存器，在位0-1中包括运行异常处理程序的特权级别。 (在JOS中，所有异常都在内核模式下处理，权限级别为0。)
 2. **The Task State Segment.**  (任务状态段)
 处理器处理的时候需要保存旧的处理器状态，如`EIP`和`CS`值，以便恢复现场。但是旧处理器状态的这个保存区域必须依次受到保护，以防受到非特权用户态代码的影响。否则，恶意代码会损害内核。  
-因此在处理中断异常的时候，处理器会切换到内核当中的一个栈中，这个栈的结构叫做_task state segment_ (TSS)。处理器会把`SS, ESP, EFLAGS, CS, EIP`, 和一个`error code`放进来。 然后从interrupt descriptor中加载`CS` 和 `EIP`，最后设置`ESP`和`SS`来建立新的栈。  
-JOS中只用TSS来实现从用户到内核态的转换。由于JOS中的“内核模式”在x86上的特权级别为0，因此处理器在进入内核模式时使用TSS的`ESP0`和`SS0`字段来定义内核堆栈。 其他TSS字段JOS不作使用。
+因此在处理中断异常的时候，处理器会切换到内核当中的一个栈中，这个栈的结构叫做`task state segment`(TSS)。处理器会把`SS, ESP, EFLAGS, CS, EIP`, 和一个`error code`放进来。 然后从interrupt descriptor中加载`CS` 和 `EIP`，最后设置`ESP`和`SS`来建立新的栈。  
+虽然TSS很强大，能用于多种目的，但JOS中只用TSS来实现从用户态到内核态的转换。由于JOS中的“内核模式”在x86上的特权级别为0，因此处理器在进入内核模式时使用TSS的`ESP0`和`SS0`字段来定义内核堆栈。 其他TSS字段JOS不作使用。
 
 ### Types of Exceptions and Interrupts
 
@@ -538,7 +526,7 @@ page fault exception(interrupt vector 14 `T_PGFLT`)是一个很重要的异常�
 
 ### The Breakpoint Exception
 
-Breakpoint exception(interrupt vector 14 `T_PGFLT`)可以让调试器设置断点，通过把一些语句代替为一个字节的int3中断语句。
+Breakpoint exception(interrupt vector 3 `T_BRKPT`)可以让调试器设置断点，通过把一些语句代替为一个字节的int3中断语句。
 
 #### Exercise 6. 
 
