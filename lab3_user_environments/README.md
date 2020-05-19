@@ -1,4 +1,4 @@
-
+# 目录
 <!-- vim-markdown-toc GFM -->
 
 * [Lab 3: User Environments](#lab-3-user-environments)
@@ -29,7 +29,7 @@
             * [Exercise 8.](#exercise-8)
         * [Page faults and memory protection](#page-faults-and-memory-protection)
             * [Exercise 9/10.](#exercise-910)
-* [问题](#问题)
+    * [问题](#问题)
 
 <!-- vim-markdown-toc -->
 
@@ -784,5 +784,5 @@ Type 'help' for a list of commands.
 最后结果：
 ![](assets/img7.png)
 
-# 问题
+## 问题
 1. (为什么trap_init()中定义的处理函数不用实现？？)
