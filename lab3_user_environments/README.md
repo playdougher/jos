@@ -2,32 +2,33 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Lab 3: User Environments](#lab-3-user-environments)
-	* [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
-		* [Environment State](#environment-state)
-		* [Allocating the Environments Array](#allocating-the-environments-array)
-			* [Exercise 1](#exercise-1)
-		* [Creating and Running Environments](#creating-and-running-environments)
-			* [Exercise 2.](#exercise-2)
-		* [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
-			* [Exercise 3.](#exercise-3)
-		* [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
-		* [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
-		* [An Example](#an-example)
-		* [Nested Exceptions and Interrupts](#nested-exceptions-and-interrupts)
-		* [Setting Up the IDT](#setting-up-the-idt)
-			* [Exercise 4.](#exercise-4)
-			* [Questions](#questions)
-	* [Part B: Page Faults, Breakpoints Exceptions, and System Calls](#part-b-page-faults-breakpoints-exceptions-and-system-calls)
-		* [Handling Page Faults](#handling-page-faults)
-			* [Exercise 5.](#exercise-5)
-		* [The Breakpoint Exception](#the-breakpoint-exception)
-			* [Exercise 6.](#exercise-6)
-			* [Questions](#questions-1)
-		* [System calls](#system-calls)
-			* [Exercise 7.](#exercise-7)
-		* [User-mode startup](#user-mode-startup)
-			* [Exercise 8.](#exercise-8)
-		* [Page faults and memory protection](#page-faults-and-memory-protection)
+    * [Part A: User Environments and Exception Handling](#part-a-user-environments-and-exception-handling)
+        * [Environment State](#environment-state)
+        * [Allocating the Environments Array](#allocating-the-environments-array)
+            * [Exercise 1](#exercise-1)
+        * [Creating and Running Environments](#creating-and-running-environments)
+            * [Exercise 2.](#exercise-2)
+        * [Handling Interrupts and Exceptions](#handling-interrupts-and-exceptions)
+            * [Exercise 3.](#exercise-3)
+        * [Basics of Protected Control Transfer](#basics-of-protected-control-transfer)
+        * [Types of Exceptions and Interrupts](#types-of-exceptions-and-interrupts)
+        * [An Example](#an-example)
+        * [Nested Exceptions and Interrupts](#nested-exceptions-and-interrupts)
+        * [Setting Up the IDT](#setting-up-the-idt)
+            * [Exercise 4.](#exercise-4)
+            * [Questions](#questions)
+    * [Part B: Page Faults, Breakpoints Exceptions, and System Calls](#part-b-page-faults-breakpoints-exceptions-and-system-calls)
+        * [Handling Page Faults](#handling-page-faults)
+            * [Exercise 5.](#exercise-5)
+        * [The Breakpoint Exception](#the-breakpoint-exception)
+            * [Exercise 6.](#exercise-6)
+            * [Questions](#questions-1)
+        * [System calls](#system-calls)
+            * [Exercise 7.](#exercise-7)
+        * [User-mode startup](#user-mode-startup)
+            * [Exercise 8.](#exercise-8)
+        * [Page faults and memory protection](#page-faults-and-memory-protection)
+            * [Exercise 9/10.](#exercise-910)
 
 <!-- vim-markdown-toc -->
 
@@ -680,7 +681,7 @@ lib/libmain.c:
 接下来要使用一种机制来解决这两个问题，该机制仔细检查从用户空间传递到内核的所有指针。当程序向内核传递指针时，内核将检查地址是否在地址空间的用户部分，以及页表是否允许内存操作。  
 因此，内核不会因为取消引用用户提供的指针而出现页面错误。 如果内核确实出现分页错误，它应该会死机并终止。
 
-se 9/10.
+#### Exercise 9/10.
 
 修改 kern / trap.c ，若在内核模式中发生页面错误，执行panic；若在用户模式发生页错误，env_destroy当前环境。
 
