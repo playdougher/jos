@@ -29,6 +29,7 @@
             * [Exercise 8.](#exercise-8)
         * [Page faults and memory protection](#page-faults-and-memory-protection)
             * [Exercise 9/10.](#exercise-910)
+* [问题](#问题)
 
 <!-- vim-markdown-toc -->
 
@@ -497,7 +498,7 @@ _alltraps中的pushal就是将通用寄存器全部压栈，对比Trapframe中�
 
 2. 实现trap.c
 	1. 实现void trap_init(void)
-		* 先定义处理中断的函数(为什么不用实现？？)，然后用SETGATE初始化IDT。
+		* 先定义处理中断的函数，然后用SETGATE初始化IDT。
 			* #define SETGATE(gate, istrap, sel, off, dpl)  是用来初始化idt数组的宏定义，一个gate discriptor表示idt数组中的某项。 所以参数:  
 			gate: 为idt[i]，i为中断向量的值，如idt[T_DIVIDE]
 			istrap: 若为exception(trap) gate，值1；若为interrupt gate，填0.
@@ -782,3 +783,6 @@ Type 'help' for a list of commands.
 
 最后结果：
 ![](assets/img7.png)
+
+# 问题
+1. (为什么trap_init()中定义的处理函数不用实现？？)
