@@ -457,6 +457,7 @@ x86处理器可在内部生成的所有同步异常使用的中断向量在`0到
 1. 实现trapentry.S  
 文件内有两个宏定义TRAPHANDLER和TRAPHANDLER_NOEC，传入函数名和中断向量后，先压入中断向量，然后执行_alltraps，压入旧的段寄存器ds和es，然后将ds和es设置为GD_KD，然后将esp压入，将这个新建立的Trapframe传入trap()处理。 题目要求通过divzero, softint, and badsegment几个文件的测试，对应如下几个中断异常。
 
+代码中调用两个宏定义要根据是否有error code。在该[pdf](https://github.com/playdougher/jos/blob/master/lab3_user_environments/assets/x86_idt.pdf)中可以查询
 ```as
 /*
  * Lab 3: Your code here for generating entry points for the different traps.
@@ -490,11 +491,12 @@ _alltraps中的pushal就是将通用寄存器全部压栈，对比Trapframe中�
 	1. 实现void trap_init(void)
 		* 先定义处理中断的函数，然后用SETGATE初始化IDT。
 			* #define SETGATE(gate, istrap, sel, off, dpl)  是用来初始化idt数组的宏定义，一个gate discriptor表示idt数组中的某项。 所以参数:  
-			gate: 为idt[i]，i为中断向量的值，如idt[T_DIVIDE]
-			istrap: 若为exception(trap) gate，值1；若为interrupt gate，填0.
-			sel: Code segment selector段选择符.
-			off: Offset in code segment，段偏移量，
-			dpl: Descriptor Privilege Level 描述符特权级别，值为0，表 内核态运行
+			gate: 为idt[i]，i为中断向量的值，如idt[T_DIVIDE]  
+			istrap: 若为exception(trap) gate，值1；若为interrupt gate，填0.  
+			sel: Code segment selector段选择符.  
+			off: Offset in code segment，段偏移量，  
+			dpl: Descriptor Privilege Level 描述符特权级别，值为0，表 内核态运行  
+            * 对于istrap参数，在[pdf](https://github.com/playdougher/jos/blob/master/lab3_user_environments/assets/x86_idt.pdf)中查询
 	```c
 	    void divide_handler();
 	    void gpflt_handler();

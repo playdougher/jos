@@ -34,6 +34,7 @@
 ![](./assets/result.png)
 
 ## Part 1: Physical Page Management
+
 ### Exercise 1.  
 >In the file  kern/pmap.c, you must implement code for the following functions (probably in the order given).
 >
@@ -44,6 +45,7 @@
 >`page_free()`
 
 #### 1. 函数介绍
+
 1. static void * `boot_alloc`(uint32_t n)：属于临时的空间分配器，JOS最开始配置虚拟内存的时候用到。真正的内存分配由page_alloc()完成。传入n个字节，返回一个4k对齐空间的起始地址。
 2. void `mem_init`(void)：用于初始化内核空间、初始化二级页表，其中`kern_pgdir`表示页目录起始位置。
 3. void `page_init`(void)： 用于初始化页面。`page_free_list`表示空闲物理块的链表。每个节点为`PageInfo`结构体，表示一个物理页，页面中`pp_ref`表示物理页被映射的次数，值为0表示空闲。
@@ -153,7 +155,9 @@ page_free(struct PageInfo *pp) {
 }                                                        
 ```
 ## Part 2: Virtual Memory
+
 ### Virtual, Linear, and Physical Addresses
+
 虚拟地址到物理地址的转换：
 1. 分段机制转成线性地址
 2. 线性地址通过分页机制转成物理地址
@@ -182,8 +186,8 @@ Software             |              |-------->|           |---------->  RAM
 **JOS虚拟内存映像**  
 ![](./assets/jos_layout.png)
 
-
 ### Exercise 3. 
+
 > Q: 在GDB中只能访问QEMU内存的虚拟地址。而在QEMU中，使用`xp`命令可以查看物理地址。要进入命令模式，在QEMU中按`Ctrl-a c`。现在在QEMU中使用`xp`命令，在GDB中使用x命令，看看内核的虚拟地址和物理地址有没有对应。
 
 在文件`obj/boot/boot.asm`中设置断点、进入内核：
