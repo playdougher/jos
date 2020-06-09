@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+NBUCKET	ph.c	9;"	d	file:
+NKEYS	ph.c	10;"	d	file:
+SOL	ph.c	8;"	d	file:
+done	ph.c	/^volatile int done;$/;"	v
+entry	ph.c	/^struct entry {$/;"	s	file:
+get	ph.c	/^get(int key)$/;"	f	file:
+insert	ph.c	/^insert(int key, int value, struct entry **p, struct entry *n)$/;"	f	file:
+key	ph.c	/^  int key;$/;"	m	struct:entry	file:
+keys	ph.c	/^int keys[NKEYS];$/;"	v
+lock	ph.c	/^pthread_mutex_t lock;$/;"	v
+main	ph.c	/^main(int argc, char *argv[])$/;"	f
+next	ph.c	/^  struct entry *next;$/;"	m	struct:entry	typeref:struct:entry::entry	file:
+now	ph.c	/^now()$/;"	f
+nthread	ph.c	/^int nthread = 1;$/;"	v
+print	ph.c	/^print(void)$/;"	f	file:
+put	ph.c	/^void put(int key, int value)$/;"	f	file:
+table	ph.c	/^struct entry *table[NBUCKET];$/;"	v	typeref:struct:entry
+thread	ph.c	/^thread(void *xa)$/;"	f	file:
+value	ph.c	/^  int value;$/;"	m	struct:entry	file:
