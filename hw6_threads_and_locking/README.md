@@ -18,7 +18,7 @@ $ ./a.out 2
 因为两个线程的时候，插入哈希表时的cpu轮转导致节点出现偏差。  
 HashTable的`NBUCKET`为5，插入10000个随机数，正常来说该哈希表的每个key都会有对应value。  
 当核心数为1时，程序先把所有key、value都放进HashTable，然后读出key value，不会出什么问题。
-但当核心数为2时。两个核心各自put一半的keys[], 意外的情况为：当thread 2执行到`insert`函数，还未执行`e->next = n;`进行链接时，轮转到thread 1，当它执行完insert函数，且正好插入的entry和thread 1在同一个bucket后， thread 2 的entry *n按道理应该为thread 1刚插入的entry，但是它保存的是旧值，所以thread 1的entry就没链接上了。  
+但当核心数为2时。两个核心各自put一半的keys[], 意外的情况为：当thread 1执行到`insert`函数，还未执行`e->next = n;`进行链接时，轮转到thread 2，当它执行完insert函数，且正好插入的entry和thread 2在同一个bucket后， thread 1 的entry *n按道理应该为thread 2刚插入的entry，但是它保存的是旧值，所以thread 2的entry就没链接上了。  
 ![](img.png)
 
 > Q2: Test your code first with 1 thread, then test it with 2 threads. Is it correct (i.e. have you eliminated missing keys?)? Is the two-threaded version faster than the single-threaded version?
