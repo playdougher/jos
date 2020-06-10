@@ -52,4 +52,4 @@ you may find it helpful to look at which functions acquire each lock, and then a
 
 > Submit: Why does release() clear lk->pcs[0] and lk->cpu before clearing lk->locked? Why not wait until after?
 
-因为若当前有其他进程正在等待该锁，若先清除锁的状态，其他进程立马获取，就可能会出现初始化的 lk->pcs[0] 和 lk->cpu 为新进程的状态，导致错误。
+因为若当前有其他进程正在等待该锁，若先清除锁的状态，其他进程立马获取，就可能会出现初始化的 `lk->pcs[0]` 和 `lk->cpu` 为新进程的状态，导致错误。
