@@ -25,8 +25,6 @@ HashTable的`NBUCKET`为5，插入10000个随机数，正常来说该哈希表�
 
 要想避免错误，insert函数就不能被中断。  我们对`put()`和`get()`都加上锁：  
 
-![](assets/two_lock.png)   
-能看到两个线程的速度明显低于一个线程，说明有临界区时，多线程效率不一定高。 加锁后的程序运行正常，0 miss。  
 ```c
 static
 void put(int key, int value)
@@ -54,6 +52,9 @@ get(int key)
   return e;
 } 
 ```
+
+![](assets/two_lock.png)   
+能看到两个线程的速度明显低于一个线程，说明有临界区时，多线程效率不一定高。 加锁后的程序运行正常，0 miss。  
 
 若get()不上锁，速度很快，且没有出现错误。因为get()只是读取节点：  
 ![](assets/one_lock.png)  
