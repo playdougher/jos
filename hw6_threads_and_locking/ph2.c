@@ -19,7 +19,6 @@ int keys[NKEYS];
 int nthread = 1;
 volatile int done;
 
-pthread_mutex_t lock;
 
 double
 now()
@@ -49,7 +48,6 @@ insert(int key, int value, struct entry **p, struct entry *n)
   struct entry *e = malloc(sizeof(struct entry));
   e->key = key;
   e->value = value;
-  //链表头插法
   e->next = n;
   *p = e;
 }
@@ -58,35 +56,24 @@ static
 void put(int key, int value)
 {
   int i = key % NBUCKET;
-  pthread_mutex_lock(&lock);
-  //第一个table[i]用于修改key为i的链表头，第二个table[i]是key为i的链表头节点
   insert(key, value, &table[i], table[i]);
-  pthread_mutex_unlock(&lock);
 }
 
 static struct entry*
 get(int key)
 {
   struct entry *e = 0;
-
-  int i = key % NBUCKET;
-
-  pthread_mutex_lock(&lock);
   for (e = table[key % NBUCKET]; e != 0; e = e->next) {
     if (e->key == key) break;
   }
-  pthread_mutex_unlock(&lock);
-  
   return e;
 }
 
 static void *
 thread(void *xa)
 {
-  // 线程号作为value
   long n = (long) xa;
   int i;
-  //将key[]均分
   int b = NKEYS/nthread;
   int k = 0;
   double t1, t0;
@@ -94,15 +81,13 @@ thread(void *xa)
   //  printf("b = %d\n", b);
   t0 = now();
   for (i = 0; i < b; i++) {
-    // printf("%ld: put %ld\n", n, b*n+i);
-    // 一个线程put一半的keys[](假设一共设置了两个线程)
+    // printf("%d: put %d\n", n, b*n+i);
     put(keys[b*n + i], n);
   }
   t1 = now();
   printf("%ld: put time = %f\n", n, t1-t0);
 
   // Should use pthread_barrier, but MacOS doesn't support it ...
-  // ???
   __sync_fetch_and_add(&done, 1);
   while (done < nthread) ;
 
@@ -124,7 +109,6 @@ main(int argc, char *argv[])
   void *value;
   long i;
   double t1, t0;
-  pthread_mutex_init(&lock, NULL);
 
   if (argc < 2) {
     fprintf(stderr, "%s: %s nthread\n", argv[0], argv[0]);
@@ -133,7 +117,6 @@ main(int argc, char *argv[])
   nthread = atoi(argv[1]);
   tha = malloc(sizeof(pthread_t) * nthread);
   srandom(0);
-  //???
   assert(NKEYS % nthread == 0);
   for (i = 0; i < NKEYS; i++) {
     keys[i] = random();
@@ -143,7 +126,6 @@ main(int argc, char *argv[])
     assert(pthread_create(&tha[i], NULL, thread, (void *) i) == 0);
   }
   for(i = 0; i < nthread; i++) {
-    //???
     assert(pthread_join(tha[i], &value) == 0);
   }
   t1 = now();
