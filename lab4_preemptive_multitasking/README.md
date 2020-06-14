@@ -360,7 +360,8 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
         ...
 ```
 
-创建三个环境，运行同一个程序
+创建三个环境，运行同一个程序:
+kern/init.c:  
 ```c
 void
 i386_init(void)
@@ -421,6 +422,39 @@ No runnable environments in the system!
 > Whenever the kernel switches from one environment to another, it must ensure the old environment's registers are saved so they can be restored properly later. Why? Where does this happen?
 
 切换环境时要保存，不然恢复的时候不知道下一条语句在哪。通过trap()中的curenv->env_tf = *tf保存寄存器状态。
+
+### System Calls for Environment Creation
+
+尽管内核现在能够在多个用户级环境之间运行和切换，但它仍然局限于运行内核最初设置的环境。现在您将实现必要的JOS系统调用，以允许用户环境创建和启动其他新用户环境。
+
+Unix提供fork()系统调用作为它的进程创建原语。Unix fork()复制调用进程(父进程)的整个地址空间，以创建一个新进程(子进程)。从用户空间可以观察到的两个进程之间的唯一区别是它们的进程id和父进程id(由getpid和getppid返回)。在父进程中，fork()返回子进程的ID，而在子进程中，fork()返回0。默认情况下，每个进程都有自己的私有地址空间，而且任何进程对内存的修改对其他进程都不可见。
+
+您将提供一组不同的、更基本的JOS系统调用来创建新的用户模式环境。除了其他类型的环境创建之外，通过这些系统调用，您将能够完全在用户空间中实现类unix fork()。您将为JOS编写的新系统调用如下：
+
+`sys_exofork`:  
+这个系统调用创建了一个几乎是空白的新环境:它的地址空间的用户部分没有映射任何东西，而且它是不可运行的。在sys_exofork调用时，新环境将具有与父环境相同的注册状态。在父程序中，sys_exofork将返回新创建环境的envid_t(如果环境分配失败，则返回负错误代码)。但是在子进程中，它将返回0。(因为子进程一开始被标记为not runnable，所以sys_exofork实际上不会返回到子进程中，直到父进程通过使用…显式地将子进程标记为runnable才会返回)
+
+`sys_env_set_status`:
+将指定环境的状态设置为ENV_RUNNABLE或ENV_NOT_RUNNABLE。这个系统调用通常用于在地址空间和寄存器状态完全初始化之后标记一个准备运行的新环境。
+
+`sys_page_alloc`:  
+分配一页物理内存，并将其映射到给定环境的地址空间中的给定虚拟地址。
+
+`sys_page_unmap`:  
+取消映射到给定环境中给定虚拟地址的页面。
+
+对于上述接受环境id的所有系统调用，JOS内核支持这样的约定:值0表示“当前环境”。这个约定由kern/env.c中的envid2env()实现。
+
+我们在测试程序user/dumbfork.c中提供了类unix fork()的非常原始的实现。这个测试程序使用上面的系统调用来创建并运行一个带有自己地址空间副本的子环境。然后，这两个环境使用sys_yield来回切换，就像前面练习中那样。父进程在10次迭代后退出，而子进程在20次迭代后退出。
+
+
+#### Exercise 7. 
+
+> Implement the system calls described above in kern/syscall.c and make sure syscall() calls them. You will need to use various functions in kern/pmap.c and kern/env.c, particularly envid2env(). For now, whenever you call envid2env(), pass 1 in the checkperm parameter. Be sure you check for any invalid system call arguments, returning -E_INVAL in that case. Test your JOS kernel with user/dumbfork and make sure it works before proceeding.
+
+
+
+
 
 ## 问题
 
