@@ -15,7 +15,7 @@
 
 ## Interrupts in ide.c
 
-`acquire()`内用`cli`指令确保中断机制已关闭，直到执行release，用sti重新开启中断机制。关闭中断是为了防止中断后执行的处理函数中中需要用到某个锁，而在中断前，这个锁已经被获取了，导致进入的中断处理函数没法继续运行，造成死锁。  
+`acquire()`内用`cli`指令确保中断机制已关闭，直到执行release，用sti重新开启中断机制。关闭中断是为了防止中断后执行的处理函数中中需要用到某个锁，而在中断前，这个锁已经被获取了，导致进入的中断处理函数没法继续运行，造成死锁。
 
 现在在acquire()后加上sti()，在release()前加cli()，重新构建内核。
 
@@ -39,12 +39,12 @@
 801040e7:
 ```
 
-## Interrupts in file.c  
+## Interrupts in file.c
 
 恢复前面的代码，对file.c像上面一样加上cli()和sti()。
 
 > **Submit**: Explain in a few sentences why the kernel didn't panic. Why do file_table_lock and ide_lock have different behavior in this respect?  
-you may find it helpful to look at which functions acquire each lock, and then at when those functions get called.
+> you may find it helpful to look at which functions acquire each lock, and then at when those functions get called.
 
 因为`file_table_lock`是在文件打开或关闭的时候加锁，而每次打开文件，读写数据的时间一般都比较长，所以不容易发生两个线程进同一临界区的情况。或者是中断处理程序内并没有代码对`ftable.lock`加锁，自然也就没有影响。
 

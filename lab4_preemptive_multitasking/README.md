@@ -1,6 +1,5 @@
 # Lab 4: Preemptive Multitasking
 
-
 ## Part A: Multiprocessor Support and Cooperative Multitasking
 
 该部分会扩展JOS以在多处理器系统上运行，然后实现一些新的JOS内核系统调用，以允许用户级环境创建额外的新环境。然后实现协作循环调度，在当前环境自愿放弃CPU(或退出)时，允许内核从一个环境切换到另一个环境。在part C，将实现抢占式调度，该调度使内核可以在经过一定时间后从环境重新获得对CPU的控制，即使环境不自愿也会强制调度。
@@ -17,7 +16,7 @@
 
 处理器使用memory-mapped I/O (MMIO)来访问LAPIC，MMIO就是物理内存上的一段专门用来访问设备的一块内存，前面实验也有提到，在物理内存的0xA0000上有个IO区域。而LAPIC位于一个从物理地址0xFE000000（比4GB短32MB）开始的孔中，JOS虚拟内存将其映射到MMIOBASE上，区域大小为4M。后面的实验会引入更多的MMIO区域。
 
-#### Exercise 1. 
+#### Exercise 1.
 
 > Implement `mmio_map_region` in kern/pmap.c. To see how this is used, look at the beginning of `lapic_init` in `kern/lapic.c`. You'll have to do the next exercise, too, before the tests for `mmio_map_region` will run.
 
@@ -48,7 +47,7 @@ boot_aps（）函数（在kern / init.c中）驱动AP引导过程。 AP在实模
 
 之后，boot_aps（）通过向相应AP的LAPIC单元(Advanced Programmable Interrupt Controller)发送STARTUP IPI以及一个初始CS：IP地址（该示例中为AP开始运行该AP的起始CS：IP地址）来依次激活AP。 kern / mpentry.S中的输入代码与boot / boot.S的输入代码非常相似。 进行一些简短的设置后，它将使AP进入启用分页的保护模式，然后调用C程序mp_main（）（也在kern / init.c中）。 boot_aps（）等待AP在其struct CpuInfo的cpu_status字段中发信号通知CPU_STARTED标志，然后再继续唤醒下一个。
 
-#### Exercise 2. 
+#### Exercise 2.
 
 > Read boot_aps() and mp_main() in kern/init.c, and the assembly code in kern/mpentry.S. Make sure you understand the control flow transfer during the bootstrap of APs. Then modify your implementation of page_init() in kern/pmap.c to avoid adding the page at MPENTRY_PADDR to the free list, so that we can safely copy and run AP bootstrap code at that physical address. Your code should pass the updated check_page_free_list() test (but might fail the updated check_kern_pgdir() test, which we will fix soon).
 
@@ -85,6 +84,7 @@ page_init(void)
 ```
 
 至此，通过check_page_free_list()，执行结果：
+
 ```c
 check_page_free_list() succeeded!
 check_page_alloc() succeeded!
@@ -95,7 +95,7 @@ kernel panic on CPU 0 at kern/pmap.c:871: assertion failed: check_va2pa(pgdir, b
 #### Question
 
 > Compare kern/mpentry.S side by side with boot/boot.S. Bearing in mind that kern/mpentry.S is compiled and linked to run above KERNBASE just like everything else in the kernel, what is the purpose of macro MPBOOTPHYS? Why is it necessary in kern/mpentry.S but not in boot/boot.S? In other words, what could go wrong if it were omitted in kern/mpentry.S?
-Hint: recall the differences between the link address and the load address that we have discussed in Lab 1.
+> Hint: recall the differences between the link address and the load address that we have discussed in Lab 1.
 
 因为AP此时处于保护模式，mpentry_start位于kernbase之上，而加载的
 因为BSP运行mpentry.S时为保护模式，所有地址都是在kernbase之上。而AP启动时是以实模式运行，所以需要把地址转为实模式下的地址。  
@@ -108,20 +108,20 @@ Hint: recall the differences between the link address and the load address that 
 下面是您应该知道的每cpu状态：
 
 * cpu内核堆栈  
-因为多个cpu可能同时陷入内核，所以我们需要为每个处理器提供一个单独的内核堆栈，以防止它们相互干扰对方的执行。数组percpu_kstacks[NCPU][KSTKSIZE]为NCPU的内核堆栈保留空间。
+  因为多个cpu可能同时陷入内核，所以我们需要为每个处理器提供一个单独的内核堆栈，以防止它们相互干扰对方的执行。数组percpu_kstacks[NCPU][KSTKSIZE]为NCPU的内核堆栈保留空间。
 
 在实验2中，您映射了引导堆栈称为KSTACKTOP下方的BSP内核堆栈的物理内存。 同样，在本实验中，您将把每个CPU的内核堆栈映射到该区域，其中保护页充当它们之间的缓冲区。 CPU 0的堆栈仍将从KSTACKTOP增长； CPU 1的堆栈将从CPU 0的堆栈底部开始的KSTKGAP字节开始，依此类推。 inc / memlayout.h显示了映射布局。
 
 * 每个CPU的TSS 和 TSS描述符。  
-还需要每个CPU的任务状态段（TSS），以指定每个CPU的内核堆栈所在的位置。 CPU i的TSS存储在cpus[i] .cpu_ts中，并且相应的TSS描述符在GDT条目gdt [（GD_TSS0 >> 3）+ i]中定义。 在kern / trap.c中定义的全局ts变量将不再有用。
+  还需要每个CPU的任务状态段（TSS），以指定每个CPU的内核堆栈所在的位置。 CPU i的TSS存储在cpus[i] .cpu_ts中，并且相应的TSS描述符在GDT条目gdt [（GD_TSS0 >> 3）+ i]中定义。 在kern / trap.c中定义的全局ts变量将不再有用。
 
 * 每个CPU当前环境指针。  
-由于每个CPU可以同时运行不同的用户进程，所以我们重新定义了符号curenv来表示cpu [cpunum()].cpu_env(或thiscpu->cpu env)，它指向当前cpu上执行的环境(运行代码的cpu)。
+  由于每个CPU可以同时运行不同的用户进程，所以我们重新定义了符号curenv来表示cpu [cpunum()].cpu_env(或thiscpu->cpu env)，它指向当前cpu上执行的环境(运行代码的cpu)。
 
 * 每个cpu的系统寄存器。  
-所有寄存器，包括系统寄存器，都是CPU专用的。 因此，初始化这些寄存器的指令，例如lcr3（），ltr（），lgdt（），lidt（）等，必须在每个CPU上执行一次。 为此，定义了函数env_init_percpu（）和trap_init_percpu（）。
+  所有寄存器，包括系统寄存器，都是CPU专用的。 因此，初始化这些寄存器的指令，例如lcr3（），ltr（），lgdt（），lidt（）等，必须在每个CPU上执行一次。 为此，定义了函数env_init_percpu（）和trap_init_percpu（）。
 
-#### Exercise 3. 
+#### Exercise 3.
 
 > Modify mem_init_mp() (in kern/pmap.c) to map per-CPU stacks starting at KSTACKTOP, as shown in inc/memlayout.h. The size of each stack is KSTKSIZE bytes plus KSTKGAP bytes of unmapped guard pages. Your code should pass the new check in check_kern_pgdir().
 
@@ -140,6 +140,7 @@ mem_init_mp(void)
 ```
 
 至此，check_kern_pgdir()也通过了，运行结果：  
+
 ```c
 check_page_free_list() succeeded!
 check_page_alloc() succeeded!
@@ -153,11 +154,12 @@ enabled interrupts: 1 2
 kernel panic on CPU 0 at kern/trap.c:362: kernel-mode page fault at error 0
 ```
 
-#### Exercise 4. 
+#### Exercise 4.
 
 > The code in trap_init_percpu() (kern/trap.c) initializes the TSS and TSS descriptor for the BSP. It worked in Lab 3, but is incorrect when running on other CPUs. Change the code so that it can work on all CPUs. (Note: your new code should not use the global ts variable any more.)
 
 初始化所有CPU的TSS段。这里的GD_TSS0代表 Task segment selector，但是没找到它的结构，不清楚操作了哪些东西
+
 ```c
 void
 trap_init_percpu(void)
@@ -190,6 +192,7 @@ trap_init_percpu(void)
 ```
 
 执行`make qemu-nox CPUS=4`后，运行结果：  
+
 ```c
 Physical memory: 131072K available, base = 640K, extended = 130432K
 i386_detect_memory():
@@ -220,24 +223,26 @@ kern / spinlock.h声明了大的内核锁，即kernel_lock。 它还提供lock_k
 * 在trap（）中，从用户模式捕获时获取锁定。 要确定陷阱是在用户模式下还是内核模式下发生的，请检查tf_cs的低位。
 * 在env_run（）中，在切换到用户模式之前立即释放锁定。 不要太前也不要太后，否则会遇到冲突或死锁。
 
-#### Exercise 5. 
+#### Exercise 5.
 
 > Apply the big kernel lock as described above, by calling lock_kernel() and unlock_kernel() at the proper locations.  
 
 i386_init(): ./kern/init.c， 启动AP前：
+
 ```c
     // Acquire the big kernel lock before waking up APs
     // Your code here:
     lock_kernel();
-    
+
     // Starting non-boot CPUs
     boot_aps();
 ```
 
 mp_main():./kern/init.c， 初始化AP后：  
+
 ```c
-	...
-	...
+    ...
+    ...
     lock_kernel();
 
     // Now that we have finished some basic setup, call sched_yield()
@@ -253,6 +258,7 @@ mp_main():./kern/init.c， 初始化AP后：
 ```
 
 trap(): kern/trap.c， 从用户模式陷入前：  
+
 ```c
         // Trapped from user mode.
         // Acquire the big kernel lock before doing any
@@ -263,10 +269,11 @@ trap(): kern/trap.c， 从用户模式陷入前：
 ```
 
 env_run(): kern/env.c:， 切换到用户模式前：  
+
 ```c
-	...
-	...
-	lcr3(PADDR(curenv->env_pgdir));
+    ...
+    ...
+    lcr3(PADDR(curenv->env_pgdir));
     unlock_kernel();
 
     env_pop_tf(&curenv->env_tf);
@@ -289,31 +296,33 @@ env_run(): kern/env.c:， 切换到用户模式前：
 * sched_yield（）绝对不能在两个CPU上同时运行相同的环境。 它可以判断某个环境当前正在某些CPU（可能是当前CPU）上运行，因为该环境的状态为ENV_RUNNING。
 * 我们为您实现了一个新的系统调用sys yield()，用户环境可以调用它来调用内核的sched yield()函数，从而让其自愿将CPU让给另一个环境。
 
-#### Exercise 6. 
+#### Exercise 6.
+
 > Implement round-robin scheduling in sched_yield() as described above. Don't forget to modify syscall() to dispatch sys_yield().
 > 
->Make sure to invoke sched_yield() in mp_main.
->
->Modify kern/init.c to create three (or more!) environments that all run the program user/yield.c.
->
+> Make sure to invoke sched_yield() in mp_main.
+> 
+> Modify kern/init.c to create three (or more!) environments that all run the program user/yield.c.
+> 
 > Run make qemu. You should see the environments switch back and forth between each other five times before terminating, like below.
->Test also with several CPUS: make qemu CPUS=2.
->
+> Test also with several CPUS: make qemu CPUS=2.
+> 
 > ...
->Hello, I am environment 00001000.
->Hello, I am environment 00001001.
->Hello, I am environment 00001002.
->Back in environment 00001000, iteration 0.
->Back in environment 00001001, iteration 0.
->Back in environment 00001002, iteration 0.
->Back in environment 00001000, iteration 1.
->Back in environment 00001001, iteration 1.
->Back in environment 00001002, iteration 1.
->...
->After the yield programs exit, there will be no runnable environment in the system, the scheduler should invoke the JOS kernel monitor. If any of this does not happen, then fix your code before proceeding.
+> Hello, I am environment 00001000.
+> Hello, I am environment 00001001.
+> Hello, I am environment 00001002.
+> Back in environment 00001000, iteration 0.
+> Back in environment 00001001, iteration 0.
+> Back in environment 00001002, iteration 0.
+> Back in environment 00001000, iteration 1.
+> Back in environment 00001001, iteration 1.
+> Back in environment 00001002, iteration 1.
+> ...
+> After the yield programs exit, there will be no runnable environment in the system, the scheduler should invoke the JOS kernel monitor. If any of this does not happen, then fix your code before proceeding.
 
 实现轮询调度，从当前环境的下一个环境开始遍历，寻找状态为RUNNABLE的环境并运行。  
 kern/sched.c:  
+
 ```c
 void
 sched_yield(void)
@@ -350,6 +359,7 @@ sched_yield(void)
 
 添加系统调用：  
 kern/syscall.c:  
+
 ```c
 int32_t
 syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
@@ -362,6 +372,7 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
 
 创建三个环境，运行同一个程序:
 kern/init.c:  
+
 ```c
 void
 i386_init(void)
@@ -376,6 +387,7 @@ i386_init(void)
 ```
 
 执行`make qemu-nox CPUS=2`后，运行结果，可以看到：  
+
 ```c
 SMP: CPU 0 found 2 CPU(s)
 enabled interrupts: 1 2
@@ -413,11 +425,13 @@ All done in environment 00001002.
 No runnable environments in the system!
 ```
 
+#### Question
 
-#### Question  
 > In your implementation of env_run() you should have called lcr3(). Before and after the call to lcr3(), your code makes references (at least it should) to the variable e, the argument to env_run. Upon loading the %cr3 register, the addressing context used by the MMU is instantly changed. But a virtual address (namely e) has meaning relative to a given address context--the address context specifies the physical address to which the virtual address maps. Why can the pointer e be dereferenced both before and after the addressing switch?
 
 问的是env_run()内lcr3切换了环境的页目录，为什么之前定义的环境Env *e还能继续正常地解引用？因为lab3中有提到，UTOP以上，环境的页目录和内核的页目录是一样的，自然所有环境UTOP以上也是一样的。
+
+![](assets/q3.png)
 
 > Whenever the kernel switches from one environment to another, it must ensure the old environment's registers are saved so they can be restored properly later. Why? Where does this happen?
 
@@ -447,24 +461,11 @@ Unix提供fork()系统调用作为它的进程创建原语。Unix fork()复制�
 
 我们在测试程序user/dumbfork.c中提供了类unix fork()的非常原始的实现。这个测试程序使用上面的系统调用来创建并运行一个带有自己地址空间副本的子环境。然后，这两个环境使用sys_yield来回切换，就像前面练习中那样。父进程在10次迭代后退出，而子进程在20次迭代后退出。
 
-
-#### Exercise 7. 
+#### Exercise 7.
 
 > Implement the system calls described above in kern/syscall.c and make sure syscall() calls them. You will need to use various functions in kern/pmap.c and kern/env.c, particularly envid2env(). For now, whenever you call envid2env(), pass 1 in the checkperm parameter. Be sure you check for any invalid system call arguments, returning -E_INVAL in that case. Test your JOS kernel with user/dumbfork and make sure it works before proceeding.
-
-
-
-
 
 ## 问题
 
 * exercise 4里的segment selector为什么要加一个数，不是说要设为0吗
 * 
-
-
-
-
-
-
-
-
