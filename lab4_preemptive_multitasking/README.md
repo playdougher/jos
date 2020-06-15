@@ -1,3 +1,27 @@
+# 目录
+<!-- vim-markdown-toc GFM -->
+
+* [Lab 4: Preemptive Multitasking](#lab-4-preemptive-multitasking)
+    * [Part A: Multiprocessor Support and Cooperative Multitasking](#part-a-multiprocessor-support-and-cooperative-multitasking)
+        * [Multiprocessor Support](#multiprocessor-support)
+            * [Exercise 1.](#exercise-1)
+        * [Application Processor Bootstrap](#application-processor-bootstrap)
+            * [Exercise 2.](#exercise-2)
+            * [Question](#question)
+        * [Per-CPU State and Initialization](#per-cpu-state-and-initialization)
+            * [Exercise 3.](#exercise-3)
+            * [Exercise 4.](#exercise-4)
+        * [Locking](#locking)
+            * [Exercise 5.](#exercise-5)
+            * [Question](#question-1)
+        * [Round-Robin Scheduling](#round-robin-scheduling)
+            * [Exercise 6.](#exercise-6)
+            * [Question](#question-2)
+        * [System Calls for Environment Creation](#system-calls-for-environment-creation)
+            * [Exercise 7.](#exercise-7)
+    * [问题](#问题)
+
+<!-- vim-markdown-toc -->
 # Lab 4: Preemptive Multitasking
 
 ## Part A: Multiprocessor Support and Cooperative Multitasking
@@ -53,7 +77,7 @@ boot_aps（）函数（在kern / init.c中）驱动AP引导过程。 AP在实模
 
 要做的事情就是修改lab 2中base memory中的页面映射情况，需要把MPENTRY_PADDR到base memory结尾处的地址引用数设为1。
 
-![](assests/ex2.png)
+<img src="assets/ex2.png" title="" alt="" data-align="center">
 
 ```c
 void
