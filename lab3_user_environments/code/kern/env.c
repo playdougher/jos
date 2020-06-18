@@ -191,16 +191,16 @@ env_setup_vm(struct Env *e)
     p->pp_ref++;
 
     // use kern_pgdir as a template
-    //memcpy(env_pgdir, kern_pgdir, PGSIZE);
+    memcpy(e->env_pgdir, kern_pgdir, PGSIZE);
     
     //map the pgdir entries below UTOP
-    for(i = 0; i < PDX(UTOP); i++){
-        e->env_pgdir[i] = 0;
-    }
+    //for(i = 0; i < PDX(UTOP); i++){
+    //    e->env_pgdir[i] = 0;
+    //}
     //map entries above UTOP
-    for(; i < NENV; i++){
-        e->env_pgdir[i] = kern_pgdir[i];
-    }
+    //for(; i < NENV; i++){
+    //    e->env_pgdir[i] = kern_pgdir[i];
+    //}
     
     //UVPT对应的页目录项指向该env_pgdir页目录表
     //Permissions: kernel R, User R
